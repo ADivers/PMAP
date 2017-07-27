@@ -1,0 +1,31 @@
+{
+  "name": "pmap_employee_select",
+  "version": "1.0.0",
+  "description": "test employee selection function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADivers/PMAP.git"
+  },
+  "author": "jFarrow02",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ADivers/PMAP/issues"
+  },
+  "homepage": "https://github.com/ADivers/PMAP#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-postcss": "^7.0.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-webserver": "^0.9.1",
+    "gutil": "^1.6.4",
+    "jshint": "^2.9.5"
+  }
+}
