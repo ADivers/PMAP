@@ -16,7 +16,7 @@ gulp.task('scripts', function () {
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
        // .pipe(concat('all.js'))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
 

@@ -26,115 +26,137 @@ APP = (  function(){
 					'Manager ID'		:	'manager_ID',
 					'Team Lead ID'	:	'teamlead_ID'
 				},
-        webURL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/";
+        webURL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
+        editButtonsArr = [];
 
-  //BEGIN FUNCTION GET FIELDNAMES
-  function getFieldnames(){
-    var fieldnames = '<ViewFields>';
-					for(  var fieldname in inputFieldnames  ){
-						fieldnames +='<FieldRef Name="' + inputFieldnames[  fieldname  ];
-						fieldnames += '"/>';
-					}
-					fieldnames += '</ViewFields>';
-					return fieldnames;
-				}
-  }
+        /*****************BEGIN FUNCTION GET FIELDNAMES*************************/
+        /*
+        *Purpose        :
+        Action          :
+        Arguments       :
+        Returns         :       fieldnames; String. XML-formatted string of field names
+                                pulled from SP list Employee_List01
+        Throws          :
+        */
+        function getFieldnames(){
+          var fieldnames = '<ViewFields>';
+      					for(  var fieldname in inputFieldnames  ){
+      						fieldnames +='<FieldRef Name="' + inputFieldnames[  fieldname  ];
+      						fieldnames += '"/>';
+      					}
+      				fieldnames += '</ViewFields>';
+      				return fieldnames;
+        }
+        /*****************END FUNCTION EDIT FIELDNAMES**************************/
 
-  /*****************BEGIN FUNCTION EDIT BUTTONS****************************/
-  function buildEditButtons(){
-    var edit = document.createElement(  'button'  );
-    //Set edit button style and attributes
-    edit.innerHTML = '<i class="material-icons">edit</i>';
-  	edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
-  	edit.style.marginRight = '.5px';
-  	edit.style.float = "right";
-  	edit.setAttribute(  'data-position', 'right');
-  	edit.setAttribute(  'data-delay', '50'  );
-  	edit.setAttribute(  'data-tooltip', 'Edit'  );
-  	edit.setAttribute(  'data-index', i  );
+        /*****************BEGIN FUNCTION EDIT BUTTONS****************************/
+        function buildEditButtons(  responseArr  ){
+          //for(  var i = 0; i < responseArr.length; i+= 1  ){
+            edit = document.createElement(  'button'  );
+            //Set edit button style and attributes
+            edit.innerHTML = '<i class="material-icons">edit</i>';
+            edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
+            edit.style.marginRight = '.5px';
+            edit.style.float = "right";
+            edit.setAttribute(  'data-position', 'right');
+            edit.setAttribute(  'data-delay', '50'  );
+            edit.setAttribute(  'data-tooltip', 'Edit'  );
+            //edit.setAttribute(  'data-index', responseArr.indexOf(  responseArr[  i  ] ) );
+          //}
 
-    return edit;
-  }
-  /*****************END FUNCTION EDIT BUTTONS****************************/
+          return edit;
+        }
+        /*****************END FUNCTION EDIT BUTTONS****************************/
 
 
-  //*********************BEGIN FUNCTION BUILD MODAL***********************/
-  function buildModal(){
-    var modal = document.createElement(  'div'  );
-        modalContent = document.createElement(  'div'  ),
-  			modalFooter = document.createElement(  'div'  ),
-  			modalEdit = document.createElement(  'button'  ),
-  			modalClose = document.createElement(  'button'  ),
-  			editForm = document.createElement(  'form'  ),
-  			$tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  );
-  			$headerText =	$tableHeaders.contents();
-  			//Set attributes of modal
-  			modal.setAttribute(  'id', 'modal_01');
-  			modal.style.display = 'block';
-  			modal.setAttribute(  'position', 'relative'  );
-  			modalContent.setAttribute(  'id', 'modal-content' ) ;
-  			//**POSITIONING VARS FOR MODAL NOT YET WORKING**//
-  			modal.style.zIndex = 200;
-  			modal.style.left = 100 + "px";
-  			modal.style.top = 100 + "px";
-  			/***********************************************/
-  			modalEdit.innerText = 'SAVE';
-  			modalClose.innerText = 'CANCEL';
+        /***************BEGIN FUNCTION BUILD MODAL****************************/
+        /*
+        *Purpose:
+        Action:
+        Arguments:   eventTarget; String. Reference to 'edit' button that is the
+                    target of the 'click' event triggering display of modal (i.e.
+                    record update form)
+        Returns:
+        Throws:
+        */
+        function buildModal(  eventTarget  ){
+          var modal = document.createElement(  'div'  ),
+              modalContent = document.createElement(  'div'  ),
+              modalFooter = document.createElement(  'div'  ),
+              modalEdit = document.createElement(  'button'  ),
+              modalClose = document.createElement(  'button'  ),
+              editForm = document.createElement(  'form'  ),
+              $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
+              $headerText =	$tableHeaders.contents(),
+              currentIdx;
+              //Set attributes of modal
+              modal.setAttribute(  'id', 'modal_01');
+              modal.style.display = 'block';
+              modal.setAttribute(  'position', 'relative'  );
+              modalContent.setAttribute(  'id', 'modal-content' ) ;
+              //**POSITIONING VARS FOR MODAL NOT YET WORKING**//
+              modal.style.zIndex = 200;
+              modal.style.left = 100 + "px";
+              modal.style.top = 100 + "px";
+              /***********************************************/
+              modalEdit.innerText = 'SAVE';
+              modalClose.innerText = 'CANCEL';
 
-        //Set attributes of edit form
-        editForm.setAttribute(  'id', 'edit-form'  );
-        editForm.setAttribute(  'method', 'POST'  );
+              //Set attributes of edit form
+              editForm.setAttribute(  'id', 'edit-form'  );
+              editForm.setAttribute(  'method', 'POST'  );
 
-        //Set attributes of edit/cancel buttons
-        modalEdit.className ='btn waves-effect waves-light edit';
-        modalEdit.setAttribute(  'type', 'submit'  );
-        modalEdit.innerText = "EDIT";
-        modalClose.className ='btn waves-effect waves-light';
-        modalClose.innerText = "CANCEL";
-        //Create form inputs
-        for(  var indx = 0; indx < $headerText.length; indx++ ){
-          var currentIdx = e.target.getAttribute(  'data-index' );
+              //Set attributes of edit/cancel buttons
+              modalEdit.className ='btn waves-effect waves-light edit';
+              modalEdit.setAttribute(  'type', 'submit'  );
+              modalEdit.innerText = "EDIT";
+              modalClose.className ='btn waves-effect waves-light';
+              modalClose.innerText = "CANCEL";
+              //Create form inputs
+              for(  var indx = 0; indx < $headerText.length; indx++ ){
+                if(  eventTarget  && eventTarget.hasAttribute(  'data-index'  )  ){
+                    currentIdx = eventTarget.getAttribute(  'data-index' );
+                }
+                //Create input fields and labels
+                input = document.createElement(  'input'  );
+                label = document.createElement(  'label' );
 
-          //Create input fields and labels
-          input = document.createElement(  'input'  );
-          label = document.createElement(  'label' );
+                //Set input field attributes
+                input.setAttribute(  'type', 'text'  );
+                input.setAttribute(  'id', $headerText[  indx  ][  'data'  ]  );
+                for(  var prop in inputFieldnames  ){
+                  ///input.setAttribute(  prop, inputFieldnames[  prop  ]  );
+                  if(  input.id === prop  ){
+                    input.setAttribute(  'name', inputFieldnames[  prop  ]  );
+                  }
+                }
+                if(  input.getAttribute(  'id'  ) === "Employee Name"  ){
+                  input.setAttribute(  'placeholder', res[  currentIdx  ][  'name'  ]  );
+                }
+                if(  input.getAttribute(  'id') === 'Employee ID'  ){
+                  input.setAttribute(  'placeholder', res[  currentIdx  ][  'id'  ]  );
+                }
+                label.setAttribute(  'for', $headerText[  indx  ][  'data'  ]  );
+                label.innerText = $headerText[  indx  ][  'data'  ];
+                editForm.appendChild(  input  );
+                editForm.appendChild(  label  );
 
-          //Set input field attributes
-          input.setAttribute(  'type', 'text'  );
-          input.setAttribute(  'id', $headerText[  indx  ][  'data'  ]  );
-          for(  var prop in inputFieldnames  ){
-            ///input.setAttribute(  prop, inputFieldnames[  prop  ]  );
-            if(  input.id === prop  ){
-              input.setAttribute(  'name', inputFieldnames[  prop  ]  );
-            }
-          }
-          if(  input.getAttribute(  'id'  ) === "Employee Name"  ){
-            input.setAttribute(  'placeholder', res[  currentIdx  ][  'name'  ]  );
-          }
-          if(  input.getAttribute(  'id') === 'Employee ID'  ){
-            input.setAttribute(  'placeholder', res[  currentIdx  ][  'id'  ]  );
-          }
-          label.setAttribute(  'for', $headerText[  indx  ][  'data'  ]  );
-          label.innerText = $headerText[  indx  ][  'data'  ];
-          editForm.appendChild(  input  );
-          editForm.appendChild(  label  );
+              }
+
+              modalContent.appendChild(  editForm  );
+
+              //Append children to modal elements
+              modalFooter.appendChild(  modalEdit  );
+              modalFooter.appendChild(  modalClose  );
+              modal.appendChild(  modalContent  );
+              modal.appendChild(  modalFooter  );
+
+              return modal;
 
         }
+//*********************END FUNCTION BUILD MODAL***********************/
 
-        modalContent.appendChild(  editForm  );
-
-        //Append children to modal elements
-        modalFooter.appendChild(  modalEdit  );
-        modalFooter.appendChild(  modalClose  );
-        modal.appendChild(  modalContent  );
-        modal.appendChild(  modalFooter  );
-
-        return modal;
-
-  }
-  //*********************END FUNCTION BUILD MODAL***********************/
-
-  //********************BEGIN FUNCTION BUILD SEARCH LOGIC***********************/
+//********************BEGIN FUNCTION BUILD SEARCH LOGIC***********************/
   function buildSearchLogic(){
     var $rows = $('#employees tbody tr');
   						$('#search').keyup(function() {
@@ -174,40 +196,74 @@ APP = (  function(){
   }
   /******************END MODAL EDIT FUNCTION*****************************/
 
-  /*****************BEGIN DRAW TOOLTIPS FUNCTION****************************/
-  // function drawTooltips(  responseArr  ){
-  //   $(  '.tooltipped'  ).tooltip(  {  delay : 50  }  );
-  //   for(  var item in responseArr)
-  // }
-  /*****************END DRAW TOOLTIPS FUNCTION****************************/
+  /*****************BEGIN FUNCTION GET EMPLOYEE LIST*********************/
+  /*
+  *Purpose          :
+  Action            :
+  Arguments         :         String 'fieldnames'; XML-formatted string returned from
+                              'getFieldnames' function.
+  Returns           :         String 'res'; JSON-formatted string representing Employee_List01
+                              records from SP
+  Throws            :
+  */
+  function getEmployeeList(  fieldnames  ){
+    var idx,
+        max;
+        $().SPServices(
+          {
+              operation: "GetListItems",
+              viewName: '',
+              webURL: "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
+              listName: "Employee_List01",
+              CAMLViewFields: fieldnames,
+              CAMLRowLimit: 5,
+              CAMLQueryOptions: '<QueryOptions><IncludeMandatoryColumns>TRUE</IncludeMandatoryColumns></QueryOptions>',
+              CAMLQuery: '<Query><OrderBy><FieldRef Name="employee_name" Ascending="TRUE"></FieldRef></OrderBy></Query>',
+              completefunc: function(  xData, Status  ){
+                  console.log( "STATUS: " + Status  );
+                  var res = $(  xData.responseXML  ).SPFilterNode( 'z:row'  ).SPXmlToJson(
+              								{
+              									mapping : {
+              										ows_employee_name	:	{  mappedName: 'employee_name', objectType: 'Text'  },
+              										ows_employee_ID	:	{  mappedName: 'employee_ID', objectType: 'Text'  },
+              										ows_admin_ID	:	{  mappedName: 'admin_ID', objectType: 'Text'  },
+              										ows_director_ID	:	{  mappedName: 'director_ID', objectType: 'Text'  },
+              										ows_manager_ID	:	{  mappedName: 'manager_ID', objectType: 'Text'  },
+              										ows_teamlead_ID	:	{  mappedName: 'teamlead_ID', objectType: 'Text'  }
+              									},
+              									includeAllAttrs: false,
+              									removeOws: true,
+              									sparse: false
+              								}
+							);
+              if(  res  ){  console.log(  res  );  }
+              // if(  res  ){  return res  }  -->NOT OK; BUILD DOM INSIDE THIS COMPLETEFUNC
+              /***********************BEGIN BUILDING DOM LOGIC HERE*****************************/
+              max = res.length;
+              for(  var idx = 0; idx < max; idx+= 1  ){
+                var edit = buildEditButtons(  res  );
+                edit.setAttribute(  'data-index', idx  );
+                editButtonsArr.push(  edit  );
+                console.log(  edit  );
+              }
 
-
-  function getEmployeeList(){
-    $().SPServices(){
-      {
-        operation: "GetListItems",
-						viewName: '',
-						webURL: "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
-						listName: "Employee_List01",
-						CAMLViewFields: fieldnames,
-						CAMLRowLimit: 5,
-						CAMLQueryOptions: '<QueryOptions><IncludeMandatoryColumns>TRUE</IncludeMandatoryColumns></QueryOptions>',
-						CAMLQuery: '<Query><OrderBy><FieldRef Name="employee_name" Ascending="TRUE"></FieldRef></OrderBy></Query>',
-						completefunc: function(  xData, Status  ){
-							console.log( "STATUS: " + Status  );
-            }
-      }
-    }
+                /***********************END BUILDING DOM LOGIC HERE*****************************/
+            } //END COMPLETE FUNC
+        });
   }
 
-  function initModule(){
-    getEmployeeList();
-  }
+  /******************END FUNCTION GET EMPLOYEE LIST*********************/
 
-/***************************BEGIN PUBLIC API********************************/
+        function sayHello(){
+          return "hello";
+        }
 
-return(){
-  initModule();
-}
-/***************************END PUBLIC API********************************/
-})();
+        return(
+          {
+            sayHello            :       sayHello,
+            getFieldnames       :       getFieldnames,
+            buildSearchLogic    :       buildSearchLogic,
+            getEmployeeList     :       getEmployeeList
+          }
+        )
+} )();
