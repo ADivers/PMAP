@@ -64,6 +64,7 @@ APP = (  function(){
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
             edit.setAttribute(  'data-index', i  );
+            edit.addEventListener(  'click', buildModal, false  );
             editButtonsArr.push(  edit  );
           }
 
@@ -82,8 +83,9 @@ APP = (  function(){
         Returns:
         Throws:
         */
-        function buildModal(  eventTarget  ){
-          var modal = document.createElement(  'div'  ),
+        function buildModal(  ){
+          var modalParent = document.querySelector(  '#employees'  ),
+              modal = document.createElement(  'div'  ),
               modalContent = document.createElement(  'div'  ),
               modalFooter = document.createElement(  'div'  ),
               modalEdit = document.createElement(  'button'  ),
@@ -92,6 +94,10 @@ APP = (  function(){
               $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
               $headerText =	$tableHeaders.contents(),
               currentIdx;
+
+
+              //console.log(  $tableHeaders  );
+
               //Set attributes of modal
               modal.setAttribute(  'id', 'modal_01');
               modal.style.display = 'block';
@@ -117,9 +123,9 @@ APP = (  function(){
               modalClose.innerText = "CANCEL";
               //Create form inputs
               for(  var indx = 0; indx < $headerText.length; indx++ ){
-                if(  eventTarget  && eventTarget.hasAttribute(  'data-index'  )  ){
-                    currentIdx = eventTarget.getAttribute(  'data-index' );
-                }
+                //console.log(  this.dataset.index  );
+                currentIdx = this.dataset.index;
+
                 //Create input fields and labels
                 input = document.createElement(  'input'  );
                 label = document.createElement(  'label' );
@@ -146,15 +152,16 @@ APP = (  function(){
 
               }
 
-              modalContent.appendChild(  editForm  );
-
-              //Append children to modal elements
-              modalFooter.appendChild(  modalEdit  );
-              modalFooter.appendChild(  modalClose  );
-              modal.appendChild(  modalContent  );
-              modal.appendChild(  modalFooter  );
-
-              return modal;
+              // modalContent.appendChild(  editForm  );
+              //
+              // //Append children to modal elements
+              // modalFooter.appendChild(  modalEdit  );
+              // modalFooter.appendChild(  modalClose  );
+              // modal.appendChild(  modalContent  );
+              // modal.appendChild(  modalFooter  );
+              //
+              // //Append modal to employees Table
+              // modalParent.appendChild(  modal  );
 
         }
 //*********************END FUNCTION BUILD MODAL***********************/
@@ -230,6 +237,7 @@ APP = (  function(){
               var edit = buildEditButtons(  res  );
               buildEmployeeTable(  res  );
               buildSearchLogic();
+              //buildModal();
 
                 /***********************END BUILDING DOM LOGIC HERE*****************************/
             } //END COMPLETE FUNC
