@@ -58,11 +58,11 @@ APP = (  function(){
             edit.innerHTML = '<i class="material-icons">edit</i>';
             edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
             edit.style.marginRight = '.5px';
+            edit.style.marginTop = '5px';
             edit.style.float = "right";
             edit.setAttribute(  'data-position', 'right');
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
-            console.log(  'i: ' + i  );
             edit.setAttribute(  'data-index', i  );
             editButtonsArr.push(  edit  );
           }
@@ -260,22 +260,13 @@ function buildEmployeeTable(  res  ){
           tablebody.appendChild(  tablerow  );
       }
     }
-    //tabledef.appendChild(  edit  );
+
     /****BEGIN EDIT BUTTON APPENDING LOGIC HERE*****/
     var $lastTd = $(  'tr>td:last-of-type'  );
-    //console.log(  $lastTd  );
     var lastTdElem = $lastTd.get(  index  );
-    // console.log(  lastTdElem  );
-    console.log(  '******************************************');
-    console.log(  editButtonsArr[  index  ].dataset.index  );
-    console.log( '############################################');
-    console.log( index );
     if(  parseInt(  editButtonsArr[  index ].dataset.index  ) === index  ){
       lastTdElem.insertAdjacentElement(  'afterend', editButtonsArr[  index  ] );
     }
-    //lastTdElem.innerText = "TEST";
-
-    console.log(  lastTdElem  );
 
     /*****END EDIT BUTTON APPENDING LOGIC HERE*****/
 

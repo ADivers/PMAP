@@ -45,12 +45,15 @@
 	<script>
 
 	$(  'document'  ).ready(  function(){
+
 		console.log( APP.sayHello() );
 		var fieldnames = APP.getFieldnames();
-		console.log(  fieldnames  );
+		//Initialize materialize.css tooltip
+		$(  '.tooltipped'  ).tooltip(  {  delay : 50  }  );
 		APP.getEmployeeList(  fieldnames  );	//SUCCESS
 
-	})
+
+	});
 
 		//Define variables
 		// var req,
