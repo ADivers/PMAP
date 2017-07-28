@@ -8,8 +8,8 @@ APP = (  function(){
 				recordID,
 				tablerow,
 				tabledef,
-				table = document.getElementById(  'employees' ),
-				tablebody = document.querySelector(  '#employees>tbody'  ),
+				table,
+				tablebody,
 				mainContent,
 				edit,
 				editDiv,
@@ -51,7 +51,7 @@ APP = (  function(){
 
         /*****************BEGIN FUNCTION EDIT BUTTONS****************************/
         function buildEditButtons(  responseArr  ){
-          //for(  var i = 0; i < responseArr.length; i+= 1  ){
+          for(  var i = 0; i < responseArr.length; i+= 1  ){
             edit = document.createElement(  'button'  );
             //Set edit button style and attributes
             edit.innerHTML = '<i class="material-icons">edit</i>';
@@ -61,8 +61,8 @@ APP = (  function(){
             edit.setAttribute(  'data-position', 'right');
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
-            //edit.setAttribute(  'data-index', responseArr.indexOf(  responseArr[  i  ] ) );
-          //}
+            edit.setAttribute(  'data-index', responseArr[  i  ]  );
+          }
 
           return edit;
         }
@@ -242,10 +242,9 @@ APP = (  function(){
               max = res.length;
               for(  var idx = 0; idx < max; idx+= 1  ){
                 var edit = buildEditButtons(  res  );
-                edit.setAttribute(  'data-index', idx  );
                 editButtonsArr.push(  edit  );
-                console.log(  edit  );
               }
+              buildEmployeeTable(  res  );
 
                 /***********************END BUILDING DOM LOGIC HERE*****************************/
             } //END COMPLETE FUNC
@@ -254,10 +253,41 @@ APP = (  function(){
 
   /******************END FUNCTION GET EMPLOYEE LIST*********************/
 
+/*******************BEGIN BUILD EMPLOYEE TABLE FUNCTION***************************/
+function buildEmployeeTable(  res  ){
+  var prop,
+      index,
+      table = document.getElementById(  'employees' ),
+      tablebody = document.querySelector(  '#employees>tbody'  );
+
+  for( index = 0; index < res.length; index+= 1  ){
+    tablerow = document.createElement(  'tr'  );
+    for( prop in res[  index  ]  ){
+
+        if(  res[  index  ].hasOwnProperty(  prop  )  ){
+          console.log(  "Property " + prop + ": " + res[  index  ][  prop  ]  );
+          tabledef = document.createElement(  'td'  );
+          tabledef.innerText = res[  index  ][  prop  ];
+          tabledef.innerText = res[  index  ][  prop  ];
+          tabledef.appendChild(  edit  );
+
+          // console.log(  tabledef  );
+          tablerow.appendChild(  tabledef  );
+          tablebody.appendChild(  tablerow  );
+      }
+    }
+  }
+
+  table.className = 'bordered highlight';
+}
+/*******************END BUILD EMPLOYEE TABLE FUNCTION****************************/
+
+
         function sayHello(){
           return "hello";
         }
 
+/*****************************BEGIN PUBLIC API***********************************/
         return(
           {
             sayHello            :       sayHello,
@@ -265,5 +295,6 @@ APP = (  function(){
             buildSearchLogic    :       buildSearchLogic,
             getEmployeeList     :       getEmployeeList
           }
-        )
+        );
+/*****************************END PUBLIC API***********************************/
 } )();
