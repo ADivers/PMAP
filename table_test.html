@@ -58,6 +58,7 @@
 				tablebody = document.querySelector(  '#employees>tbody'  ),
 				mainContent,
 				edit,
+				editDiv,
 				editForm,
 				input,
 				label,
@@ -80,8 +81,9 @@
 					fieldnames += '</ViewFields>';
 					return fieldnames;
 				},
-				fieldnames = getFieldnames();
-				console.log(  "FIELDNAMES: " + fieldnames  );
+				fieldnames = getFieldnames(),
+				search = $(  '#search'  ).attr(  'placeholder', 'Employee Name'  );
+				//console.log(  "FIELDNAMES: " + fieldnames  );
 
 				//webURL = APP.getURL();
 				webURL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/";
@@ -123,13 +125,17 @@
 							});
 							//console.log( $(  xData.responseXML  ).find(  "[nodeName='rs:data']" )  );	-->OK
 
+							// $(  '#employees>thead>tr>th:last-of-type'  ).after(  '<th>'  );
+							// $(  'th:last-of-type'  ).text(  'Edit'  );
+
+							// $(  '#employees>tbody>tr>td:last-of-type'  ).after(  '<td>'  );
 							/***********************BEGIN DOM CONSTRUCTION******************************/
 							for(  var i = 0; i < res.length; i+= 1  ){
 								//Begin DOM element setup
 								tablerow = document.createElement(  'tr'  );
-								//
 
 								//'Edit' buttons for returned rows
+								editDiv = document.createElement(  'div'  );
 								edit = document.createElement(  'button'  );
 								edit.innerHTML = '<i class="material-icons">edit</i>';
 								edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
@@ -140,6 +146,7 @@
 								edit.setAttribute(  'data-tooltip', 'Edit'  );
 								edit.setAttribute(  'data-index', i  );
 								edit.setAttribute(  'data-record-id', idArray[  i  ]  );
+								editDiv.appendChild(  edit  );
 
 								//Add event listener to create and draw modal on 'edit' click
 								edit.addEventListener(  'click',  function(  e  ){
@@ -277,7 +284,10 @@
 												valuepairs	:		valuePairs,
 												ID					:		editForm.getAttribute(  'data-record-id'  ),
 												completefunc:		function(  xData, Status  ){
-													console.log(  "Update Status: " + Status  );
+													//console.log(  "Update Status: " + Status  );
+													if(  Status === 'success'  ){
+														document.location.reload();
+													}
 												}
 											}
 										);
@@ -312,10 +322,10 @@
 									if(  res[  i  ].hasOwnProperty(  j  )  ){
 										tabledef = document.createElement(  'td'  );
 										tabledef.innerText = res[  i  ][  j  ];
-										tabledef.innerText = res[  i  ][  j  ];
-										tabledef.appendChild(  edit  );
-
-										// console.log(  tabledef  );
+										//tabledef.innerText = res[  i  ][  j  ];
+										tabledef.appendChild(   edit  );
+										edit.style.display = "inline-block";
+										edit.style.float = "right";
 										tablerow.appendChild(  tabledef  );
 									}
 								}
@@ -325,6 +335,7 @@
 								// console.log(  json_data  );
 								// console.log(  tablebody  );
 								var $rows = $('#employees tbody tr');
+
 								$('#search').keyup(function() {
 
 								    var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
@@ -337,11 +348,22 @@
 								    }).hide();
 								});
 
+
 							}
+
+							//$(  '#employees td:last-child'  ).after(  '<td>'  ).attr(  'data-edit', 'null' );
+							// for( var k in res[  i  ]  ){
+							// 	var lastTd = document.querySelectorAll(  '#employees'  );
+							// 	console.log(  "Last TD: " + lastTd  );
+							// }
 							/***********************END DOM CONSTRUCTION*******************************/
 
+						//console.log(  $lastTd  );
+
 						}	//END completfunc
+
 					});	//END $().SPServices()
+
 			};	//END window.onload
 
 	</script>
