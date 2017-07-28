@@ -8,6 +8,7 @@ APP = (  function(){
 				recordID,
 				tablerow,
 				tabledef,
+        tabledefLast,
 				table,
 				tablebody,
 				mainContent,
@@ -61,7 +62,9 @@ APP = (  function(){
             edit.setAttribute(  'data-position', 'right');
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
-            edit.setAttribute(  'data-index', responseArr[  i  ]  );
+            console.log(  'i: ' + i  );
+            edit.setAttribute(  'data-index', i  );
+            editButtonsArr.push(  edit  );
           }
 
           return edit;
@@ -156,22 +159,6 @@ APP = (  function(){
         }
 //*********************END FUNCTION BUILD MODAL***********************/
 
-//********************BEGIN FUNCTION BUILD SEARCH LOGIC***********************/
-  function buildSearchLogic(){
-    var $rows = $('#employees tbody tr');
-  						$('#search').keyup(function() {
-
-  						    var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
-  						        reg = RegExp(val, 'i'),
-  						        text;
-
-  						    $rows.show().filter(function() {
-  						        text = $(this).text().replace(/\s+/g, ' ');
-  						        return !reg.test(text);
-  						    }).hide();
-  						});
-  }
-  //********************END FUNCTION BUILD SEARCH LOGIC***********************/
 
   //******************BEGIN MODAL CLOSE FUNCTION*****************************/
   function modalClose(  modalElem  ){
@@ -237,14 +224,12 @@ APP = (  function(){
               								}
 							);
               if(  res  ){  console.log(  res  );  }
-              // if(  res  ){  return res  }  -->NOT OK; BUILD DOM INSIDE THIS COMPLETEFUNC
+
               /***********************BEGIN BUILDING DOM LOGIC HERE*****************************/
               max = res.length;
-              for(  var idx = 0; idx < max; idx+= 1  ){
-                var edit = buildEditButtons(  res  );
-                editButtonsArr.push(  edit  );
-              }
+              var edit = buildEditButtons(  res  );
               buildEmployeeTable(  res  );
+              buildSearchLogic();
 
                 /***********************END BUILDING DOM LOGIC HERE*****************************/
             } //END COMPLETE FUNC
@@ -259,29 +244,64 @@ function buildEmployeeTable(  res  ){
       index,
       table = document.getElementById(  'employees' ),
       tablebody = document.querySelector(  '#employees>tbody'  );
+      // console.log( '*********************************');
+      console.log(  editButtonsArr  );
 
   for( index = 0; index < res.length; index+= 1  ){
     tablerow = document.createElement(  'tr'  );
     for( prop in res[  index  ]  ){
 
         if(  res[  index  ].hasOwnProperty(  prop  )  ){
-          console.log(  "Property " + prop + ": " + res[  index  ][  prop  ]  );
+          //console.log(  "Property " + prop + ": " + res[  index  ][  prop  ]  );
           tabledef = document.createElement(  'td'  );
           tabledef.innerText = res[  index  ][  prop  ];
-          tabledef.innerText = res[  index  ][  prop  ];
-          tabledef.appendChild(  edit  );
-
           // console.log(  tabledef  );
           tablerow.appendChild(  tabledef  );
           tablebody.appendChild(  tablerow  );
       }
     }
+    //tabledef.appendChild(  edit  );
+    /****BEGIN EDIT BUTTON APPENDING LOGIC HERE*****/
+    var $lastTd = $(  'tr>td:last-of-type'  );
+    //console.log(  $lastTd  );
+    var lastTdElem = $lastTd.get(  index  );
+    // console.log(  lastTdElem  );
+    console.log(  '******************************************');
+    console.log(  editButtonsArr[  index  ].dataset.index  );
+    console.log( '############################################');
+    console.log( index );
+    if(  parseInt(  editButtonsArr[  index ].dataset.index  ) === index  ){
+      lastTdElem.insertAdjacentElement(  'afterend', editButtonsArr[  index  ] );
+    }
+    //lastTdElem.innerText = "TEST";
+
+    console.log(  lastTdElem  );
+
+    /*****END EDIT BUTTON APPENDING LOGIC HERE*****/
+
   }
 
   table.className = 'bordered highlight';
 }
 /*******************END BUILD EMPLOYEE TABLE FUNCTION****************************/
 
+/******************BEGIN BUILD SEARCH LOGIC FUNCTION***************************/
+function buildSearchLogic(){
+  var $rows = $('#employees tbody tr');
+
+  	$('#search').attr(  'placeholder', 'Employee Name').keyup(function() {
+      var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+  		reg = RegExp(val, 'i'),
+  		text;
+
+      $rows.show().filter(function() {
+  				text = $(this).text().replace(/\s+/g, ' ');
+  				return !reg.test(text);
+  		 }).hide();
+  	});
+}
+
+/******************END BUILD SEARCH LOGIC FUNCTION***************************/
 
         function sayHello(){
           return "hello";
