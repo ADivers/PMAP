@@ -132,23 +132,23 @@ APP = (  function(){
 
                 //Set input field attributes
                 input.setAttribute(  'type', 'text'  );
-                input.setAttribute(  'id', $headerText[  indx  ][  'data'  ]  );
-                for(  var prop in inputFieldnames  ){
-                  ///input.setAttribute(  prop, inputFieldnames[  prop  ]  );
-                  if(  input.id === prop  ){
-                    input.setAttribute(  'name', inputFieldnames[  prop  ]  );
-                  }
-                }
-                if(  input.getAttribute(  'id'  ) === "Employee Name"  ){
-                  input.setAttribute(  'placeholder', res[  currentIdx  ][  'name'  ]  );
-                }
-                if(  input.getAttribute(  'id') === 'Employee ID'  ){
-                  input.setAttribute(  'placeholder', res[  currentIdx  ][  'id'  ]  );
-                }
-                label.setAttribute(  'for', $headerText[  indx  ][  'data'  ]  );
-                label.innerText = $headerText[  indx  ][  'data'  ];
-                editForm.appendChild(  input  );
-                editForm.appendChild(  label  );
+                input.setAttribute(  'id', $headerText[  indx  ].innerText  );
+                // for(  var prop in inputFieldnames  ){
+                //   ///input.setAttribute(  prop, inputFieldnames[  prop  ]  );
+                //   if(  input.id === prop  ){
+                //     input.setAttribute(  'name', inputFieldnames[  prop  ]  );
+                //   }
+                // }
+                // if(  input.getAttribute(  'id'  ) === "Employee Name"  ){
+                //   input.setAttribute(  'placeholder', res[  currentIdx  ][  'name'  ]  );
+                // }
+                // if(  input.getAttribute(  'id') === 'Employee ID'  ){
+                //   input.setAttribute(  'placeholder', res[  currentIdx  ][  'id'  ]  );
+                // }
+                // label.setAttribute(  'for', $headerText[  indx  ][  'data'  ]  );
+                // label.innerText = $headerText[  indx  ][  'data'  ];
+                // editForm.appendChild(  input  );
+                // editForm.appendChild(  label  );
 
               }
 
