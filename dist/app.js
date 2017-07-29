@@ -93,27 +93,43 @@ APP = (  function(){
           labelCache = [];
 
           //console.log(  this.dataset.index  ); -->OK
-          var modalParent = document.querySelector(  '#main-content'  ),
+          var modalParent = document.querySelector(  'body'  ),
               modal = document.createElement(  'div'  ),
+							modalWidth = 40,
+							modalOpacity = 1,
               modalContent = document.createElement(  'div'  ),
               inputWrapper,
               modalFooter = document.createElement(  'div'  ),
               modalEdit = document.createElement(  'button'  ),
               modalClose = document.createElement(  'button'  ),
+							overlay = document.createElement(  'div'  ),
               editForm = document.createElement(  'form'  ),
               $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
               $headerText =	$tableHeaders.contents(),
               currentIdx = parseInt(  this.dataset.index  );
 
+							//Set position of modalParent for modal and overlay positioning purposes
+							modalParent.style.position = 'relative';
+
               //Set attributes of modal
               modal.setAttribute(  'id', 'modal_01');
               modal.style.display = 'block';
-              modal.setAttribute(  'position', 'relative'  );
+              modal.style.position = 'absolute';
+							modal.style.top = '5%';
+							modal.style.left =  '30%';
+							modal.style.zIndex = '300';
+							modal.style.width = modalWidth + '%';
+							modal.style.opacity = modalOpacity.toString();
+							modal.style.backgroundColor = '#ffffff';
               modalContent.setAttribute(  'id', 'modal-content' ) ;
-              //**POSITIONING VARS FOR MODAL NOT YET WORKING**//
-              // modal.style.zIndex = 200;
-              // modal.style.left = 100 + "px";
-              // modal.style.top = 100 + "px";
+							// modal.addEventListener(  'load', function(  e  ){
+							// 	window.setInterval(  function(){
+							// 		modalOpacity += .05;
+							// 		if(  modalOpacity === 1  ){
+							// 			clearInterval();
+							// 		}
+							// 	}, 20  );
+							// }, false  );
               /***********************************************/
               modalEdit.innerText = 'SAVE';
               modalClose.innerText = 'CANCEL';
@@ -128,6 +144,40 @@ APP = (  function(){
               modalEdit.innerText = "EDIT";
               modalClose.className ='btn waves-effect waves-light';
               modalClose.innerText = "CANCEL";
+
+							//Add event listeners to edit/cancel buttons
+							modalClose.addEventListener(  'click', function(  e  ){
+								modal.parentNode.removeChild(  modal  );
+								overlay.parentNode.removeChild(  overlay  );
+							}, false  );
+
+							//Set positiion and attributes of overlay
+							overlay.setAttribute(  'id', "overlay"  );
+							overlay.style.position = 'absolute';
+							overlay.style.backgroundColor = 'rgba(51, 51, 51, 0.6)';
+							overlay.style.width = window.innerWidth + 'px';
+							overlay.style.height = window.innerHeight + 'px';
+							overlay.style.top = window.pageYOffset + 'px';
+							overlay.style.left = window.pageXOffset + 'px';
+							overlay.style.zIndex = '200';
+
+							window.addEventListener(  'resize', function(){
+								if(  overlay  ){
+									overlay.style.width = window.innerWidth + 'px';
+									overlay.style.height = window.innerHeight + 'px';
+									overlay.style.top = window.pageYOffset + 'px';
+									overlay.style.left = window.pageXOffset + 'px ';
+								}
+							}, false);
+
+							window.addEventListener(  'scroll', function(){
+								if(  overlay  ){
+									overlay.style.width = window.innerWidth + 'px';
+									overlay.style.height = window.innerHeight + 'px';
+									overlay.style.top = window.pageYOffset + 'px';
+									overlay.style.left = window.pageXOffset + 'px ';
+								}
+							}, false  );
 
               //Create labels
               Object.getOwnPropertyNames(  inputFieldnames  ).forEach(
@@ -209,19 +259,25 @@ APP = (  function(){
               modalFooter.appendChild(  modalEdit  );
               modalFooter.appendChild(  modalClose  );
               modalContent.appendChild(  editForm  );
+							modalContent.appendChild(  modalFooter  );
               modal.appendChild(  modalContent  );
-              modal.appendChild(  modalFooter  );
 
-              //Append modal to employees Table
-              modalParent.appendChild(  modal  );
+              //Append overlay and modal to employees Table
+							modalParent.appendChild(  overlay  );
+							//centerModal(  modal  );
+              overlay.appendChild(  modal  );
 
         }
 //*********************END FUNCTION BUILD MODAL***********************/
 
 
   //******************BEGIN MODAL CLOSE FUNCTION*****************************/
-  function modalClose(  modalElem  ){
-    if(  modalElem.parentNode.removeChild(  modalElem  )  ){
+  function closeModal(){
+		window.removeEventListener(  'resize', window, false  );
+		window.removeEventListener(  'scroll', window, false  );
+		modal.parentNode.removeChild( modal  );
+    if(  modal.parentNode.removeChild(  modal )
+				&& modal.parentNode.parentNode.removeChild(  modal.parentNode  )  ){
       return true;
     }
   }
@@ -239,6 +295,10 @@ APP = (  function(){
           pair.push(  $formInputs  )[  x  ][  'value'  ];
           valuePairs.push(  pair  );
         }
+				/*
+				**TODO: 07-29-2017 14:48 EST
+					Add SP record update logic AND page redirect on success
+				*/
   }
   /******************END MODAL EDIT FUNCTION*****************************/
 
@@ -352,6 +412,16 @@ function buildSearchLogic(){
   	});
 }
 
+// /*****************BEGIN FUNCTION CENTER MODAL***************************/
+//
+// 	function centerModal(  modal  ){
+// 		var diffX = (  window.innerWidth - modal.width  ) / 2;
+// 		var diffY = (  window.innerHeight - modal.height  ) / 2;
+// 		modal.style.top = diffY + 'px';
+// 		modal.style.left = diffX + 'px';
+// 		return modal;
+// 	}
+// /******************END FUNCTION CENTER MODAL****************************/
 
 /******************BEGIN FUNCTION EXTEND DEEP***************************/
   function extendDeep(  parent, child  ){
