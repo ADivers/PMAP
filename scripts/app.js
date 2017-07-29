@@ -17,6 +17,7 @@ APP = (  function(){
 				editForm,
 				input,
 				label,
+        labelCache,
 				$tableHeaders,
 				$headerText,
 				inputFieldnames = {
@@ -28,7 +29,8 @@ APP = (  function(){
 					'Team Lead ID'	:	'teamlead_ID'
 				},
         webURL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
-        editButtonsArr = [];
+        editButtonsArr = [],
+        resCache;
 
         /*****************BEGIN FUNCTION GET FIELDNAMES*************************/
         /*
@@ -83,17 +85,26 @@ APP = (  function(){
         Returns:
         Throws:
         */
-        function buildModal(  ){
-          var modalParent = document.querySelector(  '#employees'  ),
+        function buildModal(){
+          /*
+          *NOTE: Use 'this' to refer to the event target inside of the handler function
+          */
+          $(  '#modal_01'  ).remove();
+          labelCache = [];
+
+          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          //console.log(  this.dataset.index  ); -->OK
+          var modalParent = document.querySelector(  '#main-content'  ),
               modal = document.createElement(  'div'  ),
               modalContent = document.createElement(  'div'  ),
+              inputWrapper,
               modalFooter = document.createElement(  'div'  ),
               modalEdit = document.createElement(  'button'  ),
               modalClose = document.createElement(  'button'  ),
               editForm = document.createElement(  'form'  ),
               $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
               $headerText =	$tableHeaders.contents(),
-              currentIdx;
+              currentIdx = parseInt(  this.dataset.index  );
 
 
               //console.log(  $tableHeaders  );
@@ -104,9 +115,9 @@ APP = (  function(){
               modal.setAttribute(  'position', 'relative'  );
               modalContent.setAttribute(  'id', 'modal-content' ) ;
               //**POSITIONING VARS FOR MODAL NOT YET WORKING**//
-              modal.style.zIndex = 200;
-              modal.style.left = 100 + "px";
-              modal.style.top = 100 + "px";
+              // modal.style.zIndex = 200;
+              // modal.style.left = 100 + "px";
+              // modal.style.top = 100 + "px";
               /***********************************************/
               modalEdit.innerText = 'SAVE';
               modalClose.innerText = 'CANCEL';
@@ -121,47 +132,101 @@ APP = (  function(){
               modalEdit.innerText = "EDIT";
               modalClose.className ='btn waves-effect waves-light';
               modalClose.innerText = "CANCEL";
+
+              //Create labels
+              Object.getOwnPropertyNames(  inputFieldnames  ).forEach(
+                function(  val, idx, array  ){
+                  //console.log(  val  );
+                  label = document.createElement(  'label'  );
+                  label.innerText = val;
+                  label.setAttribute(  'for', inputFieldnames[  val  ]  );
+                  //console.log(  label  );
+                  labelCache.push(  label  );
+                  //editForm.appendChild(  label  );
+                }
+              );
+
               //Create form inputs
-              for(  var indx = 0; indx < $headerText.length; indx++ ){
-                //console.log(  this.dataset.index  );
-                currentIdx = this.dataset.index;
+              for(  var prop in inputFieldnames  ){
+                if(  inputFieldnames.hasOwnProperty(  prop  )  ){
+                  //Create input fields
+                  input = document.createElement(  'input'  );
+                  input.setAttribute(  'type', 'text'  );
+                  input.setAttribute(  'id', inputFieldnames[  prop  ]  );
+                  input.setAttribute(  'name', inputFieldnames[  prop  ]  );
 
-                //Create input fields and labels
-                input = document.createElement(  'input'  );
-                label = document.createElement(  'label' );
+                  var drawLabels = function(){
+                    try{
+                      for(  var j = 0; j < labelCache.length; j+= 1){
+                        if(  labelCache[  j  ].getAttribute(  'for'  ) === input.getAttribute(  'id'  )  ){
+                          console.log(  labelCache[  j  ]  );
+                          console.log(  input  );
+                          editForm.appendChild(   labelCache[  j  ]  );
+                        }
+                      }
+                    }catch(  err ){
+                      console.log(  err.message  );
+                    }
+                  };
 
-                //Set input field attributes
-                input.setAttribute(  'type', 'text'  );
-                input.setAttribute(  'id', $headerText[  indx  ].innerText  );
-                // for(  var prop in inputFieldnames  ){
-                //   ///input.setAttribute(  prop, inputFieldnames[  prop  ]  );
-                //   if(  input.id === prop  ){
-                //     input.setAttribute(  'name', inputFieldnames[  prop  ]  );
-                //   }
-                // }
-                // if(  input.getAttribute(  'id'  ) === "Employee Name"  ){
-                //   input.setAttribute(  'placeholder', res[  currentIdx  ][  'name'  ]  );
-                // }
-                // if(  input.getAttribute(  'id') === 'Employee ID'  ){
-                //   input.setAttribute(  'placeholder', res[  currentIdx  ][  'id'  ]  );
-                // }
-                // label.setAttribute(  'for', $headerText[  indx  ][  'data'  ]  );
-                // label.innerText = $headerText[  indx  ][  'data'  ];
-                // editForm.appendChild(  input  );
-                // editForm.appendChild(  label  );
+                  //Create placeholders
+                  switch(  input.getAttribute(  'id'  )  ){
+                    case 'employee_name':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'employee_name'  ]  );
+                    drawLabels();
+                    break;
 
+                    case 'employee_ID':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'employee_ID'  ]  );
+                    drawLabels();
+                    break;
+
+                    case 'admin_ID':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'admin_ID'  ]  );
+                    drawLabels();
+                    break;
+
+                    case 'director_ID':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'director_ID'  ]  );
+                    drawLabels();
+                    break;
+
+                    case 'manager_ID':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'manager_ID'  ]  );
+                    drawLabels();
+                    break;
+
+                    case 'teamlead_ID':
+                    input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'teamlead_ID'  ]  );
+                    drawLabels();
+                    break;
+
+                    default:
+                    for(  var j = 0; j < labelCache.length; j+= 1){
+                      if(  labelCache[  j  ].getAttribute(  'for'  ) === input.getAttribute(  'id'  )  ){
+                        console.log(  labelCache[  j  ]  );
+                        editform.insertBefore(  labelCache[  j  ], input  )
+                        //input.insertAdjacentElement(  'afterend', labelCache[  j  ]  );
+                      }
+                    }
+                    break;
+                  }
+                //console.log(  input  );
+                //Append input field to form
+                editForm.appendChild(  input  );
+                }
               }
 
-              // modalContent.appendChild(  editForm  );
-              //
-              // //Append children to modal elements
-              // modalFooter.appendChild(  modalEdit  );
-              // modalFooter.appendChild(  modalClose  );
-              // modal.appendChild(  modalContent  );
-              // modal.appendChild(  modalFooter  );
-              //
-              // //Append modal to employees Table
-              // modalParent.appendChild(  modal  );
+
+              //Append children to modal elements
+              modalFooter.appendChild(  modalEdit  );
+              modalFooter.appendChild(  modalClose  );
+              modalContent.appendChild(  editForm  );
+              modal.appendChild(  modalContent  );
+              modal.appendChild(  modalFooter  );
+
+              //Append modal to employees Table
+              modalParent.appendChild(  modal  );
 
         }
 //*********************END FUNCTION BUILD MODAL***********************/
@@ -230,7 +295,9 @@ APP = (  function(){
               									sparse: false
               								}
 							);
-              if(  res  ){  console.log(  res  );  }
+              //if(  res  ){  console.log(  res  );  }
+              resCache = extendDeep(  res  );
+              console.log(  resCache  );
 
               /***********************BEGIN BUILDING DOM LOGIC HERE*****************************/
               max = res.length;
@@ -253,7 +320,7 @@ function buildEmployeeTable(  res  ){
       table = document.getElementById(  'employees' ),
       tablebody = document.querySelector(  '#employees>tbody'  );
       // console.log( '*********************************');
-      console.log(  editButtonsArr  );
+      //console.log(  editButtonsArr  );
 
   for( index = 0; index < res.length; index+= 1  ){
     tablerow = document.createElement(  'tr'  );
@@ -300,7 +367,34 @@ function buildSearchLogic(){
   	});
 }
 
-/******************END BUILD SEARCH LOGIC FUNCTION***************************/
+
+/******************BEGIN FUNCTION EXTEND DEEP***************************/
+  function extendDeep(  parent, child  ){
+    var i,
+    toStr = Object.prototype.toString,
+    astr = '[object Array]';
+
+    child = child || {};
+
+    for( i in parent  ){
+      if(  parent.hasOwnProperty(  i  )  ){
+        if(  typeof parent[  i  ] === 'object'  ){
+          child[  i  ] = (  toStr.call(  parent[  i  ]  ) === astr  )  ? [] : {};
+          extendDeep(  parent[  i  ], child[  i  ]  );
+        }else{
+          child[  i  ] = parent[  i  ];
+        }
+      }
+    }
+    return child;
+  }
+/*******************END FUNCTION EXTEND DEEP***************************/
+
+/*******************BEGIN FUNCTION DRAW LABELS********************************/
+
+
+/*******************END FUNCTION DRAW LABELS********************************/
+
 
         function sayHello(){
           return "hello";
