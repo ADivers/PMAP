@@ -57,6 +57,8 @@ APP = (  function(){
           for(  var i = 0; i < responseArr.length; i+= 1  ){
             edit = document.createElement(  'button'  );
             //Set edit button style and attributes
+						//$(  '.tooltipped'  ).tooltip(    {delay: 50  }  );
+
             edit.innerHTML = '<i class="material-icons">edit</i>';
             edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
             edit.style.marginRight = '.5px';
@@ -66,6 +68,7 @@ APP = (  function(){
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
             edit.setAttribute(  'data-index', i  );
+						$(  edit  ).tooltip(  {  delay: 50  }  );
             edit.addEventListener(  'click', buildModal, false  );
             editButtonsArr.push(  edit  );
           }
@@ -349,9 +352,9 @@ APP = (  function(){
               /***********************BEGIN BUILDING DOM LOGIC HERE*****************************/
               max = res.length;
               var edit = buildEditButtons(  res  );
+
               buildEmployeeTable(  res  );
               buildSearchLogic();
-              //buildModal();
 
                 /***********************END BUILDING DOM LOGIC HERE*****************************/
             } //END COMPLETE FUNC
