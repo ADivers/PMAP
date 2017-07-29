@@ -1,7 +1,7 @@
 #modal_01{
-  border: 2px solid gray;
   padding: 40px;
-  width: 50%;
+  width: 90%;
+  margin-top: 2.5%;
 }
 
 #edit-form{
@@ -10,9 +10,22 @@
 }
 
 #edit-form label{
+ display: block;
+ float: left;
+}
 
+#edit-form input{
+  float: right;
 }
 
 .edit{
   margin-right: 2.5%;
+}
+
+#modal-content{
+  float: left;
+}
+
+th, td{
+  padding: 15px;
 }
