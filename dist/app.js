@@ -92,7 +92,6 @@ APP = (  function(){
           $(  '#modal_01'  ).remove();
           labelCache = [];
 
-          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           //console.log(  this.dataset.index  ); -->OK
           var modalParent = document.querySelector(  '#main-content'  ),
               modal = document.createElement(  'div'  ),
@@ -105,9 +104,6 @@ APP = (  function(){
               $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
               $headerText =	$tableHeaders.contents(),
               currentIdx = parseInt(  this.dataset.index  );
-
-
-              //console.log(  $tableHeaders  );
 
               //Set attributes of modal
               modal.setAttribute(  'id', 'modal_01');
@@ -136,13 +132,10 @@ APP = (  function(){
               //Create labels
               Object.getOwnPropertyNames(  inputFieldnames  ).forEach(
                 function(  val, idx, array  ){
-                  //console.log(  val  );
                   label = document.createElement(  'label'  );
                   label.innerText = val;
                   label.setAttribute(  'for', inputFieldnames[  val  ]  );
-                  //console.log(  label  );
                   labelCache.push(  label  );
-                  //editForm.appendChild(  label  );
                 }
               );
 
@@ -202,16 +195,10 @@ APP = (  function(){
                     break;
 
                     default:
-                    for(  var j = 0; j < labelCache.length; j+= 1){
-                      if(  labelCache[  j  ].getAttribute(  'for'  ) === input.getAttribute(  'id'  )  ){
-                        console.log(  labelCache[  j  ]  );
-                        editform.insertBefore(  labelCache[  j  ], input  )
-                        //input.insertAdjacentElement(  'afterend', labelCache[  j  ]  );
-                      }
-                    }
+                    console.log(  'Fell out to default case.'  );
                     break;
                   }
-                //console.log(  input  );
+
                 //Append input field to form
                 editForm.appendChild(  input  );
                 }
@@ -327,10 +314,8 @@ function buildEmployeeTable(  res  ){
     for( prop in res[  index  ]  ){
 
         if(  res[  index  ].hasOwnProperty(  prop  )  ){
-          //console.log(  "Property " + prop + ": " + res[  index  ][  prop  ]  );
           tabledef = document.createElement(  'td'  );
           tabledef.innerText = res[  index  ][  prop  ];
-          // console.log(  tabledef  );
           tablerow.appendChild(  tabledef  );
           tablebody.appendChild(  tablerow  );
       }
@@ -355,7 +340,7 @@ function buildEmployeeTable(  res  ){
 function buildSearchLogic(){
   var $rows = $('#employees tbody tr');
 
-  	$('#search').attr(  'placeholder', 'Employee Name').keyup(function() {
+  	$('#search').keyup(function() {
       var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
   		reg = RegExp(val, 'i'),
   		text;
@@ -389,11 +374,6 @@ function buildSearchLogic(){
     return child;
   }
 /*******************END FUNCTION EXTEND DEEP***************************/
-
-/*******************BEGIN FUNCTION DRAW LABELS********************************/
-
-
-/*******************END FUNCTION DRAW LABELS********************************/
 
 
         function sayHello(){
