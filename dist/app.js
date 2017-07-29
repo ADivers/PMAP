@@ -1,1 +1,34 @@
-var APP=APP||{};APP=function(){var t="https://teams.deloitte.com/sites/FDAJDD/Sandbox/";return{getURL:function(){return t},getData:function(t,e){var n,a;(n=new XMLHttpRequest).open(t,e),n.onreadystatechange=function(){4===n.readyState&&200===n.status&&(a=JSON.parse(n.responseText),console.log(a))},n.send()}}}();
+var APP = APP || {};
+
+APP = (  function(){
+
+  var WEB_URL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/";
+
+  function getURL(){
+    return WEB_URL;
+  }
+
+  function getData(  method, file  ){
+    var req,
+        res,
+        data;
+
+        req = new XMLHttpRequest();
+        req.open(  method, file  );
+        req.onreadystatechange = function(){
+          if( req.readyState === 4 && req.status === 200  ){
+            res = JSON.parse(  req.responseText  );
+            console.log(  res  );
+          }
+        }
+        req.send();
+  }
+
+
+  return(
+    {
+      getURL    :   getURL,
+      getData   :   getData
+    }
+  )
+}  )();
