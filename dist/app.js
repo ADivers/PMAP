@@ -30,6 +30,7 @@ APP = (  function(){
 				},
         webURL = "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
         editButtonsArr = [],
+				idArr,
         resCache;
 
         /*****************BEGIN FUNCTION GET FIELDNAMES*************************/
@@ -56,6 +57,7 @@ APP = (  function(){
         function buildEditButtons(  responseArr  ){
           for(  var i = 0; i < responseArr.length; i+= 1  ){
             edit = document.createElement(  'button'  );
+
             //Set edit button style and attributes
 						//$(  '.tooltipped'  ).tooltip(    {delay: 50  }  );
 
@@ -68,6 +70,8 @@ APP = (  function(){
             edit.setAttribute(  'data-delay', '50'  );
             edit.setAttribute(  'data-tooltip', 'Edit'  );
             edit.setAttribute(  'data-index', i  );
+						edit.setAttribute(  'data-record-id', idArr[  i  ]  );
+						//edit.setAttribute(  'data-record-id',  tableRows[  i  ].getAttribute(  'data-record-id'  )  );
 						$(  edit  ).tooltip(  {  delay: 50  }  );
             edit.addEventListener(  'click', buildModal, false  );
             editButtonsArr.push(  edit  );
@@ -109,7 +113,8 @@ APP = (  function(){
               editForm = document.createElement(  'form'  ),
               $tableHeaders = $(  '#employees>thead>tr'  ).children(  'th'  ),
               $headerText =	$tableHeaders.contents(),
-              currentIdx = parseInt(  this.dataset.index  );
+              currentIdx = parseInt(  this.dataset.index  ),
+							currentRecordId = parseInt(  this.dataset.recordId  );
 
 							//Set position of modalParent for modal and overlay positioning purposes
 							modalParent.style.position = 'relative';
@@ -140,10 +145,11 @@ APP = (  function(){
               //Set attributes of edit form
               editForm.setAttribute(  'id', 'edit-form'  );
               editForm.setAttribute(  'method', 'POST'  );
+							editForm.setAttribute(  'data-record-id', currentRecordId  );
 
               //Set attributes of edit/cancel buttons
               modalEdit.className ='btn waves-effect waves-light edit';
-              modalEdit.setAttribute(  'type', 'submit'  );
+              modalEdit.setAttribute(  'type', 'button'  );
               modalEdit.innerText = "EDIT";
               modalClose.className ='btn waves-effect waves-light';
               modalClose.innerText = "CANCEL";
@@ -153,6 +159,8 @@ APP = (  function(){
 								modal.parentNode.removeChild(  modal  );
 								overlay.parentNode.removeChild(  overlay  );
 							}, false  );
+
+							modalEdit.addEventListener(  'click', updateEmployee, false  );
 
 							//Set positiion and attributes of overlay
 							overlay.setAttribute(  'id', "overlay"  );
@@ -224,6 +232,9 @@ APP = (  function(){
 
                     case 'employee_ID':
                     input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'employee_ID'  ]  );
+										input.setAttribute(  'readonly', 'readonly'  );
+										input.setAttribute(  'disabled', 'disabled'  );
+										// editForm.setAttribute(  'data-record-id', resCache[  currentIdx  ][  'employee_ID'  ]  );
                     drawLabels();
                     break;
 
@@ -287,22 +298,22 @@ APP = (  function(){
   //******************END MODAL CLOSE FUNCTION*****************************/
 
   //*****************BEGIN MODAL EDIT FUNCTION****************************/
-  function modalEdit(){
-    var $formInputs = $(  'form>input'  ).serializeArray(),
-        valuePairs = [],
-        pair,
-        $id = $(  'form>input[  name="employee_ID"  ]'  ).val();
-        for(  var x = 0; x < $formInputs.length; x+= 1){
-          pair = [];
-          pair.push(  $formInputs[  x  ][  'name'  ]  );
-          pair.push(  $formInputs  )[  x  ][  'value'  ];
-          valuePairs.push(  pair  );
-        }
-				/*
-				**TODO: 07-29-2017 14:48 EST
-					Add SP record update logic AND page redirect on success
-				*/
-  }
+  // function modalEdit(){
+  //   var $formInputs = $(  'form>input'  ).serializeArray(),
+  //       valuePairs = [],
+  //       pair,
+  //       $id = $(  'form>input[  name="employee_ID"  ]'  ).val();
+  //       for(  var x = 0; x < $formInputs.length; x+= 1){
+  //         pair = [];
+  //         pair.push(  $formInputs[  x  ][  'name'  ]  );
+  //         pair.push(  $formInputs  )[  x  ][  'value'  ];
+  //         valuePairs.push(  pair  );
+  //       }
+	// 			/*
+	// 			**TODO: 07-29-2017 14:48 EST
+	// 				Add SP record update logic AND page redirect on success
+	// 			*/
+  // }
   /******************END MODAL EDIT FUNCTION*****************************/
 
   /*****************BEGIN FUNCTION GET EMPLOYEE LIST*********************/
@@ -345,9 +356,19 @@ APP = (  function(){
               									sparse: false
               								}
 							);
-              //if(  res  ){  console.log(  res  );  }
+    					/*
+							*TODO: 07/31/2017 10:58 EST: DO YOU NEED resCache? Are you USING
+							it anywhere?
+							*/
               resCache = extendDeep(  res  );
               console.log(  resCache  );
+
+							//BEGIN BUILDING ARRAY OF RECORD IDs HERE
+							idArr = [];
+							$(  xData.responseXML  ).SPFilterNode(  'z:row'  ).each(  function(){
+										console.log(  $(  this  ).attr(  'ows_ID'  )  );
+										idArr.push(  $(  this  ).attr(  'ows_ID'  )  );
+							});
 
               /***********************BEGIN BUILDING DOM LOGIC HERE*****************************/
               max = res.length;
@@ -362,6 +383,51 @@ APP = (  function(){
   }
 
   /******************END FUNCTION GET EMPLOYEE LIST*********************/
+
+/****************************BEGIN FUNCTION UPDATE EMPLOYEE*********************/
+	function updateEmployee(){
+		// console.log(  $(  this  )  );  -->OK
+		// $(  this  ).preventDefault();
+		// var idSet = $(  '#employees tr td'  );
+		// var idSet = document.querySelectorAll(  'td'  );
+		// console.log(  '*************************************************'  );
+		// console.log(  idSet  );
+		// console.log(  $(  'input[name="employee_name"]'  ).val()  );
+		var $formInputs = $(  'form>input'  ).serializeArray(),
+				 valuePairs = [],
+				 pair,
+				 id = $(  '#edit-form'  ).data(  'recordId'  );
+				//console.log(  $formInputs  ); -->OK
+				console.log(  '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+				console.log(  id  );
+				for( var x = 0; x < $formInputs.length; x+= 1){
+						 pair = [];
+						 pair.push(  $formInputs[  x  ][  'name'  ]  );
+						 pair.push(  $formInputs[  x  ][  'value']  );
+						 valuePairs.push(  pair  );
+				}
+				// console.log(  valuePairs  );  -->OK
+				$().SPServices(
+													{
+														webURL			:		webURL,
+														operation		:		'UpdateListItems',
+														async				:		false,
+														listName		:		'Employee_List01',
+														batchCmd		:		'Update',
+														valuepairs	:		valuePairs,
+														ID					:		id,
+														completefunc:		function(  xData, Status  ){
+															//console.log(  "Update Status: " + Status  );
+															if(  Status === 'success'  ){
+																//document.location.reload();
+																console.log(  Status  );
+															}
+														}
+													}
+												);
+
+	}
+/****************************END FUNCTION UPDATE EMPLOYEE*********************/
 
 /*******************BEGIN BUILD EMPLOYEE TABLE FUNCTION***************************/
 function buildEmployeeTable(  res  ){
