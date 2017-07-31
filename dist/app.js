@@ -130,14 +130,7 @@ APP = (  function(){
 							modal.style.opacity = modalOpacity.toString();
 							modal.style.backgroundColor = '#ffffff';
               modalContent.setAttribute(  'id', 'modal-content' ) ;
-							// modal.addEventListener(  'load', function(  e  ){
-							// 	window.setInterval(  function(){
-							// 		modalOpacity += .05;
-							// 		if(  modalOpacity === 1  ){
-							// 			clearInterval();
-							// 		}
-							// 	}, 20  );
-							// }, false  );
+
               /***********************************************/
               modalEdit.innerText = 'SAVE';
               modalClose.innerText = 'CANCEL';
@@ -234,7 +227,6 @@ APP = (  function(){
                     input.setAttribute(  'placeholder', resCache[  currentIdx  ][  'employee_ID'  ]  );
 										input.setAttribute(  'readonly', 'readonly'  );
 										input.setAttribute(  'disabled', 'disabled'  );
-										// editForm.setAttribute(  'data-record-id', resCache[  currentIdx  ][  'employee_ID'  ]  );
                     drawLabels();
                     break;
 
@@ -297,24 +289,6 @@ APP = (  function(){
   }
   //******************END MODAL CLOSE FUNCTION*****************************/
 
-  //*****************BEGIN MODAL EDIT FUNCTION****************************/
-  // function modalEdit(){
-  //   var $formInputs = $(  'form>input'  ).serializeArray(),
-  //       valuePairs = [],
-  //       pair,
-  //       $id = $(  'form>input[  name="employee_ID"  ]'  ).val();
-  //       for(  var x = 0; x < $formInputs.length; x+= 1){
-  //         pair = [];
-  //         pair.push(  $formInputs[  x  ][  'name'  ]  );
-  //         pair.push(  $formInputs  )[  x  ][  'value'  ];
-  //         valuePairs.push(  pair  );
-  //       }
-	// 			/*
-	// 			**TODO: 07-29-2017 14:48 EST
-	// 				Add SP record update logic AND page redirect on success
-	// 			*/
-  // }
-  /******************END MODAL EDIT FUNCTION*****************************/
 
   /*****************BEGIN FUNCTION GET EMPLOYEE LIST*********************/
   /*
@@ -364,6 +338,8 @@ APP = (  function(){
               console.log(  resCache  );
 
 							//BEGIN BUILDING ARRAY OF RECORD IDs HERE
+							//THESE WILL POPULATE THE 'data-record-id' attributes
+							//of the 'edit' FLYOUT BUTTONS
 							idArr = [];
 							$(  xData.responseXML  ).SPFilterNode(  'z:row'  ).each(  function(){
 										console.log(  $(  this  ).attr(  'ows_ID'  )  );
@@ -386,27 +362,19 @@ APP = (  function(){
 
 /****************************BEGIN FUNCTION UPDATE EMPLOYEE*********************/
 	function updateEmployee(){
-		// console.log(  $(  this  )  );  -->OK
-		// $(  this  ).preventDefault();
-		// var idSet = $(  '#employees tr td'  );
-		// var idSet = document.querySelectorAll(  'td'  );
-		// console.log(  '*************************************************'  );
-		// console.log(  idSet  );
-		// console.log(  $(  'input[name="employee_name"]'  ).val()  );
 		var $formInputs = $(  'form>input'  ).serializeArray(),
 				 valuePairs = [],
 				 pair,
+				 //SET FORM 'data-record-id' ATTRIBUTE TO EQUAL 'data-record-id'
+				 //ATTRIBUTE OF CLICKED 'edit' FLYOUT BUTTON
 				 id = $(  '#edit-form'  ).data(  'recordId'  );
-				//console.log(  $formInputs  ); -->OK
-				console.log(  '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-				console.log(  id  );
 				for( var x = 0; x < $formInputs.length; x+= 1){
 						 pair = [];
 						 pair.push(  $formInputs[  x  ][  'name'  ]  );
 						 pair.push(  $formInputs[  x  ][  'value']  );
 						 valuePairs.push(  pair  );
 				}
-				// console.log(  valuePairs  );  -->OK
+
 				$().SPServices(
 													{
 														webURL			:		webURL,
@@ -417,10 +385,9 @@ APP = (  function(){
 														valuepairs	:		valuePairs,
 														ID					:		id,
 														completefunc:		function(  xData, Status  ){
-															//console.log(  "Update Status: " + Status  );
+															console.log(  "Update Status: " + Status  );
 															if(  Status === 'success'  ){
-																//document.location.reload();
-																console.log(  Status  );
+																document.location.reload();
 															}
 														}
 													}
@@ -481,16 +448,6 @@ function buildSearchLogic(){
   	});
 }
 
-// /*****************BEGIN FUNCTION CENTER MODAL***************************/
-//
-// 	function centerModal(  modal  ){
-// 		var diffX = (  window.innerWidth - modal.width  ) / 2;
-// 		var diffY = (  window.innerHeight - modal.height  ) / 2;
-// 		modal.style.top = diffY + 'px';
-// 		modal.style.left = diffX + 'px';
-// 		return modal;
-// 	}
-// /******************END FUNCTION CENTER MODAL****************************/
 
 /******************BEGIN FUNCTION EXTEND DEEP***************************/
   function extendDeep(  parent, child  ){
@@ -514,17 +471,10 @@ function buildSearchLogic(){
   }
 /*******************END FUNCTION EXTEND DEEP***************************/
 
-
-        function sayHello(){
-          return "hello";
-        }
-
 /*****************************BEGIN PUBLIC API***********************************/
         return(
           {
-            sayHello            :       sayHello,
             getFieldnames       :       getFieldnames,
-            buildSearchLogic    :       buildSearchLogic,
             getEmployeeList     :       getEmployeeList
           }
         );
