@@ -469,11 +469,17 @@ function buildSearchLogic(){
   }
 /*******************END FUNCTION EXTEND DEEP***************************/
 
+/*******************BEGIN FUNCTION GET WEB URL**********************************/
+	function getWebUrl(){
+		return webURL;
+	}
+/******************END FUNCTION GET WEB URL************************************/
 /*****************************BEGIN PUBLIC API***********************************/
         return(
           {
             getFieldnames       :       getFieldnames,
-            getEmployeeList     :       getEmployeeList
+            getEmployeeList     :       getEmployeeList,
+						getWebUrl						:				getWebUrl
           }
         );
 /*****************************END PUBLIC API***********************************/
