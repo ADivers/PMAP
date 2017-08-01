@@ -45,7 +45,8 @@ gulp.task('default', ['styles', 'scripts', 'serve'], function () {
         {
             server: {
                 baseDir: './',
-                index: 'table_test.html'
+                //index: 'table_test.html'
+                index: 'calendar_test.html'
             }
         }
     );

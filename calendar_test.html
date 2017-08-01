@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="pmap sharepoint">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create A Meeting</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  	<link rel="stylesheet" href="styles/main.css"/>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+  	<script src="scripts/app.js"></script>
+    <script src="scripts/meetings.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h2>Schedule a PMAP Appointment</h2>
+          <form id="create-meeting" method="POST">
+            <div class="input-field">
+              <i class="material-icons prefix">event</i>
+              <input type="text" class="datepicker" id="start-date" name="start-date">
+              <label for="meeting-start">Meeting Start</label>
+            </div>
+            <div class="input-field">
+                  <i class="material-icons prefix">access_time</i>
+              <input type="text" class="timepicker" id="start-time" name="start-time">
+              <label for="start-time">Start Time</label>
+            </div>
+            <div class="input-field">
+                  <i class="material-icons prefix">event</i>
+              <input type="text" class="datepicker" id="end-date" name="end-date">
+              <label for="end-date">Meeting End</label>
+            </div>
+            <div class="input-field">
+              <i class="material-icons prefix">access_time</i>
+              <input type="text" class="timepicker" id="end-time" name="end-time">
+              <label for="end-time">End Time</label>
+            </div>
+            <div class="input-field">
+                  <i class="material-icons prefix">location_on</i>
+              <input type="text" id="meeting-location" name="meeting-location">
+              <label for="meeting-location">Location</label>
+            </div>
+            <div class="input-field">
+              <button type="button" class="btn waves-effect waves-light" id="submit">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <script>
+      $(  'document'  ).ready(  function(){
+        console.log(  'Document ready.'  );
+
+        $(  '.datepicker'  ).pickadate(
+          {
+            selectMonths    :     true,
+            selectYears     :     15,
+            today           :     'Today',
+            clear           :     'Clear',
+            close           :     'Ok',
+            closeOnSelect   :     false
+          }
+        );
+
+        $(  '.timepicker'  ).pickatime(
+          {
+            default       :     'now',
+            fromnow       :      0,
+            twelvehour    :      false,
+            donetext      :     'OK',
+            cleartext     :     'Clear',
+            canceltext    :     'Cancel',
+            autoclose     :     false,
+            ampmclickable :     true,
+            aftershow     :     function(){}
+          }
+        );
+
+        APP.meetings.initMeeting();
+        //APP.meetings.onSubmit();  -->Button test OK
+      });
+    </script>
+  </body>
+</html>

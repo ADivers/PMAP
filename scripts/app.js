@@ -132,8 +132,7 @@ APP = (  function(){
               modalContent.setAttribute(  'id', 'modal-content' ) ;
 
               /***********************************************/
-              modalEdit.innerText = 'SAVE';
-              modalClose.innerText = 'CANCEL';
+
 
               //Set attributes of edit form
               editForm.setAttribute(  'id', 'edit-form'  );
@@ -143,7 +142,7 @@ APP = (  function(){
               //Set attributes of edit/cancel buttons
               modalEdit.className ='btn waves-effect waves-light edit';
               modalEdit.setAttribute(  'type', 'button'  );
-              modalEdit.innerText = "EDIT";
+							modalEdit.innerText = 'SAVE';
               modalClose.className ='btn waves-effect waves-light';
               modalClose.innerText = "CANCEL";
 
@@ -379,7 +378,6 @@ APP = (  function(){
 													{
 														webURL			:		webURL,
 														operation		:		'UpdateListItems',
-														async				:		false,
 														listName		:		'Employee_List01',
 														batchCmd		:		'Update',
 														valuepairs	:		valuePairs,
