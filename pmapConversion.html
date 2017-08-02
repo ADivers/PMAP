@@ -2,22 +2,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>PMAP</title>
+  <title>PMAP</title>
 
 
-  	<link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
-  	
+    <link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
+    
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
 
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<style type="text/css">
-		body {
+  <style type="text/css">
+    body {
     background-color: lightgrey;
-		}
+    }
     .card {
       padding:20px;
     }
@@ -35,7 +35,11 @@
       color:black;
     }
 
-	</style>
+#scorecard {
+  color:white;
+}
+
+  </style>
 </head>
 <body>
 
@@ -72,7 +76,7 @@
               </li>
 
               <li>
-                  <div class="collapsible-header active" >
+                  <div class="collapsible-header" >
                     <a href="pmapContext.html">
                        <div id="colap">
                           <i  class="material-icons">account_circle</i>
@@ -80,9 +84,9 @@
                         </div>
                     </a>
                   </div>
-                  <div class="collapsible-body grey lighten-3">
+             <!--      <div class="collapsible-body grey lighten-3">
                     <span>A) Administrative</span><BR><span>B) Individual</span>
-                  </div>
+                  </div> -->
               </li>
 
               <li>
@@ -100,8 +104,8 @@
               </li>
 
               <li>
-                  <div class="collapsible-header"> 
-                    <a href="index.html" >
+                  <div class="collapsible-header active"> 
+                    <a href="pmapConversion.html" >
                       <div id="colap">
                         <i class="material-icons">linear_scale</i>
                         Conversion
@@ -173,79 +177,75 @@
 <!-- **********************************Side Nav END************************************** -->
 
 
-    <form class="col s12 m6">
+    <form class="col s12 m8">
      <div class="card white">
-     <ul id="projects-collections" class="collection">
-       <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Name:</p>
-          </div>
-          <div class="col s6">
-            <p>John Doe</p>
-          </div>
-        </div>
-       </li>
-       <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Organization:</p>
-          </div>
-          <div class="col s6">
-            <p>OFM DBEC</p>
-          </div>
-        </div>
-       </li>
-      <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Position:</p>
-          </div>
-          <div class="col s6">
-            <p>Accountant</p>
-          </div>
-        </div>
-       </li>
 
-      <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Series / Grade:</p>
+      <h4>Conversion</h4>
+      <div class="divider"></div>
+     <!-- <strong><p>Please review the below prior to completing this PMAP Document</p></strong> -->
+<br>
+        <u><h5>Description</h5></u>
+          <p>After rating and assigning a score to each critical element, the total points are divided by the number of Critical Elements to arrive at an average score (up to two decimal places). This scsore will be converted to a summary rating based on the following point values:</p>
+        <ul>
+          <li>Level 5: Achieved outstanding Results (AO)</li>
+          <li>Level 4: Achieved More than Expected Results (AM)</li>
+          <li>Level 3: Achieved Expected Results (AE)</li>
+          <li>Level 2: Partially Achieved Expected Results</li>
+          <li>Level 1: Achieved Unsatisfactory Results (UR)</li>
+        </ul>
+<br>
+      <u><h5>Exceptions</h5></u>
+        <p>If an emplotee receives partially achieved Results on one or more crititcal ements regardless of the average point score, he/she cannot receive a summary higher than Achieved Expevted Results (Ae). A summary rating of Achieved Unsatisfactory Results (UR) must be assigned to any employee who is rated Achieved UNsatisfactory Results (UR) on any Critical Element.</p>
+      <br>
+
+  <div id="scorecard" class="card blue darken-4">
+  <u><h5>Rating</h5></u>
+  <br>
+  
+  <div class="row">
+    <div class="col-s4">
+      <h6>Total Point Value</h6>
+      <h6>Number of Critical ELements</h6>
+      <h6>Average Summary PMAP Score</h6>
+    </div>
+
+    <div class="col-s4">
+      <h6>Total Point Value</h6>
+      <h6>Number of Critical ELements</h6>
+      <h6>Average Summary PMAP Score</h6>
+    </div>
+  </div>
+
+  </div>
+
+
+     
+
+    <!-- ********************************** Pulsing Button W/Modal  ********************************** -->
+      <a class=" wave-effect waves-light btn btn-floating btn-large blue darken-2 pulse" href="#modal1"><i class="material-icons">star</i></a>
+
+        <div id="modal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
+          <div class="modal-content">
+            <h4>Level Explanation</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
           </div>
-          <div class="col s6">
-            <p>GS 12</p>
+          <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Close</a>
           </div>
         </div>
-       </li>
-      <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Appraisal Period:</p>
-          </div>
-          <div class="col s6">
-            <p>Jan 1 2017 - Dec 31 2017</p>
-          </div>
-        </div>
-       </li>
-      <li class="collection-item">
-        <div class="row">
-          <div class="col s6">
-            <p>Reviewer Name:</p>
-          </div>
-          <div class="col s6">
-            <p>George Takei</p>
-          </div>
-        </div>
-       </li>
-     </ul>
-      <!-- <h4>Context</h4>
-      <div class="divider"></div> -->
-      
+<!-- *******************************Pulsing Button W/Modal  END ****************************** -->
+
+
+<br>
+<br>
         <!-- <a class="waves-effect waves-light btn blue darken-4 offset-s4">Save</a> -->
-        <a href="pmapCritElements.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
+        <a href="pmapContext.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
+
+
 
       </div>
     </form>
+
 
 
 
