@@ -33,6 +33,7 @@ APP = (  function(){
 				idArr,
         resCache;
 
+
         /*****************BEGIN FUNCTION GET FIELDNAMES*************************/
         /*
         *Purpose        :
@@ -430,6 +431,22 @@ function buildEmployeeTable(  res  ){
 }
 /*******************END BUILD EMPLOYEE TABLE FUNCTION****************************/
 
+/******************BEGIN FUNCTION MAKE VALUEPAIRS*******************************/
+	function makeValuepairs(  formValsArr, listFieldValsArr  ){
+		var valuePairs = [],
+				i,
+				max = listFieldValsArr.length;
+
+		for(  i = 0; i < max; i+= 1  ){
+			var valPair = [];
+			valPair.push(  listFieldValsArr[  i  ]  );
+			valPair.push(  formValsArr[  i  ]  );
+			valuePairs.push(  valPair  );
+		}
+		return valuePairs;
+	}
+/******************END FUNCTION MAKE VALUEPAIRS*********************************/
+
 /******************BEGIN BUILD SEARCH LOGIC FUNCTION***************************/
 function buildSearchLogic(){
   var $rows = $('#employees tbody tr');
@@ -479,7 +496,8 @@ function buildSearchLogic(){
           {
             getFieldnames       :       getFieldnames,
             getEmployeeList     :       getEmployeeList,
-						getWebUrl						:				getWebUrl
+						getWebUrl						:				getWebUrl,
+						makeValuepairs			:				makeValuepairs
           }
         );
 /*****************************END PUBLIC API***********************************/
