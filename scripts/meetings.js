@@ -72,7 +72,9 @@ APP.meetings = (  function(  global, app  ){
         formValsArr = [],
         formValsObj,
         CAMLstr,
-        successCard;
+        successCard,
+        cardContent,
+        cardAction;
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
@@ -144,10 +146,36 @@ APP.meetings = (  function(  global, app  ){
                     }  );
                     console.log(  Status  );
                     if(  Status === 'success'  ){
-                        var parent = document.querySelector(  'body'  );
+                        var parent = document.querySelector(  'body'  ),
+                        refresh;
                         app.dom.buildOverlay(  parent  );
-                        var successCard = document.createElement(  'div'  );
-                        successCard.className = 'card blue-grey darken-1';
+                        successCard = document.createElement(  'div'  );
+                        cardContent = document.createElement(  'div'  );
+                        cardAction = document.createElement(  'div'  ),
+
+                        successCard.className = 'card';
+                        cardContent.className = 'card-content';
+                        cardAction.className = 'card-action';
+                        cardContent.innerHTML = '<span class="card-title">Your Meeting Has Been Created</span>' +
+                                                '<p>An email has been sent to your meeting\'s attendees.</p>';
+                        cardAction.innerHTML = '<a id="refresh" href="#">OK</a>';
+                        successCard.appendChild(  cardContent  );
+                        successCard.appendChild(  cardAction  );
+
+                        /*
+                        *TODO: 08-03-2017 14:50 pm
+                        *Center message card in center of moaal
+                        */
+                        successCard.style.position = 'absolute';
+                        successCard.style.top = '50%';
+                        successCard.style.left = '30%';
+                        overlay.appendChild(  successCard  );
+
+                        refresh = document.querySelector(  '#refresh'  );
+                        refresh.addEventListener(  'click', function(  e  ){
+                          e.preventDefault();
+                          global.location.reload();
+                        }, false  );
                         //global.location.reload(  true  );
                     }
                   }
