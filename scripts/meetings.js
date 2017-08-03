@@ -43,7 +43,22 @@ APP.meetings = (  function(  global, app  ){
     listName = 'TEST_CAL01',
     webURL = 'https://teams.deloitte.com/sites/FDAJDD/Sandbox';
 
+  function makeCAMLString(  formValsObj, listFieldsArr  ){
+    var camlStr = '<Batch OnError="Continue">' +
+                  '<Method ID="1" Cmd="New">';
+    for(  var i = 0; i < listFieldsArr.length; i++  ){
+      camlStr += '<Field Name="' + meetingFieldVals[  i  ];
+      camlStr += '">';
+      var propName = Object.getOwnPropertyNames(  formValsObj  )[  i  ];
+      camlStr += formValsObj[  propName  ];
+      camlStr += '</Field>'
+    }
+    camlStr += '</Method></Batch>';
+    return camlStr;
+  }
+
   function makeNewMeeting(){
+    //Define/initialize function-level variables
     var $form = $(  '#create-meeting'  ),
         createDate = new Date(  Date.now()  ),
         $startDate = $(  'input[name="start-date"]', $form  ).val(),
@@ -52,38 +67,38 @@ APP.meetings = (  function(  global, app  ){
         $endTime = $(  'input[name="end-time"]', $form  ).val(),
         $location = $(  'input[name="meeting-location"]', $form  ).val(),
         $title = $(  'input[name="meeting-title"]', $form  ).val(),
-        formValsArr = [];
+        startDTS,
+        endDTS,
+        formValsArr = [],
+        formValsObj,
+        CAMLstr;
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
-        var startDTS = makeDateTimeString(  $startDate, $startTime  );
-        //console.log(  typeof startDTS  );
+        //Initialize variables to create date-time strings
+        startDTS = makeDateTimeString(  $startDate, $startTime  );
         startDTS = new Date(  startDTS  );
-        var endDTS = makeDateTimeString(  $endDate, $endTime  );
+        endDTS = makeDateTimeString(  $endDate, $endTime  );
         endDTS = new Date(  endDTS  );
-        // startDTS = $().SPServices.SPConvertDateToISO(  { dateToConvert  : startDTS }  );
-        // endDTS = $().SPServices.SPConvertDateToISO( { dateToConvert  :  endDTS  }  );
 
-        // console.log(  startDTS  );
-        // console.log(  '******************************************************');
-        // console.log(  endDTS  );
-        //Get display names
-        var staticNames = $().SPServices.SPGetStaticFromDisplay(
-          {
-            webURL  :   webURL,
-            listName:   listName,
-            columnDisplayNames: ['Title', 'End Time', 'Start Time', 'Location', 'Description', 'Created By', 'Created'  ]
-          }
-        );
+        //GET STATIC COLUMN NAMES FROM SP LIST
+        // var staticNames = $().SPServices.SPGetStaticFromDisplay(
+        //   {
+        //     webURL  :   webURL,
+        //     listName:   listName,
+        //     columnDisplayNames: ['Title', 'End Time', 'Start Time', 'Location', 'Description', 'Created By', 'Created'  ]
+        //   }
+        // );
+        //
+        // console.log(  "STATIC COLUMN NAMES: " );
+        // console.dir(  staticNames  );
 
-        console.log(  "STATIC COLUMN NAMES: " );
-        console.dir(  staticNames  );
-
-        var formValsObj = {
-          Title             :         'Go ahead and PMAP, m\'kay',
+        //Collect form field values as properties of an object
+        formValsObj = {
+          Title             :         $title,
           Created           :         $().SPServices.SPConvertDateToISO(  { dateToConvert: createDate  }  ),
           Author            :         'Marcus M. Garvey',
-          'Location'        :         'Lumbergh\s office',
+          'Location'        :         $location,
           EventDate         :          $().SPServices.SPConvertDateToISO(  { dateToConvert: startDTS  }  ),
           EndDate           :         $().SPServices.SPConvertDateToISO(  {  dateToConvert:  endDTS  }  )
         };
@@ -94,39 +109,43 @@ APP.meetings = (  function(  global, app  ){
           }
         }
 
-        var valPairs = APP.makeValuepairs(  formValsArr,  meetingFieldVals  );
-        console.log(  valPairs  );
+        //Initialize CAML formatted string for SP list query
+        CAMLstr = makeCAMLString(  formValsObj, meetingFieldVals  );
 
+              // $().SPServices(
+              //     {
+              //       operation       :       'GetList',
+              //       webURL          :       webURL,
+              //       listName        :       'TEST_CAL01',
+              //       completefunc    :       function(  xData, Status  ){
+              //         console.log(  xData.responseText  );
+              //         $(  xData.responseXML  ).find(  'Fields  > Field'  ).each(  function(){
+              //           var $node = $(  this  );
+              //           console.log(  'Type: ' + $node.attr(  'Type'  )  + ' StaticName: ' + $node.attr(  'StaticName'  )  );
+              //         }  );
+              //       }
+              //     }
+              // );
+
+              //Create new Meeting list item on SP calendar list
               $().SPServices(
-                  {
-                    operation       :       'GetList',
-                    webURL          :       webURL,
-                    listName        :       'TEST_CAL01',
-                    completefunc    :       function(  xData, Status  ){
-                      console.log(  xData.responseText  );
-                      $(  xData.responseXML  ).find(  'Fields  > Field'  ).each(  function(){
-                        var $node = $(  this  );
-                        console.log(  'Type: ' + $node.attr(  'Type'  )  + ' StaticName: ' + $node.attr(  'StaticName'  )  );
-                      }  );
-                    }
+                {
+                  operation: 'UpdateListItems',
+                  webURL  : webURL,
+                  listName: 'TEST_CAL01',
+                  updates: CAMLstr,
+                  completefunc  : function(  xData, Status  ){
+                    console.log(  xData.responseText  );
+                    $(  xData.responseXML  ).find(  'Fields  > Field'  ).each(  function(){
+                      var $node = $(  this  );
+                      console.log(  'Type: ' + $node.attr(  'Type'  )  + ' StaticName: ' + $node.attr(  'StaticName'  )  );
+                      window.Location.reload(  true  );
+                      //document.querySelectorAll(  '#create-meeting[input]'  )
+                    }  );
                   }
+                }
               );
 
-        $().SPServices(
-          {
-            operation       :       'UpdateListItems',
-            batchCmd        :       'New',
-            //ID              :       Math.round(  Math.random()  * (  Math.ceil(  10000  )  -  Math.floor(  1  )  )  + 1  ),
-            ID  : 1234,
-            webURL          :       webURL,
-            listName        :       listName,
-            valuePairs      :       valPairs,
-            completefunc    :       function( xData, Status  ){
-              console.log(  'Status: '  + Status  );
-              console.log(  xData.responseText  );
-            }
-          }
-      );
   }
 
   function makeDateTimeString(  dateStr, timeStr  ){
