@@ -71,7 +71,8 @@ APP.meetings = (  function(  global, app  ){
         endDTS,
         formValsArr = [],
         formValsObj,
-        CAMLstr;
+        CAMLstr,
+        successCard;
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
@@ -143,7 +144,11 @@ APP.meetings = (  function(  global, app  ){
                     }  );
                     console.log(  Status  );
                     if(  Status === 'success'  ){
-                        global.location.reload(  true  );
+                        var parent = document.querySelector(  'body'  );
+                        app.dom.buildOverlay(  parent  );
+                        var successCard = document.createElement(  'div'  );
+                        successCard.className = 'card blue-grey darken-1';
+                        //global.location.reload(  true  );
                     }
                   }
                 }
