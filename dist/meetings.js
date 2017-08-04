@@ -38,7 +38,7 @@ APP.meetings = (  function(  global, app  ){
     },
 
     meetingFieldVals = [  'Title', 'Created', 'Author', 'Location',
-                          'EventDate', 'EndDate', 'CustomIDNumber'],
+                          'EventDate', 'EndDate', 'CustomerID'],
 
     listName = 'TEST_CAL01',
     webURL = 'https://teams.deloitte.com/sites/FDAJDD/Sandbox';
@@ -75,9 +75,7 @@ APP.meetings = (  function(  global, app  ){
         successCard,
         cardContent,
         cardAction,
-        max = 100000,
-        min = 1,
-        customID = (  Math.floor(  Math.random() * (  max - min + 1  )  ) + min  ).toString();
+        customID = Math.floor(  Math.random() * (  100000 - 1  ) + 1  ).toString(),
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
@@ -88,16 +86,16 @@ APP.meetings = (  function(  global, app  ){
         endDTS = new Date(  endDTS  );
 
         //GET STATIC COLUMN NAMES FROM SP LIST
-        // var staticNames = $().SPServices.SPGetStaticFromDisplay(
-        //   {
-        //     webURL  :   webURL,
-        //     listName:   listName,
-        //     columnDisplayNames: ['Title', 'End Time', 'Start Time', 'Location', 'Description', 'Created By', 'Created'  ]
-        //   }
-        // );
-        //
-        // console.log(  "STATIC COLUMN NAMES: " );
-        // console.dir(  staticNames  );
+        var staticNames = $().SPServices.SPGetStaticFromDisplay(
+          {
+            webURL  :   webURL,
+            listName:   listName,
+            columnDisplayNames: ['Title', 'End Time', 'Start Time', 'Location', 'Description', 'Created By', 'Created', 'Custom ID Number'  ]
+          }
+        );
+
+        console.log(  "STATIC COLUMN NAMES: " );
+        console.dir(  staticNames  );
 
         //Collect form field values as properties of an object
         formValsObj = {
@@ -107,7 +105,7 @@ APP.meetings = (  function(  global, app  ){
           'Location'        :         $location,
           EventDate         :         $().SPServices.SPConvertDateToISO(  { dateToConvert: startDTS  }  ),
           EndDate           :         $().SPServices.SPConvertDateToISO(  {  dateToConvert:  endDTS  }  ),
-          CustomIDNumber    :         customID
+          CustomerID        :         customID
         };
 
         for(  var val in formValsObj  ){
@@ -152,18 +150,26 @@ APP.meetings = (  function(  global, app  ){
                         viewName: '',
                         listName: 'TEST_CAL01',
                         CAMLViewFields: '<ViewFields><FieldRef Name="Title"/><FieldRef Name="ID"/></ViewFields>',
-                        CAMLQuery: '<Query><Where><Eq><FieldRef Name="Title"/>' +
-                                    '<Value Type="Text">' + formValsObj.Title  + '</Value></Eq></Where></Query>', //+
-                                    // '<FieldRef Name="EventDate">' + formValsObj.EventDate + '</FieldRef>' +
-                                    // '<FieldRef Name="EndDate">' + formValsObj.EndDate + '</FieldRef></Where></Query>',
-                        //CAMLQuery: '',
-                        CAMLRowLimit: 1,
+                        CAMLQuery:  '<Query>' +
+                                      '<Where>' +
+                                        '<And>' +
+                                          '<Eq>' +
+                                            '<FieldRef Name="Title"/>' +
+                                            '<Value Type="Text">' + formValsObj.Title + '</Value>' +
+                                          '</Eq>' +
+                                          '<Eq>' +
+                                            '<FieldRef Name="CustomerID"/>' +
+                                            '<Value Type="Text">' + formValsObj.CustomerID + '</Value>' +
+                                          '</Eq>' +
+                                        '</And>' +
+                                      '</Where>' +
+                                    '</Query>',
+                        CAMLRowLimit: 20,
                         CAMLQueryOptions: '<QueryOptions><ExpandUserField>True</ExpandUserField></QueryOptions>',
                         completefunc: function(  xData, Status  ){
                           console.log(  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
                           var resp = $(  xData.responseXML  ).SPFilterNode(  'z:row'  ).SPXmlToJson(  {  includeAllAttrs: true  }  );
                           console.log(  resp  );
-
                         }
                       }
                     );
