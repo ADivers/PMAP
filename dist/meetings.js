@@ -75,7 +75,7 @@ APP.meetings = (  function(  global, app  ){
         successCard,
         cardContent,
         cardAction,
-        customID = Math.floor(  Math.random() * (  100000 - 1  ) + 1  ).toString(),
+        customID = Math.floor(  Math.random() * (  99999 - 10000  ) + 1  ).toString(),
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
