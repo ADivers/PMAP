@@ -38,7 +38,7 @@ APP.meetings = (  function(  global, app  ){
     },
 
     meetingFieldVals = [  'Title', 'Created', 'Author', 'Location',
-                          'EventDate', 'EndDate'],
+                          'EventDate', 'EndDate', 'CustomIDNumber'],
 
     listName = 'TEST_CAL01',
     webURL = 'https://teams.deloitte.com/sites/FDAJDD/Sandbox';
@@ -74,7 +74,10 @@ APP.meetings = (  function(  global, app  ){
         CAMLstr,
         successCard,
         cardContent,
-        cardAction;
+        cardAction,
+        max = 100000,
+        min = 1,
+        customID = (  Math.floor(  Math.random() * (  max - min + 1  )  ) + min  ).toString();
         $startDate = $startDate + ' ' + $startTime;
         $endDate = $endDate + ' ' + $endTime;
 
@@ -102,8 +105,9 @@ APP.meetings = (  function(  global, app  ){
           Created           :         $().SPServices.SPConvertDateToISO(  { dateToConvert: createDate  }  ),
           Author            :         'Marcus M. Garvey',
           'Location'        :         $location,
-          EventDate         :          $().SPServices.SPConvertDateToISO(  { dateToConvert: startDTS  }  ),
-          EndDate           :         $().SPServices.SPConvertDateToISO(  {  dateToConvert:  endDTS  }  )
+          EventDate         :         $().SPServices.SPConvertDateToISO(  { dateToConvert: startDTS  }  ),
+          EndDate           :         $().SPServices.SPConvertDateToISO(  {  dateToConvert:  endDTS  }  ),
+          CustomIDNumber    :         customID
         };
 
         for(  var val in formValsObj  ){
@@ -153,19 +157,13 @@ APP.meetings = (  function(  global, app  ){
                                     // '<FieldRef Name="EventDate">' + formValsObj.EventDate + '</FieldRef>' +
                                     // '<FieldRef Name="EndDate">' + formValsObj.EndDate + '</FieldRef></Where></Query>',
                         //CAMLQuery: '',
-                        CAMLRowLimit: 20,
+                        CAMLRowLimit: 1,
                         CAMLQueryOptions: '<QueryOptions><ExpandUserField>True</ExpandUserField></QueryOptions>',
                         completefunc: function(  xData, Status  ){
                           console.log(  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                          // console.log(  formValsObj.Title  );
-                          // console.log(  formValsObj.EventDate  );
-                          // console.log(  formValsObj.EndDate  );
-
-
-                          //console.log(  xData.responseText  );
                           var resp = $(  xData.responseXML  ).SPFilterNode(  'z:row'  ).SPXmlToJson(  {  includeAllAttrs: true  }  );
                           console.log(  resp  );
-                          //console.log(  xData.responseXML  );
+
                         }
                       }
                     );
