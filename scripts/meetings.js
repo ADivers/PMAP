@@ -139,11 +139,45 @@ APP.meetings = (  function(  global, app  ){
                   updates: CAMLstr,
                   completefunc  : function(  xData, Status  ){
                     console.log(  xData.responseText  );
-                    $(  xData.responseXML  ).find(  'Fields  > Field'  ).each(  function(){
-                      var $node = $(  this  );
-                      console.log(  'Type: ' + $node.attr(  'Type'  )  + ' StaticName: ' + $node.attr(  'StaticName'  )  );
-                      //document.querySelectorAll(  '#create-meeting[input]'  )
-                    }  );
+
+                    //OUTPUT ALL LIST ITEMS
+                    $().SPServices(
+                      {
+                        operation: 'GetListItems',
+                        webURL: webURL,
+                        viewName: '',
+                        listName: 'TEST_CAL01',
+                        CAMLViewFields: '<ViewFields><FieldRef Name="Title"/><FieldRef Name="ID"/></ViewFields>',
+                        CAMLQuery: '<Query><Where><Eq><FieldRef Name="Title"/>' +
+                                    '<Value Type="Text">' + formValsObj.Title  + '</Value></Eq></Where></Query>', //+
+                                    // '<FieldRef Name="EventDate">' + formValsObj.EventDate + '</FieldRef>' +
+                                    // '<FieldRef Name="EndDate">' + formValsObj.EndDate + '</FieldRef></Where></Query>',
+                        //CAMLQuery: '',
+                        CAMLRowLimit: 20,
+                        CAMLQueryOptions: '<QueryOptions><ExpandUserField>True</ExpandUserField></QueryOptions>',
+                        completefunc: function(  xData, Status  ){
+                          console.log(  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                          // console.log(  formValsObj.Title  );
+                          // console.log(  formValsObj.EventDate  );
+                          // console.log(  formValsObj.EndDate  );
+
+
+                          //console.log(  xData.responseText  );
+                          var resp = $(  xData.responseXML  ).SPFilterNode(  'z:row'  ).SPXmlToJson(  {  includeAllAttrs: true  }  );
+                          console.log(  resp  );
+                          //console.log(  xData.responseXML  );
+                        }
+                      }
+                    );
+                    // $(  xData.responseXML  ).find(  'Fields  > Field'  ).each(  function(){
+                    //   var $node = $(  this  );
+                    //   console.log(  'Type: ' + $node.attr(  'Type'  )  + ' StaticName: ' + $node.attr(  'StaticName'  )  );
+                    //   //document.querySelectorAll(  '#create-meeting[input]'  )
+                    //
+                    // }  );
+
+
+
                     console.log(  Status  );
                     if(  Status === 'success'  ){
                         var parent = document.querySelector(  'body'  ),
