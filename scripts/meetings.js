@@ -4,6 +4,10 @@
 *Author         :       jFarrow02
 */
 
+/**
+@module APP
+@class meetings
+*/
 APP.meetings = (  function(  global, app  ){
 
   var monthMap = {

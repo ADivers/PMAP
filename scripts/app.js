@@ -1,4 +1,8 @@
-
+/**
+*Main application module for PMAP (Performance Management Appraisal Process)
+*automation/modernization application.
+*@module APP
+*/
 var APP = APP || {};
 
 APP = (  function(){

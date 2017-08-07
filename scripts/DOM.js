@@ -6,8 +6,19 @@
 *
 */
 
+/**
+@module APP
+@class dom
+*/
 APP.dom = (  function(  window  ){
 
+  /**
+  *@method buildOverlay
+  *@param {String} [parent] Reference to DOM element
+  *to which overlay will be appended
+  *@param {String} [child] Reference to DOM element to append
+  *to overlay (if any)
+  */
   function buildOverlay(  parent, child  ){
     var overlay = document.createElement(  'div'  );
 
