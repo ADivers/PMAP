@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     bsync = require('browser-sync').create(),
-    reload = bsync.reload;
+    reload = bsync.reload,
+    jsdoc = require(  'gulp-jsdoc3'  );
 
 gulp.task('styles', function () {
     return gulp.src('styles/*.css')
@@ -25,6 +26,11 @@ gulp.task('serve', ['styles', 'scripts'], function (done) {
     done();
 });
 
+gulp.task(  'doc', function(  cb  ){
+    gulp.src(  [  'README.md', 'scripts/*.js'  ], {read: false}  )
+    .pipe(  jsdoc(  cb  )  );
+});
+
 var css_watcher = gulp.watch(['styles/*.css'], ['styles', 'serve']);
 css_watcher.on('change', function (event) {
     console.log('CSS File' + event.path + ' was ' + event.type + ', running tasks...');
@@ -40,7 +46,12 @@ html_watcher.on('change', function (event) {
     console.log('HTML file' + event.path + ' was ' + event.type + ', running tasks...');
 });
 
-gulp.task('default', ['styles', 'scripts', 'serve'], function () {
+var doc_watcher = gulp.watch(  ['scripts/*.js'], ['doc']  );
+doc_watcher.on(  'change', function(  event  ){
+  console.log(  'Script file ' + event.path + ' was ' + event.type + ', updating documentation...'  );
+});
+
+gulp.task('default', ['styles', 'scripts', 'doc', 'serve'], function () {
     bsync.init(
         {
             server: {

@@ -1,3 +1,8 @@
+/**
+*PMAP Application namespace
+*@namespace APP
+*/
+
 var APP = APP || {};
 
 APP = (  function(){

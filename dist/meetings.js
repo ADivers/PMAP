@@ -4,6 +4,11 @@
 *Author         :       jFarrow02
 */
 
+/**
+*@function APP.meetings
+*@memberof APP
+*@returns {Object} Object exposing public API of APP.meetings module
+*/
 APP.meetings = (  function(  global, app  ){
 
   var monthMap = {

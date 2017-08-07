@@ -50,6 +50,7 @@ APP.dom = (  function(  window  ){
   }
 
   //Return public API
+
   return(
     {
       buildOverlay          :         buildOverlay

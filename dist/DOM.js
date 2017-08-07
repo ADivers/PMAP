@@ -6,8 +6,19 @@
 *
 */
 
+/**
+*@function APP.dom
+*@memberof APP
+*@returns {Object} Object exposing public API of APP.dom module
+*/
 APP.dom = (  function(  window  ){
 
+  /**
+  *@function buildOverlay
+  *@memberof APP.dom
+  *@inner
+  *
+  */
   function buildOverlay(  parent, child  ){
     var overlay = document.createElement(  'div'  );
 
@@ -50,6 +61,7 @@ APP.dom = (  function(  window  ){
   }
 
   //Return public API
+
   return(
     {
       buildOverlay          :         buildOverlay
