@@ -7,8 +7,9 @@
 */
 
 /**
-@module APP
-@class dom
+*@module APP
+*@main APP
+*@class dom
 */
 APP.dom = (  function(  window  ){
 

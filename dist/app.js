@@ -1,40 +1,76 @@
 /**
 *Main application module for PMAP (Performance Management Appraisal Process)
 *automation/modernization application.
-*
 *@module APP
+*@main APP
 */
+
 /**
 *@class APP
+*
 */
 var APP = APP || {};
 
 APP = (  function(){
 
   //Define variables
+
 	/**
+	*Array of JSON-formatted objects representing output of query results for all records
+	*in SharePoint list of employees
 	*@property res
-	*@type Object
+	*@type Array
 	*@private
 	*/
 	/**
+	*Reference to HTML DOM element `<tr>` representing row in employee results table
 	*@property tablerow
 	*@type Object
 	*@private
 	*/
 	/**
+	*Reference to HTML DOM element `<td>` representing cell in employee results table
 	*@property tabledef
 	*@type Object
 	*@private
 	*/
 	/**
+	*Reference to HTML DOM element `<table>` for table containing results of SP query for all
+	*employees
 	*@property table
 	*@type Object
 	*@private
 	*/
 	/**
+	*Reference to HTML DOM element `<tablebody>`
 	*@property tablebody
 	*@type Object
+	*@private
+	*/
+	/**
+	*Object map of input field names for employee update form to SharePoint
+	*list's static column names
+	*@property inputFieldnames
+	*@type Object
+	*@private
+	*/
+	/**
+	*URL of SharePoint list to query for all employees list
+	*@property webURL
+	*@type String
+	*@private
+	*/
+	/**
+	*Array to hold edit button objects ( html `<button>` objects for editing
+	*employee list item)
+	*@property editButtonsArr
+	*@type Array
+	*@private
+	*/
+	/**
+	*Cache to hold results of call to SharePoint list for all employee records
+	*@property resCache
+	*@type Array
 	*@private
 	*/
 		var res,
@@ -77,7 +113,10 @@ APP = (  function(){
 
 				/**
 				*@method getFieldnames
-				*@return {String} `fieldnames`
+				*@return {String} `fieldnames` String formatted as an XML ViewFields element.
+				*`fieldnames` string will be 
+				*Specifies to SPServices which fields to return from query.
+				*Format:`</ViewFields><FieldRef Name="FieldName"/><FieldRef Name="FieldName2"/><ViewFields>`
 				*@inner
 				*/
         function getFieldnames(){
@@ -394,10 +433,7 @@ APP = (  function(){
               									sparse: false
               								}
 							);
-    					/*
-							*TODO: 07/31/2017 10:58 EST: DO YOU NEED resCache? Are you USING
-							it anywhere?
-							*/
+
               resCache = extendDeep(  res  );
               console.log(  resCache  );
 

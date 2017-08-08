@@ -5,8 +5,9 @@
 */
 
 /**
-@module APP
-@class meetings
+*@module APP
+*@main APP
+*@class meetings
 */
 APP.meetings = (  function(  global, app  ){
 
