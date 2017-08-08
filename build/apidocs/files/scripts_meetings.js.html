@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>scripts\meetings.js - PMAP-APP</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="PMAP-APP" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/dom.html">dom</a></li>
+                                <li><a href="../classes/meetings.html">meetings</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/APP.html">APP</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: scripts\meetings.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+*Filename       :       meetings.js
+*Create Date    :       08-01-2017 08:47 EST
+*Author         :       jFarrow02
+*/
+
+/**
+@module APP
+@class meetings
+*/
+APP.meetings = (  function(  global, app  ){
+
+  /**
+  *Object map. Maps form input month abbreviations to 2-digit numerical representations
+  *of month (as String; e.g. property &#x60;Jan&#x60; maps to &#x60;01&#x60;)
+  *@property monthMap
+  *@type Object
+  *@private
+  */
+  var monthMap = {
+    Jan    :     &quot;01&quot;,
+    Feb    :     &quot;02&quot;,
+    Mar    :     &quot;03&quot;,
+    Apr    :     &quot;04&quot;,
+    May    :     &quot;05&quot;,
+    Jun    :     &quot;06&quot;,
+    Jul    :     &quot;07&quot;,
+    Aug    :     &quot;08&quot;,
+    Sep    :     &quot;09&quot;,
+    Oct    :     &quot;10&quot;,
+    Nov    :     &quot;11&quot;,
+    Dec    :     &quot;12&quot;
+
+  },
+
+  /**
+  *Object map. Maps form input month full names to 2-digit numerical representations
+  *of month (as String; e.g. property &#x60;January&#x60; maps to &#x60;01&#x60;)
+  *@property monthMap
+  *@type Object
+  *@private
+  */
+    fullMonthMap = {
+      January     :     &quot;01&quot;,
+      February    :     &quot;02&quot;,
+      March       :     &quot;03&quot;,
+      April       :     &quot;04&quot;,
+      May         :     &quot;05&quot;,
+      June        :     &quot;06&quot;,
+      July        :     &quot;07&quot;,
+      August      :     &quot;08&quot;,
+      September   :     &quot;09&quot;,
+      October     :     &quot;10&quot;,
+      November    :     &quot;11&quot;,
+      December    :     &quot;12&quot;
+    },
+
+    meetingFieldVals = [  &#x27;Title&#x27;, &#x27;Created&#x27;, &#x27;Author&#x27;, &#x27;Location&#x27;,
+                          &#x27;EventDate&#x27;, &#x27;EndDate&#x27;, &#x27;CustomerID&#x27;],
+
+    listName = &#x27;TEST_CAL01&#x27;,
+    webURL = &#x27;https://teams.deloitte.com/sites/FDAJDD/Sandbox&#x27;;
+
+  /**
+  *Constructs and return CAML string to define fields to create/update on SP list item
+  *@method makeCAMLString
+  *@param {Object} formValsObj Object mapping form input values to SP list static names
+  *@param {Array} listFieldsArr Array containing SP list static names
+  *@return {String} &#x60;camlStr&#x60;: String representing SP list item fields to create (or update on
+  *update operations)
+  */
+  function makeCAMLString(  formValsObj, listFieldsArr  ){
+    /*
+    *CONSIDER REFACTORING TO USE formValsObj ONLY; listFieldsArr may be UNNEEDED
+    */
+    var camlStr = &#x27;&lt;Batch OnError=&quot;Continue&quot;&gt;&#x27; +
+                  &#x27;&lt;Method ID=&quot;1&quot; Cmd=&quot;New&quot;&gt;&#x27;;
+    for(  var i = 0; i &lt; listFieldsArr.length; i++  ){
+      camlStr += &#x27;&lt;Field Name=&quot;&#x27; + meetingFieldVals[  i  ];
+      camlStr += &#x27;&quot;&gt;&#x27;;
+      var propName = Object.getOwnPropertyNames(  formValsObj  )[  i  ];
+      camlStr += formValsObj[  propName  ];
+      camlStr += &#x27;&lt;/Field&gt;&#x27;
+    }
+    camlStr += &#x27;&lt;/Method&gt;&lt;/Batch&gt;&#x27;;
+    return camlStr;
+  }
+
+  function makeNewMeeting(){
+    //Define/initialize function-level variables
+    var $form = $(  &#x27;#create-meeting&#x27;  ),
+        createDate = new Date(  Date.now()  ),
+        $startDate = $(  &#x27;input[name=&quot;start-date&quot;]&#x27;, $form  ).val(),
+        $startTime = $(  &#x27;input[name=&quot;start-time&quot;]&#x27;, $form  ).val(),
+        $endDate = $(  &#x27;input[name=&quot;end-date&quot;]&#x27;, $form  ).val(),
+        $endTime = $(  &#x27;input[name=&quot;end-time&quot;]&#x27;, $form  ).val(),
+        $location = $(  &#x27;input[name=&quot;meeting-location&quot;]&#x27;, $form  ).val(),
+        $title = $(  &#x27;input[name=&quot;meeting-title&quot;]&#x27;, $form  ).val(),
+        startDTS,
+        endDTS,
+        formValsArr = [],
+        formValsObj,
+        CAMLstr,
+        successCard,
+        cardContent,
+        cardAction,
+        customID = Math.floor(  Math.random() * (  99999 - 10000  ) + 1  ).toString(),
+        $startDate = $startDate + &#x27; &#x27; + $startTime;
+        $endDate = $endDate + &#x27; &#x27; + $endTime;
+
+        //Initialize variables to create date-time strings
+        startDTS = makeDateTimeString(  $startDate, $startTime  );
+        startDTS = new Date(  startDTS  );
+        endDTS = makeDateTimeString(  $endDate, $endTime  );
+        endDTS = new Date(  endDTS  );
+
+        //GET STATIC COLUMN NAMES FROM SP LIST
+        var staticNames = $().SPServices.SPGetStaticFromDisplay(
+          {
+            webURL  :   webURL,
+            listName:   listName,
+            columnDisplayNames: [&#x27;Title&#x27;, &#x27;End Time&#x27;, &#x27;Start Time&#x27;, &#x27;Location&#x27;, &#x27;Description&#x27;, &#x27;Created By&#x27;, &#x27;Created&#x27;, &#x27;Custom ID Number&#x27;  ]
+          }
+        );
+
+        console.log(  &quot;STATIC COLUMN NAMES: &quot; );
+        console.dir(  staticNames  );
+
+        //Collect form field values as properties of an object
+        formValsObj = {
+          Title             :         $title,
+          Created           :         $().SPServices.SPConvertDateToISO(  { dateToConvert: createDate  }  ),
+          Author            :         &#x27;Marcus M. Garvey&#x27;,
+          &#x27;Location&#x27;        :         $location,
+          EventDate         :         $().SPServices.SPConvertDateToISO(  { dateToConvert: startDTS  }  ),
+          EndDate           :         $().SPServices.SPConvertDateToISO(  {  dateToConvert:  endDTS  }  ),
+          CustomerID        :         customID
+        };
+
+        for(  var val in formValsObj  ){
+          if(  formValsObj.hasOwnProperty(  val  )  ){
+            formValsArr.push(  formValsObj[  val  ]  );
+          }
+        }
+
+        //Initialize CAML formatted string for SP list query
+        CAMLstr = makeCAMLString(  formValsObj, meetingFieldVals  );
+
+              // $().SPServices(
+              //     {
+              //       operation       :       &#x27;GetList&#x27;,
+              //       webURL          :       webURL,
+              //       listName        :       &#x27;TEST_CAL01&#x27;,
+              //       completefunc    :       function(  xData, Status  ){
+              //         console.log(  xData.responseText  );
+              //         $(  xData.responseXML  ).find(  &#x27;Fields  &gt; Field&#x27;  ).each(  function(){
+              //           var $node = $(  this  );
+              //           console.log(  &#x27;Type: &#x27; + $node.attr(  &#x27;Type&#x27;  )  + &#x27; StaticName: &#x27; + $node.attr(  &#x27;StaticName&#x27;  )  );
+              //         }  );
+              //       }
+              //     }
+              // );
+
+              //Create new Meeting list item on SP calendar list
+              $().SPServices(
+                {
+                  operation: &#x27;UpdateListItems&#x27;,
+                  webURL  : webURL,
+                  listName: &#x27;TEST_CAL01&#x27;,
+                  updates: CAMLstr,
+                  completefunc  : function(  xData, Status  ){
+                    console.log(  xData.responseText  );
+
+                    //OUTPUT ALL LIST ITEMS
+                    $().SPServices(
+                      {
+                        operation: &#x27;GetListItems&#x27;,
+                        webURL: webURL,
+                        viewName: &#x27;&#x27;,
+                        listName: &#x27;TEST_CAL01&#x27;,
+                        CAMLViewFields: &#x27;&lt;ViewFields&gt;&lt;FieldRef Name=&quot;Title&quot;/&gt;&lt;FieldRef Name=&quot;ID&quot;/&gt;&lt;/ViewFields&gt;&#x27;,
+                        CAMLQuery:  &#x27;&lt;Query&gt;&#x27; +
+                                      &#x27;&lt;Where&gt;&#x27; +
+                                        &#x27;&lt;And&gt;&#x27; +
+                                          &#x27;&lt;Eq&gt;&#x27; +
+                                            &#x27;&lt;FieldRef Name=&quot;Title&quot;/&gt;&#x27; +
+                                            &#x27;&lt;Value Type=&quot;Text&quot;&gt;&#x27; + formValsObj.Title + &#x27;&lt;/Value&gt;&#x27; +
+                                          &#x27;&lt;/Eq&gt;&#x27; +
+                                          &#x27;&lt;Eq&gt;&#x27; +
+                                            &#x27;&lt;FieldRef Name=&quot;CustomerID&quot;/&gt;&#x27; +
+                                            &#x27;&lt;Value Type=&quot;Text&quot;&gt;&#x27; + formValsObj.CustomerID + &#x27;&lt;/Value&gt;&#x27; +
+                                          &#x27;&lt;/Eq&gt;&#x27; +
+                                        &#x27;&lt;/And&gt;&#x27; +
+                                      &#x27;&lt;/Where&gt;&#x27; +
+                                    &#x27;&lt;/Query&gt;&#x27;,
+                        CAMLRowLimit: 20,
+                        CAMLQueryOptions: &#x27;&lt;QueryOptions&gt;&lt;ExpandUserField&gt;True&lt;/ExpandUserField&gt;&lt;/QueryOptions&gt;&#x27;,
+                        completefunc: function(  xData, Status  ){
+                          console.log(  &#x27;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#x27;);
+                          var resp = $(  xData.responseXML  ).SPFilterNode(  &#x27;z:row&#x27;  ).SPXmlToJson(  {  includeAllAttrs: true  }  );
+                          console.log(  resp  );
+                        }
+                      }
+                    );
+                    // $(  xData.responseXML  ).find(  &#x27;Fields  &gt; Field&#x27;  ).each(  function(){
+                    //   var $node = $(  this  );
+                    //   console.log(  &#x27;Type: &#x27; + $node.attr(  &#x27;Type&#x27;  )  + &#x27; StaticName: &#x27; + $node.attr(  &#x27;StaticName&#x27;  )  );
+                    //   //document.querySelectorAll(  &#x27;#create-meeting[input]&#x27;  )
+                    //
+                    // }  );
+
+
+
+                    console.log(  Status  );
+                    if(  Status === &#x27;success&#x27;  ){
+                        var parent = document.querySelector(  &#x27;body&#x27;  ),
+                        refresh;
+                        app.dom.buildOverlay(  parent  );
+                        successCard = document.createElement(  &#x27;div&#x27;  );
+                        cardContent = document.createElement(  &#x27;div&#x27;  );
+                        cardAction = document.createElement(  &#x27;div&#x27;  ),
+
+                        successCard.className = &#x27;card&#x27;;
+                        cardContent.className = &#x27;card-content&#x27;;
+                        cardAction.className = &#x27;card-action&#x27;;
+                        cardContent.innerHTML = &#x27;&lt;span class=&quot;card-title&quot;&gt;Your Meeting Has Been Created&lt;/span&gt;&#x27; +
+                                                &#x27;&lt;p&gt;An email has been sent to your meeting\&#x27;s attendees.&lt;/p&gt;&#x27;;
+                        cardAction.innerHTML = &#x27;&lt;a id=&quot;refresh&quot; href=&quot;#&quot;&gt;OK&lt;/a&gt;&#x27;;
+                        successCard.appendChild(  cardContent  );
+                        successCard.appendChild(  cardAction  );
+
+                        /*
+                        *TODO: 08-03-2017 14:50 pm
+                        *Center message card in center of moaal
+                        */
+                        successCard.style.position = &#x27;absolute&#x27;;
+                        successCard.style.top = &#x27;50%&#x27;;
+                        successCard.style.left = &#x27;30%&#x27;;
+                        overlay.appendChild(  successCard  );
+
+                        refresh = document.querySelector(  &#x27;#refresh&#x27;  );
+                        refresh.addEventListener(  &#x27;click&#x27;, function(  e  ){
+                          e.preventDefault();
+                          global.location.reload();
+                        }, false  );
+                        //global.location.reload(  true  );
+                    }
+                  }
+                }
+              );
+
+  }
+
+  /**
+  *Creates concatenated and formatted date/time String from date and time formatted
+  *input values. Formats properly according to SPServices API expectations.
+  *@method makeDateTimeString
+  *@param {String} dateStr String from form input field representing meeting start/end date
+  * e.g. &#x60;Mon, Aug 7 2017&#x60;
+  *@param {String} timeStr String from form input field representing meeting start/end time
+  *e.g. &#x60;18:45&#x60;
+  */
+  function makeDateTimeString(  dateStr, timeStr  ){
+    var dateTimeString,
+        yr,
+        mth,
+        day,
+        hrMin,
+        //dateTimeArr = [],
+        propNames = Object.getOwnPropertyNames(  monthMap  ),
+        fullPropNames = Object.getOwnPropertyNames(  fullMonthMap  );
+        dateTimeString = dateStr.replace(  /,\s/, &#x27; &#x27;  );
+        dateTimeString = dateTimeString.split(  &#x27; &#x27;  );
+        dateTimeString = dateTimeString[  2  ] + &#x27;.&#x27; + dateTimeString[  1  ] + &#x27;.&#x27; + dateTimeString[  0  ] + &#x27;.&#x27;;
+        dateTimeString = dateTimeString + timeStr;
+        dateTimeString = dateTimeString.split(  &#x27;.&#x27;  );
+        for(  var i = 0; i &lt; 13; i++  ){
+          if(  dateTimeString[  1  ] === propNames[  i  ]  ){
+            dateTimeString[  1  ] = monthMap[  propNames[  i  ]  ];
+          }
+          if( dateTimeString[  1  ]  === fullPropNames[  i  ] ){
+            dateTimeString[  1  ] = fullMonthMap[  fullPropNames[  i  ]  ];
+          }
+        }
+        if(  dateTimeString[  2  ].length === 1  ){
+          dateTimeString[  2  ] = &#x27;0&#x27; + dateTimeString[  2  ];
+        }
+
+        yr = dateTimeString[  0  ];
+        mth = dateTimeString[  1  ];
+        day = dateTimeString[  2  ];
+        hrMin = dateTimeString[  3  ];
+        dateTimeString = yr + &#x27;-&#x27; + mth + &#x27;-&#x27; + day + &#x27;T&#x27; + hrMin;
+        return dateTimeString;
+  }
+
+  /**
+  *Initialize meeting module. Attaches &#x60;click&#x60; event listener to submit button
+  *to create new meeting list item on click.
+  *@method initMeeting
+  */
+
+  function initMeeting(){
+    console.log(  &quot;Meeting initiated.&quot;  );
+    var submitButton = document.querySelector(  &#x27;#submit&#x27;  );
+    submitButton.addEventListener(  &#x27;click&#x27;, makeNewMeeting, false  );
+  }
+  /*******************RETURN PUBLIC API*********************/
+  return(
+    {
+      initMeeting        :       initMeeting
+    }
+  )
+
+}  )(  this, APP  );
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

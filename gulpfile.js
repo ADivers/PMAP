@@ -46,12 +46,12 @@ html_watcher.on('change', function (event) {
     console.log('HTML file' + event.path + ' was ' + event.type + ', running tasks...');
 });
 
-var doc_watcher = gulp.watch(  ['scripts/*.js'], ['doc']  );
-doc_watcher.on(  'change', function(  event  ){
-  console.log(  'Script file ' + event.path + ' was ' + event.type + ', updating documentation...'  );
-});
+// var doc_watcher = gulp.watch(  ['scripts/*.js'], ['doc']  );
+// doc_watcher.on(  'change', function(  event  ){
+//   console.log(  'Script file ' + event.path + ' was ' + event.type + ', updating documentation...'  );
+// });
 
-gulp.task('default', ['styles', 'scripts', 'doc', 'serve'], function () {
+gulp.task('default', ['styles', 'scripts', 'serve'], function () {
     bsync.init(
         {
             server: {

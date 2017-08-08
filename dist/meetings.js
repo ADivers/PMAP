@@ -5,12 +5,18 @@
 */
 
 /**
-*@function APP.meetings
-*@memberof APP
-*@returns {Object} Object exposing public API of APP.meetings module
+@module APP
+@class meetings
 */
 APP.meetings = (  function(  global, app  ){
 
+  /**
+  *Object map. Maps form input month abbreviations to 2-digit numerical representations
+  *of month (as String; e.g. property `Jan` maps to `01`)
+  *@property monthMap
+  *@type Object
+  *@private
+  */
   var monthMap = {
     Jan    :     "01",
     Feb    :     "02",
@@ -27,6 +33,13 @@ APP.meetings = (  function(  global, app  ){
 
   },
 
+  /**
+  *Object map. Maps form input month full names to 2-digit numerical representations
+  *of month (as String; e.g. property `January` maps to `01`)
+  *@property fullMonthMap
+  *@type Object
+  *@private
+  */
     fullMonthMap = {
       January     :     "01",
       February    :     "02",
@@ -48,7 +61,18 @@ APP.meetings = (  function(  global, app  ){
     listName = 'TEST_CAL01',
     webURL = 'https://teams.deloitte.com/sites/FDAJDD/Sandbox';
 
+  /**
+  *Constructs and return CAML string to define fields to create/update on SP list item
+  *@method makeCAMLString
+  *@param {Object} formValsObj Object mapping form input values to SP list static names
+  *@param {Array} listFieldsArr Array containing SP list static names
+  *@return {String} `camlStr`: String representing SP list item fields to create (or update on
+  *update operations)
+  */
   function makeCAMLString(  formValsObj, listFieldsArr  ){
+    /*
+    *CONSIDER REFACTORING TO USE formValsObj ONLY; listFieldsArr may be UNNEEDED
+    */
     var camlStr = '<Batch OnError="Continue">' +
                   '<Method ID="1" Cmd="New">';
     for(  var i = 0; i < listFieldsArr.length; i++  ){
@@ -227,6 +251,15 @@ APP.meetings = (  function(  global, app  ){
 
   }
 
+  /**
+  *Creates concatenated and formatted date/time String from date and time formatted
+  *input values. Formats properly according to SPServices API expectations.
+  *@method makeDateTimeString
+  *@param {String} dateStr String from form input field representing meeting start/end date
+  * e.g. `Mon, Aug 7 2017`
+  *@param {String} timeStr String from form input field representing meeting start/end time
+  *e.g. `18:45`
+  */
   function makeDateTimeString(  dateStr, timeStr  ){
     var dateTimeString,
         yr,
@@ -260,6 +293,12 @@ APP.meetings = (  function(  global, app  ){
         dateTimeString = yr + '-' + mth + '-' + day + 'T' + hrMin;
         return dateTimeString;
   }
+
+  /**
+  *Initialize meeting module. Attaches `click` event listener to submit button
+  *to create new meeting list item on click.
+  *@method initMeeting
+  */
 
   function initMeeting(){
     console.log(  "Meeting initiated."  );

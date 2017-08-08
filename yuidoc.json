@@ -1,0 +1,11 @@
+{
+  "name" : "PMAP-APP",
+  "description" : "PMAP process improvements",
+  "version" : "1.0.0",
+  "options" : {
+    "outdir" : "./build/apidocs",
+    "paths" : [ "./scripts"],
+    "ignorePaths" : ["./dist"],
+    "exclude" :  "./dist"
+  }
+}

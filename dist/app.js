@@ -1,19 +1,45 @@
 /**
-*PMAP Application namespace
-*@namespace APP
+*Main application module for PMAP (Performance Management Appraisal Process)
+*automation/modernization application.
+*
+*@module APP
 */
-
+/**
+*@class APP
+*/
 var APP = APP || {};
 
 APP = (  function(){
 
   //Define variables
-		var req,
-				res,
-				recordID,
+	/**
+	*@property res
+	*@type Object
+	*@private
+	*/
+	/**
+	*@property tablerow
+	*@type Object
+	*@private
+	*/
+	/**
+	*@property tabledef
+	*@type Object
+	*@private
+	*/
+	/**
+	*@property table
+	*@type Object
+	*@private
+	*/
+	/**
+	*@property tablebody
+	*@type Object
+	*@private
+	*/
+		var res,
 				tablerow,
 				tabledef,
-        tabledefLast,
 				table,
 				tablebody,
 				mainContent,
@@ -48,6 +74,12 @@ APP = (  function(){
                                 pulled from SP list Employee_List01
         Throws          :
         */
+
+				/**
+				*@method getFieldnames
+				*@return {String} `fieldnames`
+				*@inner
+				*/
         function getFieldnames(){
           var fieldnames = '<ViewFields>';
       					for(  var fieldname in inputFieldnames  ){
@@ -60,7 +92,14 @@ APP = (  function(){
         /*****************END FUNCTION EDIT FIELDNAMES**************************/
 
         /*****************BEGIN FUNCTION EDIT BUTTONS****************************/
-        function buildEditButtons(  responseArr  ){
+				/**
+				*Creates button elements to edit List Items returned from SPServices `GetListItems`
+				*call.
+				*@method buildEditButons
+				*@return {Object} `edit`: HTML `button` element
+				*@inner
+				*/
+				function buildEditButtons(  responseArr  ){
           for(  var i = 0; i < responseArr.length; i+= 1  ){
             edit = document.createElement(  'button'  );
 
@@ -98,6 +137,13 @@ APP = (  function(){
         Returns:
         Throws:
         */
+
+				/**
+				*Builds semi-opaque modal and appends List Item edit form inside modal
+				*on edit button click
+				*@method buildModal
+				*@inner
+				*/
         function buildModal(){
           /*
           *NOTE: Use 'this' to refer to the event target inside of the handler function
@@ -283,7 +329,12 @@ APP = (  function(){
 
 
   //******************BEGIN MODAL CLOSE FUNCTION*****************************/
-  function closeModal(){
+	/**
+	*Closes modal and removes from DOM
+	*@method closeModal
+	*@inner
+	*/
+	function closeModal(){
 		window.removeEventListener(  'resize', window, false  );
 		window.removeEventListener(  'scroll', window, false  );
 		modal.parentNode.removeChild( modal  );
@@ -305,6 +356,14 @@ APP = (  function(){
                               records from SP
   Throws            :
   */
+
+	/**
+	*
+	*@method getEmployeeList
+	*@param {String} fieldnames CAML-formatted string of fields to return from `GetlistItems`
+	*SPServices query
+	*@inner
+	*/
   function getEmployeeList(  fieldnames  ){
     var idx,
         max;
@@ -366,6 +425,11 @@ APP = (  function(){
   /******************END FUNCTION GET EMPLOYEE LIST*********************/
 
 /****************************BEGIN FUNCTION UPDATE EMPLOYEE*********************/
+	/**
+	*Updates Employee List Item and refreshes page on success
+	*@method updateEmployee
+	*@inner
+	*/
 	function updateEmployee(){
 		var $formInputs = $(  'form>input'  ).serializeArray(),
 				 valuePairs = [],
@@ -401,6 +465,14 @@ APP = (  function(){
 /****************************END FUNCTION UPDATE EMPLOYEE*********************/
 
 /*******************BEGIN BUILD EMPLOYEE TABLE FUNCTION***************************/
+/**
+*Builds HTML table from returned results of `GetListItems` call to SP, and
+*appends table to DOM.
+*@method buildEmployeeTable
+*@param {Array} res Array of Employee List Items returned as JSON strings from
+*SPServices `GetListItems` call
+*@inner
+*/
 function buildEmployeeTable(  res  ){
   var prop,
       index,
@@ -453,6 +525,11 @@ function buildEmployeeTable(  res  ){
 /******************END FUNCTION MAKE VALUEPAIRS*********************************/
 
 /******************BEGIN BUILD SEARCH LOGIC FUNCTION***************************/
+/**
+*Creates logic to power search function for 'search' input field
+*@method buildSearchLogic
+*@inner
+*/
 function buildSearchLogic(){
   var $rows = $('#employees tbody tr');
 
@@ -470,7 +547,14 @@ function buildSearchLogic(){
 
 
 /******************BEGIN FUNCTION EXTEND DEEP***************************/
-  function extendDeep(  parent, child  ){
+	/**
+	*Creates a deep copy of an object/array
+	*@method extendDeep
+	*@param {Object|Array} parent Object/array to be copied
+	*@param {Object|Array} child Object/array to receive the copied properties
+	*@inner
+	*/
+	function extendDeep(  parent, child  ){
     var i,
     toStr = Object.prototype.toString,
     astr = '[object Array]';
