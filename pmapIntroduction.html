@@ -36,7 +36,11 @@
       a {
       color:black;
     }
-
+    #empNameNav {
+      text-align: center;
+      color: white;
+      background-color: #002071 ;
+    }
 	</style>
 </head>
 <body>
@@ -47,7 +51,7 @@
       <!-- <img src="assets/images/ofba.png"> -->
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="sass.html">Staff List</a></li>
-        <li><a href="badges.html">Talent Portal</a></li>
+        <li><a href="index.html">Talent Portal</a></li>
         <li><a href="collapsible.html">Messages</a></li>
       </ul>
     </div>
@@ -61,7 +65,17 @@
              <ul class="collapsible" data-collapsible="accordion">
 
               <li>
-                <div class="collapsible-header">
+                <div class="collapsible-header" id="empNameNav">
+                  <a href="pmapIntroduction.html" >
+                    <div>
+                      <font color="white"><strong>Reviewee: John Smith</strong></font> 
+                    </div>
+                  </a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header active">
                   <a href="pmapIntroduction.html" >
                     <div id="colap">
                       <i class="material-icons">subject</i>
@@ -69,23 +83,23 @@
                     </div>
                   </a>
                 </div>
-                <!-- <div class="collapsible-body grey lighten-3">
-                <span>A) Administrative</span><BR><span>B) Individual</span>
-                </div> -->
+                  <div class="collapsible-body grey lighten-3">
+                    <span>How to do a PMAPS</span>
+                  </div>
               </li>
 
               <li>
                   <div class="collapsible-header" >
                     <a href="pmapEmployeeInfo.html">
-                       <div id="colap">
+                      <div id="colap">
                           <i  class="material-icons">account_circle</i>
                           Employee Information
-                        </div>
+                      </div>
                     </a>
                   </div>
-                  <div class="collapsible-body grey lighten-3">
+            <!--       <div class="collapsible-body grey lighten-3">
                     <span>Verify Employee Information</span>
-                  </div>
+                  </div> -->
               </li>
 
               <li>
@@ -93,7 +107,7 @@
                     <a href="pmapCritElements.html">
                        <div id="colap">
                         <i class="material-icons">add_box</i>
-                        Critical Elements
+                        Set Critical Elements
                         </div>
                     </a>
                   </div>
@@ -132,7 +146,7 @@
 
               <li>
                 <div class="collapsible-header">
-                  <a href="index.html" >
+                  <a href="pmapNarrative.html" >
                     <div id="colap">
                       <i class="material-icons">format_quote</i>
                       Written Narrative
@@ -144,37 +158,23 @@
                   </div> -->
               </li>
 
-              <li>
-                <div class="collapsible-header">
-                  <a href="index.html" >
-                    <div id="colap">
-                      <i class="material-icons">rate_review</i>
-                      Summary
-                    </div>
-                  </a>
-                </div>
-                  <!-- <div class="collapsible-body grey lighten-3">
-                  <span>Lorem ipsum dolor sit amet.</span>
-                  </div> -->
-              </li>
-
-              <li>
+            <!--   <li>
                 <div class="collapsible-header">
                   <a href="index.html" >
                     <div id="colap">
                       <i class="material-icons">question_answer</i>
                       Meeting in Review
                     </div>
-                  </a>
-                </div>
+                  </a> -->
+                <!-- </div> -->
                   <!-- <div class="collapsible-body grey lighten-3">
                   <span>Lorem ipsum dolor sit amet.</span>
                   </div> -->
-              </li>
+              <!-- </li> -->
 
               <li>
                 <div class="collapsible-header">
-                  <a href="index.html" >
+                  <a href="pmapSign.html" >
                     <div id="colap">
                       <i class="material-icons">mode_edit</i>
                       Signature
@@ -194,7 +194,7 @@
     <form class="col s12 m8">
      <div class="card white">
 
-      <h4>Requirements</h4>
+      <h4>PMAP Introduction</h4>
       <div class="divider"></div>
      <strong><p>Please review the below prior to completing this PMAP Document</p></strong>
 <br>
@@ -217,14 +217,13 @@
 
 
     <!-- ********************************** Pulsing Button W/Modal  ********************************** -->
-      <a class="wave-effect waves-light btn btn-floating btn-large blue darken-2 pulse" href="#modal1"><i class="material-icons">star</i></a>
+      <a class="wave-effect waves-light btn tooltipped btn-floating btn-large blue darken-2 pulse" href="#modal1" data-position="top" data-delay="50" data-tooltip="Ratings Defined"><i class="material-icons">star</i></a>
 
         <div id="modal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
           <div class="modal-content">
-            <h4>Levels Explanation</h4>
+            <h4>Levels Explanation</h4>f
             <div class="divider"></div>
             <h5>Level 5: Achieved Outstanding Results (AO)</h5>
-
               <p>Consistently superior; significantly exceeds Level 4 (AM) performance requirements.   Despite major challenges such as changing priorities, insufficient resources, unanticipated resource shortages, or externally driven parameters, employee leadership is a model of excellence.   Contributions impact well beyond the employee's level of responsibility.   They demonstrate exceptional initiative in achieving results critical to Agency success and strategic goals.  Products and skills create significant changes in their area of responsibility and authority.   Indicators of performance at this level include outcomes that consistently exceed the AM level standards for critical elements described in the annual performance plan. Examples include:</p>
               <UL>
                 <li>
