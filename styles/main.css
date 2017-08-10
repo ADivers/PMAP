@@ -35,3 +35,39 @@
 th, td{
   padding: 15px;
 }
+
+/**Begin port from embedded stylesheet**/
+body {
+background-color: lightgrey;
+}
+.card {
+  padding:20px;
+}
+.brand-logo {
+  padding: 20px;
+}
+#ofba {
+  padding-left: 20px;
+}
+label {
+cursor: default;
+color:black;
+}
+a {
+  color:black;
+}
+#empNameNav {
+  text-align: center;
+  color: white;
+  background-color: #002071 ;
+}
+/**End port from embedded stylesheet**/
+
+div{
+  background-color: #ffffff;
+}
+
+/**Margins & padding**/
+.topmar{
+  margin-top: 2.5%;
+}

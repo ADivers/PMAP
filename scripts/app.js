@@ -114,7 +114,7 @@ APP = (  function(){
 				/**
 				*@method getFieldnames
 				*@return {String} `fieldnames` String formatted as an XML ViewFields element.
-				*`fieldnames` string will be 
+				*`fieldnames` string will be
 				*Specifies to SPServices which fields to return from query.
 				*Format:`</ViewFields><FieldRef Name="FieldName"/><FieldRef Name="FieldName2"/><ViewFields>`
 				*@inner
@@ -413,7 +413,7 @@ APP = (  function(){
               webURL: "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
               listName: "Employee_List01",
               CAMLViewFields: fieldnames,
-              CAMLRowLimit: 5,
+              CAMLRowLimit: 1000,
               CAMLQueryOptions: '<QueryOptions><IncludeMandatoryColumns>TRUE</IncludeMandatoryColumns></QueryOptions>',
               CAMLQuery: '<Query><OrderBy><FieldRef Name="employee_name" Ascending="TRUE"></FieldRef></OrderBy></Query>',
               completefunc: function(  xData, Status  ){
