@@ -119,10 +119,10 @@ APP = (  function(){
 				*Format:`</ViewFields><FieldRef Name="FieldName"/><FieldRef Name="FieldName2"/><ViewFields>`
 				*@inner
 				*/
-        function getFieldnames(){
+        function getFieldnames(  configObj  ){
           var fieldnames = '<ViewFields>';
-      					for(  var fieldname in inputFieldnames  ){
-      						fieldnames +='<FieldRef Name="' + inputFieldnames[  fieldname  ];
+      					for(  var fieldname in configObj  ){
+      						fieldnames +='<FieldRef Name="' + configObj[  fieldname  ];
       						fieldnames += '"/>';
       					}
       				fieldnames += '</ViewFields>';
@@ -403,9 +403,8 @@ APP = (  function(){
 	*SPServices query
 	*@inner
 	*/
-  function getEmployeeList(  fieldnames  ){
-    var idx,
-        max;
+  function getEmployeeList(){
+    var fieldnames = getFieldnames(  inputFieldnames  );
         $().SPServices(
           {
               operation: "GetListItems",
