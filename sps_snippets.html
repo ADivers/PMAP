@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SP Tables Info</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+    <script src="sps_snippets.js"></script>
+  </head>
+  <body>
+    <h2>SharePoint List Metadata</h2>
+    <div id="sp_list_content">
+
+    </div>
+    <script>
+      $(  'document'  ).ready( function(){
+          spsSnippets.getAllLists();
+        }
+      );
+    </script>
+  </body>
+</html>
