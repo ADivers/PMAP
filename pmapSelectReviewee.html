@@ -12,7 +12,12 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
-  	<script src="scripts/app.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="sps_snippets.js"></script>
+    <script src="scripts/DOM.js"></script>
+    <script src="scripts/spsQuery.js"></script>
+    <script src="scripts/util.js"></script>
+    <script src="scripts/Staff.js"></script>
     <title>Select PMAP Reviewee</title>
     <style type="text/css">
   		body {
@@ -57,7 +62,7 @@
        <div class="row topmar">
          <div class="col s12" id="my-team">
            <h4>My Team</h4>
-           <h5>Start a PMAP For:</h5>
+           <h5>Start/Edit a PMAP</h5>
            <table id="employees">
    					<thead>
    						<tr>
@@ -65,13 +70,26 @@
    							<th>Last Name</th>
                 <th>First Name</th>
    							<th>Employee ID</th>
+                <th>Go to PMAP</th>
    						</tr>
    					</thead>
    					<tbody></tbody>
    				</table>
+          <ul id="employee-list">
+            <li>
+              <div class="employee-info">
+
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
       <br>
+      <script>
+        $(  'document'  ).ready(  function(){
+          APP.spsQuery.getReviewees();
+        });
+      </script>
   </body>
 </html>

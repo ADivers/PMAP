@@ -11,8 +11,88 @@
 *@main APP
 *@class dom
 */
-APP.dom = (  function(  window  ){
+APP.dom = (  function(  window, app  ){
 
+  /*******************BEGIN BUILD EMPLOYEE TABLE FUNCTION***************************/
+  /**
+  *Builds HTML table from returned results of `GetListItems` call to SP, and
+  *appends table to DOM.
+  *@method buildEmployeeTable
+  *@param {Array} res Array of Employee List Items returned as JSON strings from
+  *SPServices `GetListItems` call
+  *@inner
+  */
+  function buildEmployeeTable(  res, table, tablebody, editButtonsArr  ){
+    var prop,
+        index;
+
+    for( index = 0; index < res.length; index+= 1  ){
+      tablerow = document.createElement(  'tr'  );
+      for( prop in res[  index  ]  ){
+
+          if(  res[  index  ].hasOwnProperty(  prop  )  ){
+            tabledef = document.createElement(  'td'  );
+            tabledef.innerText = res[  index  ][  prop  ];
+            tablerow.appendChild(  tabledef  );
+            tablebody.appendChild(  tablerow  );
+        }
+      }
+
+      /****BEGIN EDIT BUTTON APPENDING LOGIC HERE*****/
+      var $lastTd = $(  'tr>td:last-of-type'  );
+      var lastTdElem = $lastTd.get(  index  );
+      if(  parseInt(  editButtonsArr[  index ].dataset.index  ) === index  ){
+        lastTdElem.insertAdjacentElement(  'afterend', editButtonsArr[  index  ] );
+      }
+
+      /*****END EDIT BUTTON APPENDING LOGIC HERE*****/
+
+    }
+
+    table.className = 'bordered highlight';
+  }
+  /*******************END BUILD EMPLOYEE TABLE FUNCTION****************************/
+
+  /*****************BEGIN FUNCTION EDIT BUTTONS****************************/
+  /**
+  *Creates button elements to edit List Items returned from SPServices `GetListItems`
+  *call.
+  *@method buildEditButons
+  *@return {Object} `edit`: HTML `button` element
+  *@inner
+  */
+  function buildEditButtons(  responseArr, editButtonsArr  ){
+    for(  var i = 0; i < responseArr.length; i+= 1  ){
+      edit = document.createElement(  'button'  );
+
+      //Set edit button style and attributes
+      //$(  '.tooltipped'  ).tooltip(    {delay: 50  }  );
+
+      edit.innerHTML = '<i class="material-icons">add</i>';
+      edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
+      edit.style.marginRight = '.5px';
+      edit.style.marginTop = '5px';
+      //edit.style.float = "right";
+      edit.setAttribute(  'data-position', 'right');
+      edit.setAttribute(  'data-delay', '50'  );
+      edit.setAttribute(  'data-tooltip', 'Start/Edit a PMAP'  );
+      edit.setAttribute(  'data-index', i  );
+      edit.setAttribute(  'data-record-id', responseArr[  i  ][  'SP-ID'  ]  );
+      //edit.setAttribute(  'data-record-id',  tableRows[  i  ].getAttribute(  'data-record-id'  )  );
+      $(  edit  ).tooltip(  {  delay: 50  }  );
+      // edit.addEventListener(  'click', app.util.initPMAPReview(  function(){
+      //   window.location = './pmapIntroduction.html';
+      // }), false  );
+      edit.addEventListener(  'click', app.util.initPMAPReview, false  );
+      console.log(  edit  );
+      editButtonsArr.push(  edit  );
+    }
+
+    return edit;
+  }
+  /*****************END FUNCTION EDIT BUTTONS****************************/
+
+  /****************BEGIN FUNCTION buildOverlay**************************/
   /**
   *@method buildOverlay
   *@param {String} parent Reference to DOM element
@@ -60,12 +140,15 @@ APP.dom = (  function(  window  ){
       overlay.appendChild(  child  );
     }
   }
+  /****************END FUNCTION buildOverlay**************************/
 
   //Return public API
 
   return(
     {
-      buildOverlay          :         buildOverlay
+      buildOverlay          :         buildOverlay,
+      buildEmployeeTable    :         buildEmployeeTable,
+      buildEditButtons       :        buildEditButtons
     }
   )
-}  )(  this  );
+}  )(  this, APP  );

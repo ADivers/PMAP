@@ -69,24 +69,33 @@ APP.spsQuery = (  function(  app  ){
     */
     CAMLQuery = '<Query>' +
       '<Where>' +
-        '<And>' +
-          '<And>' +
-            '<Eq>'  +
-              '<FieldRef Name="firstName"></FieldRef><Value Type="Text">' + 'Maxine' + '</Value>\n' +
-            '</Eq>' +
-            '<Eq>'  +
-              '<FieldRef Name="lastName"></FieldRef><Value Type="Text">' + 'Waters' + '</Value>\n' +
-            '</Eq>'+
-          '</And>' +
-          '<Or>' +
-            '<Eq>' +
-              '<FieldRef Name="mgrID"/><Value Type="Text">' + 'MGR-12345' + '</Value>' +
-            '</Eq>' +
-            '<Eq>' +
-              '<FieldRef Name="directorID"/><Value Type="Text">' + 'reviewerID' + '</Value>' +
-            '</Eq>' +
-          '</Or>' +
-        '</And>'  +
+        '<Or>' +
+        '<Eq>' +
+          '<FieldRef Name="mgrID"/><Value Type="Text">' + 'MGR-12345' + '</Value>' +
+        '</Eq>' +
+        '<Eq>' +
+          '<FieldRef Name="mgrID"/><Value Type="Text">' + 'MGR-56789' + '</Value>' +
+        '</Eq>' +
+        '</Or>' +
+
+        // '<And>' +
+        //   '<And>' +
+        //     '<Eq>'  +
+        //       '<FieldRef Name="firstName"><Value Type="Text">' + 'Maxine' + '</Value>\n' +
+        //     '</Eq>' +
+        //     '<Eq>'  +
+        //       '<FieldRef Name="lastName"><Value Type="Text">' + 'Waters' + '</Value>\n' +
+        //     '</Eq>'+
+        //   '</And>' +
+          // '<Or>' +
+          //   '<Eq>' +
+          //     '<FieldRef Name="mgrID"/><Value Type="Text">' + 'MGR-12345' + '</Value>' +
+          //   '</Eq>' +
+          //   '<Eq>' +
+          //     '<FieldRef Name="directorID"/><Value Type="Text">' + 'reviewerID' + '</Value>' +
+          //   '</Eq>' +
+          // '</Or>' +
+        // '</And>'  +
       '</Where>' +
     '</Query>',
 
@@ -126,7 +135,10 @@ APP.spsQuery = (  function(  app  ){
   *@inner
   */
   function getReviewees(){
-    var CAMLViewFields = buildCAMLViewfields(  selectRevieweeCAMLViewfields  );
+    var CAMLViewFields = buildCAMLViewfields(  selectRevieweeCAMLViewfields  ),
+    table = document.getElementById(  'employees'  ),
+    tablebody = document.querySelector(  '#employees>tbody'  ),
+    editButtonsArr = [];
 
     $().SPServices(
       {
@@ -139,16 +151,9 @@ APP.spsQuery = (  function(  app  ){
         CAMLQueryOptions  :         CAMLQueryOptions,
         CAMLQuery         :         CAMLQuery,
         completefunc      :         function(  xData, Status  ){
+
           console.log(  "Status: " + Status  );
-          if(  Status === 'success'  ){
-            console.log(  '***********************************************'  );
-            console.log(  xData.responseText  );
-            console.log(  xData.responseXML  );
-          }
-          console.log(listName);
-          console.log(CAMLViewFields);
-          console.log(CAMLQueryOptions);
-          console.log(CAMLQuery);
+        
           var res = $(  xData.responseXML  ).SPFilterNode( 'z:row'  ).SPXmlToJson(
             {
               mapping : {
@@ -163,6 +168,9 @@ APP.spsQuery = (  function(  app  ){
           );
           console.log(  "RES: "  );
           revieweesCache = APP.util.extendDeep(  res  );
+          app.dom.buildEditButtons(  res, editButtonsArr  );
+          //console.log(  editButtonsArr  );
+          app.dom.buildEmployeeTable(  res, table, tablebody, editButtonsArr  );
           console.log(  revieweesCache  );
         }
       }
@@ -171,8 +179,24 @@ APP.spsQuery = (  function(  app  ){
 
   /******************END FUNCTION getReviewees********************/
 
-  /**
-  **/
+  /****************BEGIN FUNCTION spsQuery***********************/
+  function spsQuery(  queryObj  ){
+    /*
+      queryObj = {
+        operation : 'GetListItems',
+        viewName  : '',
+        webURL    : <url>,
+        listName  : <list name>,
+        CAMLRowLimit  : <limit>,
+        CAMLViewFields  : <view fields>,
+        CAMLQueryOptions  : <options>,
+        CAMLQuery         : <query>,
+        completefunc  : <function>
+    }
+    */
+  }
+
+  /***************END FUNCTION spsQuery*************************/
 
     return(
       {

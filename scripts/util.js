@@ -41,9 +41,34 @@ APP.util = (  function(){
     }
   /*******************END FUNCTION EXTEND DEEP***************************/
 
+  /******************BEGIN EVENT HANDLERS********************************/
+  function initPMAPReview(  cb  ){
+    console.log(  'Clicked!'  );
+    //console.log(  this  );  -->OK
+    //console.log(  this.dataset.recordId  );
+    var confObj = {
+      'SP_id'     :     this.dataset.recordId
+    },
+    reviewee = new APP.Staff.Staff(  confObj  );
+    if(  APP.Staff.setStaffObjCache(  reviewee  )  ){
+      //cb();
+      //console.log(  APP.Staff.getStaffObjCache()  ); -->OK
+      //window.location = './pmapIntroduction.html';
+    }
+    // console.log(  APP.Staff.getStaffObjCache()  ); -->OK
+    //window.location = './pmapIntroduction.html';
+    // if(  APP.Staff.  ){
+    //   //cb();
+    //
+    // }
+
+  }
+
+  /******************END EVENT HANDLERS********************************/
   return(
     {
-      extendDeep        :         extendDeep
+      extendDeep        :         extendDeep,
+      initPMAPReview    :         initPMAPReview
     }
   )
 }  )();
