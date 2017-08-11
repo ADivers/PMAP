@@ -4,7 +4,10 @@
     <title>SP Tables Info</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+    <script src="scripts/app.js"></script>
     <script src="sps_snippets.js"></script>
+    <script src="scripts/spsQuery.js"></script>
+    <script src="scripts/util.js"></script>
   </head>
   <body>
     <h2>SharePoint List Metadata</h2>
@@ -13,7 +16,12 @@
     </div>
     <script>
       $(  'document'  ).ready( function(){
-          spsSnippets.getAllLists();
+          //spsSnippets.getAllLists();
+          console.log(  $().SPServices.Version()  );
+          console.log(  "Hello!"  );
+          APP.spsQuery.getReviewees();
+          // console.log(  APP.spsQuery.getReviewees()  );
+          //console.log(  selectRevieweeCAMLQueryFields  );
         }
       );
     </script>

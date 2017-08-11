@@ -433,7 +433,7 @@ APP = (  function(){
               								}
 							);
 
-              resCache = extendDeep(  res  );
+              resCache = APP.util.extendDeep(  res  );
               console.log(  resCache  );
 
 							//BEGIN BUILDING ARRAY OF RECORD IDs HERE
@@ -580,35 +580,6 @@ function buildSearchLogic(){
   	});
 }
 
-
-/******************BEGIN FUNCTION EXTEND DEEP***************************/
-	/**
-	*Creates a deep copy of an object/array
-	*@method extendDeep
-	*@param {Object|Array} parent Object/array to be copied
-	*@param {Object|Array} child Object/array to receive the copied properties
-	*@inner
-	*/
-	function extendDeep(  parent, child  ){
-    var i,
-    toStr = Object.prototype.toString,
-    astr = '[object Array]';
-
-    child = child || {};
-
-    for( i in parent  ){
-      if(  parent.hasOwnProperty(  i  )  ){
-        if(  typeof parent[  i  ] === 'object'  ){
-          child[  i  ] = (  toStr.call(  parent[  i  ]  ) === astr  )  ? [] : {};
-          extendDeep(  parent[  i  ], child[  i  ]  );
-        }else{
-          child[  i  ] = parent[  i  ];
-        }
-      }
-    }
-    return child;
-  }
-/*******************END FUNCTION EXTEND DEEP***************************/
 
 /*******************BEGIN FUNCTION GET WEB URL**********************************/
 	function getWebUrl(){
