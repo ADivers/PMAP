@@ -10,9 +10,11 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
 	<script src="scripts/app.js"></script>
+	<script src="scripts/spsQuery.js"></script>
 	<script src="scripts/Staff.js"></script>
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -337,16 +339,32 @@
     $('.collapsible').collapsible('open', 2);
     $('.modal').modal();
 
-		var reviewee = APP.Staff.getStaffObjCache().employee;
 		console.log(  '####################################');
-		console.log( sessionStorage.recordId  );
+		var queryStr = window.location.search,
+				paramsArr = [];
+		queryStr = queryStr.substr(  1, queryStr.length  );
+		queryStr = queryStr.split(  '&'  );
+		//console.log(  queryStr  );
+		var paramObj = {id: '', firstName: '', lastName: ''};
+		for(  var i = 0; i < queryStr.length; i+= 1  ){
+					param = queryStr[  i  ].split(  '='  );
+					console.log(  param  );
+					if(  paramObj.hasOwnProperty(  param[  0  ]  )  ){
+						paramObj[  param[  0  ]  ] = param[  1  ]
+					}
+
+		}
+		console.log( paramObj  );
+		console.log(  queryStr  );
+
+		APP.spsQuery.getReviewee(  paramObj  );
   });
 
   </script>
 
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
 </body>
 </html>

@@ -180,6 +180,80 @@ APP.spsQuery = (  function(  app  ){
 
   /******************END FUNCTION getReviewees********************/
 
+  /****************BEGIN FUNCTION getReviewee*********************/
+  function getReviewee(  revieweeObj  ){
+    var CAMLViewFields = buildCAMLViewfields(  selectRevieweeCAMLViewfields  ),
+        CAMLQuery = '<Query>\n' +
+                              '<Where>\n' +
+                                //'<And>\n' +
+                                  '<And>\n' +
+                                    '<Eq>\n'  +
+                                      '<FieldRef Name="ID"/>\n' +
+                                      '<Value Type="Text">' + revieweeObj.id + '</Value>\n' +
+                                    '</Eq>\n' +
+                                    '<Eq>\n'  +
+                                      '<FieldRef Name="lastName"/>\n' +
+                                      '<Value Type="Text">' + revieweeObj.lastName + '</Value>\n' +
+                                    '</Eq>\n' +
+                                  '</And>\n'  +
+                                //     '<And>\n' +
+                                //       '<Eq>\n'  +
+                                //         '<FieldRef Name="firstName"/>\n' +
+                                //         '<Value Type="Text">' + revieweeObj.firstName + '</Value>\n' +
+                                //       '</Eq>\n' +
+                                //     '</And>\n'  +
+                                //   '</And>\n'  +
+                                // '</And>\n'  +
+                              '</Where>\n' +
+                            '</Query>';
+
+                            console.log(  CAMLQuery);
+
+                            $().SPServices(
+                              {
+                                operation         :         'GetListItems',
+                                viewName          :         '',
+                                webURL            :         webURL,
+                                listName          :         listName,
+                                CAMLRowLimit      :         1,
+                                CAMLViewFields    :         CAMLViewFields,
+                                CAMLQueryOptions  :         CAMLQueryOptions,
+                                CAMLQuery         :         CAMLQuery,
+                                completefunc      :         function(  xData, Status  ){
+                                  console.log(  Status  );
+                                  var res = $(  xData.responseXML  ).SPFilterNode( 'z:row'  ).SPXmlToJson(
+                                    {
+                                      mapping : {
+                                        ows_firstName	:	{  mappedName: 'firstName', objectType: 'Text'  },
+                                        ows_lastName	:	{  mappedName: 'lastName', objectType: 'Text'  },
+                                        ows_ID        : {  mappedName:  'SP-ID', objectType: 'Text'  }//,
+                                        // ows_currentReviewee : {  mappedName: 'currentReviewee', objectType: 'Number'  }
+                                      },
+                                      incluedAllAttrs : true,
+                                      removeOws       : true,
+                                      sparse          : false
+                                    }
+                                  );
+
+                                  console.log(  res  );
+                                }
+                              }
+                            );
+  }
+
+  // '<And>' +
+  //   '<And>' +
+  //     '<Eq>'  +
+  //       '<FieldRef Name="firstName"><Value Type="Text">' + 'Maxine' + '</Value>\n' +
+  //     '</Eq>' +
+  //     '<Eq>'  +
+  //       '<FieldRef Name="lastName"><Value Type="Text">' + 'Waters' + '</Value>\n' +
+  //     '</Eq>'+
+  //   '</And>' +
+
+  /*****************END FUNCTION getReviewee*********************/
+
+
   /****************BEGIN FUNCTION spsQuery***********************/
   function spsQuery(  queryObj  ){
     /*
@@ -202,7 +276,8 @@ APP.spsQuery = (  function(  app  ){
     return(
       {
         buildCAMLViewfields         :         buildCAMLViewfields,
-        getReviewees                :         getReviewees
+        getReviewees                :         getReviewees,
+        getReviewee                :         getReviewee
       }
     )
 })(  APP  );
