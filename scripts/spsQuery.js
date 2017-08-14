@@ -185,7 +185,7 @@ APP.spsQuery = (  function(  app  ){
     var CAMLViewFields = buildCAMLViewfields(  selectRevieweeCAMLViewfields  ),
         CAMLQuery = '<Query>\n' +
                               '<Where>\n' +
-                                //'<And>\n' +
+                                '<And>\n' +
                                   '<And>\n' +
                                     '<Eq>\n'  +
                                       '<FieldRef Name="ID"/>\n' +
@@ -196,14 +196,11 @@ APP.spsQuery = (  function(  app  ){
                                       '<Value Type="Text">' + revieweeObj.lastName + '</Value>\n' +
                                     '</Eq>\n' +
                                   '</And>\n'  +
-                                //     '<And>\n' +
-                                //       '<Eq>\n'  +
-                                //         '<FieldRef Name="firstName"/>\n' +
-                                //         '<Value Type="Text">' + revieweeObj.firstName + '</Value>\n' +
-                                //       '</Eq>\n' +
-                                //     '</And>\n'  +
-                                //   '</And>\n'  +
-                                // '</And>\n'  +
+                                  '<Eq>\n'  +
+                                    '<FieldRef Name="firstName"/>\n' +
+                                      '<Value Type="Text">' + revieweeObj.firstName + '</Value>\n' +
+                                  '</Eq>\n' +
+                                '</And>\n'  +
                               '</Where>\n' +
                             '</Query>';
 
