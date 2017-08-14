@@ -63,12 +63,24 @@ APP.dom = (  function(  window, app  ){
   */
   function buildEditButtons(  responseArr, editButtonsArr  ){
     for(  var i = 0; i < responseArr.length; i+= 1  ){
-      edit = document.createElement(  'button'  );
-
+      var edit = document.createElement(  'button'  ),
+          link = document.createElement(  'a'  ),
+          icon = document.createElement(  'i'  ),
+          $params = './pmapIntroduction.html' + '?' + jQuery.param(  {id: responseArr[i]['SP-ID'], firstName: responseArr[i]['firstName'], lastName: responseArr[i]['lastName']}  );
+          icon.className = 'material-icons';
+          icon.innerText = 'add';
+          link.setAttribute(  'href', $params  );
+          // link.dataset.index = edit.dataset.index;
+          // console.log('###################################');
+          // console.log(  link  );
+          // link.setAttribute(  'href', app.getWebUrl() + '?id=' + responseArr[  i  ][  'SP-ID'  ] +
+          // '&firstName=' + responseArr[  i  ][  'firstName'  ] + '&lastName=' + responseArr[  i  ][  'lastName'  ]  );
       //Set edit button style and attributes
-      //$(  '.tooltipped'  ).tooltip(    {delay: 50  }  );
+      $(  '.tooltipped'  ).tooltip(    {delay: 50  }  );
 
-      edit.innerHTML = '<i class="material-icons">add</i>';
+      //edit.innerHTML = '<i class="material-icons">add</i>';
+      edit.appendChild(  icon  );
+      link.appendChild(  edit  );
       edit.className = 'btn-floating tooltipped blue darken-4  modal-trigger';
       edit.style.marginRight = '.5px';
       edit.style.marginTop = '5px';
@@ -78,14 +90,19 @@ APP.dom = (  function(  window, app  ){
       edit.setAttribute(  'data-tooltip', 'Start/Edit a PMAP'  );
       edit.setAttribute(  'data-index', i  );
       edit.setAttribute(  'data-record-id', responseArr[  i  ][  'SP-ID'  ]  );
+      link.setAttribute(  'data-index', i  );
       //edit.setAttribute(  'data-record-id',  tableRows[  i  ].getAttribute(  'data-record-id'  )  );
       $(  edit  ).tooltip(  {  delay: 50  }  );
-      // edit.addEventListener(  'click', app.util.initPMAPReview(  function(){
-      //   window.location = './pmapIntroduction.html';
-      // }), false  );
-      edit.addEventListener(  'click', app.util.initPMAPReview, false  );
-      console.log(  edit  );
-      editButtonsArr.push(  edit  );
+
+      edit.addEventListener(  'click', function(  e  ){
+        //sessionStorage.recordID = 22;
+
+        //console.log(  e.target.dataset.recordId  );
+        //sessionStorage.recordId = e.target.dataset.recordId;
+        //window.location = './pmapIntroduction.html';
+
+      }, false  );
+      editButtonsArr.push(  link  );
     }
 
     return edit;

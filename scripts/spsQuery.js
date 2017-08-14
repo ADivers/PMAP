@@ -22,7 +22,8 @@ APP.spsQuery = (  function(  app  ){
   var selectRevieweeCAMLViewfields = {
     firstName        :        "firstName",
     LastName         :        "lastName",
-    employeeID       :        "employeeID"
+    employeeID       :        "employeeID"//,
+    // currentReviewee  :        "currentReviewee"
   },
 
   /**
@@ -152,14 +153,14 @@ APP.spsQuery = (  function(  app  ){
         CAMLQuery         :         CAMLQuery,
         completefunc      :         function(  xData, Status  ){
 
-          console.log(  "Status: " + Status  );
-        
+
           var res = $(  xData.responseXML  ).SPFilterNode( 'z:row'  ).SPXmlToJson(
             {
               mapping : {
                 ows_firstName	:	{  mappedName: 'firstName', objectType: 'Text'  },
                 ows_lastName	:	{  mappedName: 'lastName', objectType: 'Text'  },
-                ows_ID        : {  mappedName:  'SP-ID', objectType: 'Text'  }
+                ows_ID        : {  mappedName:  'SP-ID', objectType: 'Text'  }//,
+                // ows_currentReviewee : {  mappedName: 'currentReviewee', objectType: 'Number'  }
               },
               incluedAllAttrs : true,
               removeOws       : true,

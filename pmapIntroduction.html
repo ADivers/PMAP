@@ -337,9 +337,9 @@
     $('.collapsible').collapsible('open', 2);
     $('.modal').modal();
 
-		var reviewee = APP.Staff.getStaffObjCache();
+		var reviewee = APP.Staff.getStaffObjCache().employee;
 		console.log(  '####################################');
-		console.log(  reviewee  );
+		console.log( sessionStorage.recordId  );
   });
 
   </script>

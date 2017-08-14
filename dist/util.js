@@ -10,7 +10,7 @@
 *@main APP
 *@class util
 */
-APP.util = (  function(){
+APP.util = (  function(  app  ){
   /******************BEGIN FUNCTION EXTEND DEEP***************************/
   	/**
   	*Creates a deep copy of an object/array
@@ -42,33 +42,36 @@ APP.util = (  function(){
   /*******************END FUNCTION EXTEND DEEP***************************/
 
   /******************BEGIN EVENT HANDLERS********************************/
-  function initPMAPReview(  cb  ){
-    console.log(  'Clicked!'  );
-    //console.log(  this  );  -->OK
-    //console.log(  this.dataset.recordId  );
-    var confObj = {
-      'SP_id'     :     this.dataset.recordId
-    },
-    reviewee = new APP.Staff.Staff(  confObj  );
-    if(  APP.Staff.setStaffObjCache(  reviewee  )  ){
-      //cb();
-      //console.log(  APP.Staff.getStaffObjCache()  ); -->OK
-      //window.location = './pmapIntroduction.html';
+  function initPMAPReview( event, callback, revieweeObj){
+    // console.log(  'Clicked!' + event.target  );  -->OK
+    revieweeObj[  'SP-ID'  ] = event.target.dataset.recordId;
+    app.Staff.setStaffObjCache(  revieweeObj  );
+    console.log(  'FROM INSIDE initPMAPReview: '  );
+    console.dir(  app.Staff.getStaffObjCache()  );  //-->OK
+    if(  app.Staff.getStaffObjCache().employee !== null && app.Staff.getStaffObjCache().employee !== 'undefined'  ){
+      callback();
     }
-    // console.log(  APP.Staff.getStaffObjCache()  ); -->OK
-    //window.location = './pmapIntroduction.html';
-    // if(  APP.Staff.  ){
-    //   //cb();
-    //
-    // }
+    // console.log( "Passed reviewee object: "  );
+    // console.dir(  revieweeObj  );  -->OK
 
   }
 
+  //Returns anonymous function with event obj passed as param
+  //returned function calls the initPMAPReview function,
+  //passing event object [passed originally to anonymous function]
+  //AND parameter(s) passed to original [handleEditClick] function
+  function handleEditClick(  cb  ){
+    return function(  e  ){
+    var reviewee = new app.Staff.Staff(  {  'SP-ID' : e.target.dataset.recordID  }  );
+      initPMAPReview(  e, cb, reviewee  );
+    };
+  }
   /******************END EVENT HANDLERS********************************/
   return(
     {
       extendDeep        :         extendDeep,
-      initPMAPReview    :         initPMAPReview
+      initPMAPReview    :         initPMAPReview,
+      handleEditClick   :         handleEditClick
     }
   )
-}  )();
+}  )(  APP  );

@@ -88,6 +88,20 @@
       <br>
       <script>
         $(  'document'  ).ready(  function(){
+
+          $().SPServices({
+            operation: "GetList",
+            listName: "Employees",
+            webURL: "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
+            completefunc: function(xData, Status) {
+              console.log(xData.responseText);
+              $(xData.responseXML).find("Fields > Field").each(function() {
+                var $node = $(this);
+                console.log( "Type: " + $node.attr("Type") + " StaticName: " + $node.attr("StaticName") );
+              });
+            }
+          });
+
           APP.spsQuery.getReviewees();
         });
       </script>

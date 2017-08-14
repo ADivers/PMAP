@@ -1,6 +1,6 @@
 APP.Staff = (  function(){
   var confObj = {  SP_id:  '1'  },
-      staffObjCache = {};
+      staffObjCache = staffObjCache || {};
 
   /*****************BEGIN CONSTRUCTOR FUNCTION Staff************************/
   function Staff(  confObj  ){
@@ -8,7 +8,7 @@ APP.Staff = (  function(){
     this[  'firstName'  ] = confObj.firstName;
     this[  'lastName'  ] = confObj.lastName;
     if(  !this instanceof Staff  ){
-      return new Person(  confObj  );
+      return new Staff(  confObj  );
     }
   }
   /*****************END CONSTRUCTOR FUNCTION Staff************************/
@@ -18,10 +18,7 @@ APP.Staff = (  function(){
   }
 
   function setStaffObjCache(  obj  ){
-    if(  staffObjCache.employee = obj  ){
-      return true;
-    }
-    return false;
+    staffObjCache.employee = obj;
   }
   /****************BEGIN PUBLIC API****************************/
   return(
