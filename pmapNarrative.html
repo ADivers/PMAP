@@ -2,14 +2,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PMAP</title>
+  <title>PMAP Narrative</title>
 
 
-    <link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
-    
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
+	<script src="scripts/spsQuery.js"></script>
+	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
 
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -58,11 +66,11 @@
       </ul>
     </div>
   </nav>
-   <br>     
+   <br>
 
    <!-- ************************* Side Navigation ******************************* -->
 
- 
+
 
  <div class="row">
         <div class="col s12 m3">
@@ -71,7 +79,7 @@
                 <div class="collapsible-header" id="empNameNav">
                   <a href="pmapIntroduction.html" >
                     <div>
-                      <font color="white"><strong>Reviewee: John Smith</strong></font> 
+                      <font color="white"><strong id="reviewee-name"></strong></font>
                     </div>
                   </a>
                 </div>
@@ -118,9 +126,19 @@
                   <span>A) Administrative</span><BR><span>B) Individual</span>
                   </div> -->
               </li>
+              <li>
+                  <div class="collapsible-header">
+                    <a href="pmapMidYear.html">
+                       <div id="colap">
+                        <i class="material-icons">person</i>
+                        Mid Year Review
+                        </div>
+                    </a>
+                  </div>
+              </li>
 
               <li>
-                  <div class="collapsible-header"> 
+                  <div class="collapsible-header">
                     <a href="pmapRating.html" >
                       <div id="colap">
                         <i class="material-icons">rate_review</i>
@@ -134,7 +152,7 @@
               </li>
 
               <li>
-                  <div class="collapsible-header active"> 
+                  <div class="collapsible-header active">
                     <a href="pmapConversion.html" >
                       <div id="colap">
                         <i class="material-icons">linear_scale</i>
@@ -206,34 +224,36 @@
           <p>For progress review and/or summary rating. Optional, unless performance is below Level 3: Achieved Expected Results (AE)</p>
     <br>
       <!-- <label for="textarea">Add Critical Element</label> -->
-      <textarea id="textarea1">
-        </textarea>
+      <textarea id="textarea1"></textarea>
 
     <br>
     <br>
-        <a class="waves-effect waves-light btn blue darken-4 offset-s4">Save</a>
-        <a href="pmapSign.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
+        <a id="save-continue" class="waves-effect waves-light btn blue darken-4 offset-s4">Save &amp; Continue</a>
+        <!-- <a href="pmapSign.html" id="continue-save-narrative" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a> -->
       </div>
     </form>
 
 <!-- ***********************************Scripts************************************************************ -->
 
-
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
-  
   <script type="text/javascript">
-    
-     $(document).ready(function(){
-    $('.collapsible').collapsible();
-  });
 
-// Automatically resize modal text box based on text size
-  $('#textarea1').val('New Text');
-  $('#textarea1').trigger('autoresize');
-        
+     $(document).ready(function(){
+       // Automatically resize modal text box based on text size
+      $('#textarea1').attr(  'placeholder', 'Enter text of PMAP narrative here');
+      $('#textarea1').trigger('autoresize');
+
+      $('.collapsible').collapsible();
+
+      var currentReviewee = APP.spsQuery.parseCurrentReviewee(),
+           target = document.querySelector(  '#reviewee-name'  );
+           target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
+
+           APP.util.attachNextURLs(  currentReviewee  );
+
+           document.querySelector(  '#save-continue'  ).addEventListener(  'click', function(){
+            APP.util.nextURL(  currentReviewee, './pmapSign.html'  );
+          }, false  );
+     });
 
   </script>
 

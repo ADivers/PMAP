@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>PMAP</title>
+	<title>Critical Elements</title>
 
 
-  	<link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
-  	
+  	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link type="text/css" href="./styles/main.css">
+
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
+	<script src="scripts/spsQuery.js"></script>
+	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
+	<script src="scripts/CritElem.js"></script>
+	<script src="scripts/domUI.js"></script>
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -33,8 +43,8 @@
     a {
       color:black;
     }
-  #textarea { 
-    height: 150px; 
+  #textarea {
+    height: 150px;
   }
     #empNameNav {
       text-align: center;
@@ -57,7 +67,7 @@
       </ul>
     </div>
   </nav>
-   <br>     
+   <br>
 
    <!-- ************************* Side Navigation ******************************* -->
  <div class="row">
@@ -68,7 +78,7 @@
                 <div class="collapsible-header" id="empNameNav">
                   <a href="pmapIntroduction.html" >
                     <div>
-                      <font color="white"><strong>Reviewee: John Smith</strong></font> 
+                      <font color="white"><strong id="reviewee-name"></strong></font>
                     </div>
                   </a>
                 </div>
@@ -119,9 +129,20 @@
                   </div>
               </li>
 
+              <li>
+                  <div class="collapsible-header">
+                    <a href="pmapMidYear.html">
+                       <div id="colap">
+                        <i class="material-icons">person</i>
+                        Mid Year Review
+                        </div>
+                    </a>
+                  </div>
+              </li>
+
 
               <li>
-                  <div class="collapsible-header"> 
+                  <div class="collapsible-header">
                     <a href="pmapRating.html" >
                       <div id="colap">
                         <i class="material-icons">rate_review</i>
@@ -135,7 +156,7 @@
               </li>
 
               <li>
-                  <div class="collapsible-header"> 
+                  <div class="collapsible-header">
                     <a href="pmapConversion.html" >
                       <div id="colap">
                         <i class="material-icons">linear_scale</i>
@@ -193,155 +214,140 @@
         </div>
 <!-- **********************************Side Nav END************************************** -->
 
+	<div class="card col s12 m8">
+		<h4>Critical Elements</h4>
+		<p>Use this form to create/edit Critical Elements.</p>
+	</div>
+<!--******************************BEGIN CRIT ELEM EDIT FORM HERE************************* -->
 
-    <div class="col s12 m8">
+	<div class="card col s12 m8">
+			<div class="row">
+				<form id="crit-elem-edit">
+					<div id="job-details" class="row">
+						<div class="col s4 input-field">
+							<span>Position Description</span>
+							<input type="text" name="pos-desc" id="pos-desc" disabled>
+							<!-- <label for="pos-desc">Position Description</label> -->
+						</div>
+						<div class="col s4 input-field">
+							<span>Occupation Series</span>
+							<input type="text" name="occ-series" id="occ-series" disabled>
+							<!-- <label for="occ-series">Occupation Series</label> -->
+						</div>
+						<div class="col s4 input-field">
+							<span>GS Series</span>
+							<input type="text" name="gs-series" id="gs-series" disabled>
+							<!-- <label for="gs-series">GS Series</label> -->
+						</div>
+					</div>
+					<div id="element-details" class="row">
+						<!-- <div class="input-field col s4"> -->
+
+							<!-- <select id="elem-title" name="elem-title">
+								<option value="acct">Accounting</option>
+								<option value="comms">Communications</option>
+								<option value="analysis">Analysis</option>
+								<option value="new">Create New</option>
+							</select> -->
+							<!-- <label>Critical Element Title</label> -->
+							<!-- <textarea id="ele" name="elem-desc" class="materialize-textarea"></textarea>
+							<label for="elem-desc">Element Description</label> -->
+						<!-- </div> -->
+
+						<div class="col s8">
+							<label>Critical Element Title</label>
+							<select id="elem-title" name="elem-title"></select>
+
+							<div class="input-field">
+								<label for="new-elem-title">New Element Title</label>
+								<input type="text" id="new-elem-title" name="new-elem-title">
+						 </div>
+							<div class="input-field">
+								<!-- <label for="elem-desc">Element Description</label> -->
+								<span>Element Description</span>
+								<textarea id="elem-desc" name="elem-desc" class="materialize-textarea"></textarea>
+							</div>
+							<div clas="input-field">
+								<label for="elem-measure01">Measurements</label>
+								<textarea id="elem-measure01" name="elem-measure01" class="materialize-textarea"></textarea>
+						 </div>
+						 <div class="left">
+							 <button type="button" id="clear" class="waves-light waves-effect btn" value="Clear" visibility="hidden">Clear</button>
+	 						 <button type="button" id="save" class="waves-light waves-effect btn" value="Save to PMAP">Save to PMAP</button>
+						 </div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div id="target" class="row"></div>
+	</div>
+
+<!--******************************END CRIT ELEM EDIT FORM HERE*************************-->
+
+    <!-- <div class="col s12 m8">
      <div class="card white">
-        <u><h5>Title 1</h5></u>
+        <u><h5>Critical Element 1</h5></u>
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
         <br>
         <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#critmodal1">Edit</a>
-
-<!--         <div class="cols2">
-          <p>
-            <input name="group1" type="radio" id="test2" />
-            <label for="test2">Yellow</label>
-          </p> 
-        </div>
-         <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="test2" />
-            <label for="test2">Yellow</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group1" type="radio" id="test2" />
-            <label for="test2">Yellow</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="test2" />
-            <label for="test2">Yellow</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="test2" />
-            <label for="test2">Yellow</label>
-          </p>
-          </div> -->
-          
-      </div>
+      </div> -->
 
 
-           <div class="card white">
-        <u><h5>Title 2</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <br>
-        <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#critmodal2">Edit</a>
-      </div>
-           <div class="card white">
-        <u><h5>Title 3</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <br>
-        <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#critmodal3">Edit</a>
-      </div>
-           <div class="card white">
-        <u><h5>Title 4</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <br>
-        <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#critmodal4">Edit</a>
-      </div>
-           <div class="card white">
-        <u><h5>Title 5</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <!-- <a href="#!" class="secondary-content"><i class="mdi-action-grade"></i></a> -->
-        <br>
-        <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#critmodal5">Edit</a>
-      </div>
-
-    </div>
-
-<div class="col s12 m8">
-<a href="pmapRating.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
-</div>
 
 <!-- ***************************************MODAL****************************************************************************
  -->
-<div id="critmodal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
+<!-- <div id="critmodal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
     <div class="modal-content">
 
-      <div class="input-field col s12 m6">
-       <select>
-            <option value="" disabled selected>Choose Occupation Series</option>
-            <option value="1">Accountant</option>
-            <option value="2">Budget Analyst</option>
-            <option value="3">Acquisitions</option>
-        </select>
-          <label>Occupation Series</label>
-      </div>
-    
-    <div class="input-field col s12 m6">
-       <select>
-          <option value="" disabled selected>Choose GS</option>
-          <option value="1">GS-15</option>
-          <option value="2">GS-14</option>
-          <option value="3">GS-13</option>
-        </select>
-          <label>GS Level</label>
+      <div class="input-field col s12 m4">
+			 <input type="text" id="pos-desc" name="pos-desc" disabled placeholder="Accountant">
+       <label for="pos-desc">Position Description</label>
       </div>
 
-      <div class="input-field col s12">
-        <select>
-          <optgroup label="Professional Competencies">
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </optgroup>
-          <optgroup label="Technical Competencies">
-            <option value="3">Option 3</option>
-            <option value="4">Option 4</option>
-          </optgroup>
-        </select>
-        <label>Competencies</label>
-      </div>
+		   <div class="input-field col s12 m4">
+		    <input type="text" id="occ-series" name="occ-series" disabled placeholder="0510">
+		    <label for="Occupation Series">Occupation Series</label>
+		   </div>
+
+			 <div class="input-field col s12 m4">
+				<input type="text" id="gs-level" name="gs-level" disabled placeholder="14">
+	      <label for="gs-level">GS Level</label>
+	     </div>
+
+			 <div class="input-field col s6">
+				<select id="elem-title" name="elem-title">
+					<option>Analysis</option>
+				</select>
+		    <label for="elem-title">Critical Element Title</label>
+		   </div>
+
+			 <div class="input-field col s6">
+				<input type="text" id="elem-type" name="elem-type" disabled placeholder="Technical">
+				<label for="elem-type">Element Type</label>
+			</div> -->
 
 
- 
-      <div class="input-field col s6">
-        <input value="Communication" id="critElement1" type="text" >
-        <label class="active" for="first_name2">Critical Element</label>
-      </div>
       <!-- <label for="textarea">Critical Element Summary</label> -->
-      <textarea id="textarea1">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </textarea>
+			<!-- <div class="input-field col s12">
+				<textarea id="textarea1">
+	        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	      </textarea>
+				<label for="textarea1">Element Description</label>
+			</div>
+
+
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Cancel</a>
       <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Save</a>
-      <a href="#addCritModal"" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Create New Critical Element</a>
-      <a href="#"" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Delete Critical Element</a>
+      <a href="#addCritModal" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Create New Element</a>
+      <a href="#" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Delete Element</a>
     </div>
   </div>
-<!-- ***************************************MODAL END******************************************************************************* -->
 
-
-
-
-
-<!-- ***************************************MODAL 2222****************************************************************************
- -->
 <div id="addCritModal" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
     <div class="modal-content">
 
@@ -354,7 +360,7 @@
         </select>
           <label>Occupation Series</label>
       </div>
-    
+
     <div class="input-field col s12 m6">
        <select>
           <option value="" disabled selected>Choose GS</option>
@@ -368,38 +374,190 @@
       <div class="input-field col s6">
         <input  id="critElement1" type="text" >
         <label class="active" for="first_name2">Critical Element Title</label>
-      </div>
+      </div> -->
 
       <!-- <label for="textarea">Add Critical Element</label> -->
-      <textarea id="textarea1">
+      <!-- <textarea id="textarea1">
         </textarea>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Cancel</a>
       <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Save</a>
     </div>
-  </div>
+  </div> -->
+</div>
 <!-- ***************************************MODAL 222 END******************************************************************************* -->
+<div id="query-results"></div>
+
+	<!-- <div id="query-results"></div> -->
 
 
-
-
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
-  
+
   <script type="text/javascript">
-    
-     $(document).ready(function(){
+
+    $(document).ready(function(){
     $('.collapsible').collapsible();
-     $('.modal').modal({
-        dismissible: false, // Modal can NOT be dismissed by clicking outside of the modal
-     });
+    $('.modal').modal({
+      dismissible: false, // Modal can NOT be dismissed by clicking outside of the modal
+    });
+
+    $('select').material_select();
+
+		Materialize.updateTextFields();
+
+		$(  '#job-details, #element-details'  ).css( {'margin-top' : '50px'}  );
+
+		//Hide new Crit Elem form controls on load
+		$(  '#clear, .input-field:has([id="new-elem-title"])'  ).hide();
+
+		var currentReviewee = APP.spsQuery.parseCurrentReviewee(),
+
+		//Build query object to return position ID of current reviewee
+		//using `id` parameter from URL query string
+		jobDetailsCAMLQuery = '<Query>\n' +
+														'<Where>\n' +
+															'<Eq>\n' +
+																'<FieldRef Name="ID"/>\n' +
+																'<Value Type="Text">' + currentReviewee.id + '</Value>\n' +
+															'</Eq>\n' +
+														'</Where>\n' +
+													'</Query>',
+
+
+
+		target = document.querySelector(  '#reviewee-name'  ),
+	  qString = '&pmapDocID=' + currentReviewee.pmapDocID;
+
+		target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
+
+		/**Get reviewee positionID to begin querying critical element properties**/
+
+			var positionQueryObj = APP.CritElem.getRevieweePositionQueryConfigObj();
+
+			positionQueryObj.CAMLQuery = jobDetailsCAMLQuery;
+
+			console.log(  'positionQueryObj: ');
+			console.log(  positionQueryObj  );
+
+			APP.CritElem.getRevieweePosition(  positionQueryObj  );
+
+
+
+		/**---------------------------------------------------------------------**/
+		/**
+		*TODO: Consider deleting call to 'getCritElemsAdmin' if you're not
+		*using them on this page
+		*
+		*/
+		//APP.CritElem.getCritElemsAdmin(  currentReviewee  );
+
+		//Populate element description and measurements on page load
+		APP.dom.ui.showDeadlinesMeasurements();
+
+		APP.util.attachNextURLs(  currentReviewee  );
+
+
+		/**
+		*TODO: 09/15/2017 09:37 EST
+		*Update current PMAP record with new/edited Critical Elements
+		*/
+		$(  '#save'  ).on(  'click', function(  event  ){
+
+			//RESET $vals IF EXISTS
+			// var $vals = false;
+			// var index = false;
+			//end reset $vals
+
+
+			$vals = $(  '#crit-elem-edit'  ).serializeArray();
+
+			console.log(  '##############------>From pmapCritElems.html on CLICK: vals<-------##############'  );
+			console.log(  $vals  );
+
+			var newCritElem = {
+													elemTitle				:			false,
+													description 		: 		$vals[  2  ].value,
+													measurements		:			$vals[  3  ].value,
+													elemCreatorID		:			"MGR-12345"
+												};
+			if(  $vals[  0  ][  'value'  ] === 'Create New'  ){
+				newCritElem.elemTitle = $vals[  1  ][  'value'  ];
+			}
+			else if(  $vals[  1  ][  'value'  ] === ''  ){
+				newCritElem.elemTitle = $vals[  0  ][  'value'  ];
+			}
+			console.log(  '##############------>From pmapCritElems.html on CLICK: newCritElem<-------##############'  );
+			console.log(  newCritElem  );
+			APP.dom.ui.buildNewCritElemDiv(  newCritElem  );
+
+
+			var queryConfigObj = APP.CritElem.getSaveCustomElemsQueryObj(),
+					queryObjCopy = APP.util.extendDeep(  queryConfigObj  );
+
+			//Attach form values to query config object for use in retrieval of new
+			//critical element during save to PMAP doc
+			//queryConfigObj.vals = $vals;
+			queryObjCopy.vals = $vals;
+
+			console.log(  queryObjCopy  );
+			var string = '<Field Name="elemTitle">' + $vals[  1  ][  'value'  ] + '</Field>\n' +
+			  					 '<Field Name="description">' + $vals[  2  ][  'value'  ] + '</Field>\n' +
+									 '<Field Name="measurements">' + $vals[  3  ][  'value'  ] + '</Field>\n' +
+									 '<Field Name="elemCreatorID">' + "MGR-12345" + '</Field>\n';
+			//queryConfigObj.updates += string;
+			queryObjCopy.updates += string;
+
+			// for(  index in newCritElem  ){
+			// 	var string = '<Field Name="' + index + '">' + newCritElem[  index  ] + '</Field>\n';
+			// 	queryConfigObj.updates += string;
+			// }
+
+			// for(  var i = 0; i < queryConfigObj[  'vals'  ].length; i+= 1  ){
+			// 	var string = '<Field Name="' +  index + '">' + queryConfigObj[  'vals'  ][  i  ][  ] + '</Field>\n';
+			// }
+			// for(  var index in queryConfigObj.vals  ){
+			// 	var string = '<Field Name="' +  index + '">' + newCritElem[  index  ] + '</Field>\n';
+			// 	queryConfigObj.updates += string;
+			// }
+
+			//queryConfigObj.updates += '<Field Name="ID">New</Field>';
+			//queryConfigObj.updates += '</Method></Batch>';
+
+			queryObjCopy.updates += '<Field Name="ID">New</Field>';
+			queryObjCopy.updates += '</Method></Batch>';
+
+			console.log(  '&&&&&&&&&&&&&&--->queryObjCopy:'  );
+			//console.log(  queryConfigObj  );
+			console.log(  queryObjCopy  );
+
+			//APP.CritElem.saveNewCustomElem(  queryConfigObj  );
+			//APP.spsQuery.updateSPSRecord(  queryConfigObj  );
+
+			/**
+			*NOTE: MUST MUST MUST MUST
+			*--Use SINGLE QUOTES to surround string literals for "New" object 'updates' param
+			*--Set the 'ID' field reference LAST
+			*
+			*/
+			//APP.spsQuery.updateSPSRecord(  queryConfigObj  ); //-->Not allowing multiple saves;
+
+
+			$().SPServices(  queryObjCopy  ); //-->OK; allowing multiple saves
+
+
+
+			//Clear form values and $vals object
+			//delete(  queryConfigObj.updates  );
+			$(  '#crit-elem-edit input[name*="elem"], #crit-elem-edit textarea[name*="elem"]'  ).text( '' ).val(  ''  );
+			//Redirect on save
+			//APP.util.nextURL(  currentReviewee, './pmapMidYear.html'  );
+		});
+
   });
 
 
-// Select drop down controls 
+// Select drop down controls
   $(document).ready(function() {
     $('select').material_select();
   });
@@ -409,7 +567,7 @@
    $(document).ready(function() {
     Materialize.updateTextFields();
   });
-        
+
 // Automatically resize modal text box based on text size
   $('#textarea1').val('New Text');
   $('#textarea1').trigger('autoresize');

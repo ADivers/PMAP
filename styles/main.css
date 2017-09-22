@@ -78,3 +78,109 @@ div{
   background-color: #ffffff;
 
 }
+
+.nobkgrnd{
+  background-color: lightgrey;
+  color: #ffffff;
+}
+
+#create-reminder-form{
+  padding: 10px 20px;
+}
+
+#create-reminder-form fieldset{
+  margin-bottom: 5%;
+}
+
+#create-reminder-form legend{
+  font-size: 1.5em;
+  background-color: #5471d2;
+}
+
+.hide{
+  display: none;
+}
+
+.block{
+  display: block;
+}
+
+.width-60{
+  width: 50%;
+}
+
+.new-event-btn{
+  /*display: inline-block;
+  margin-right: 10%;*/
+  position: absolute;
+  left: 35%;
+  top: 11.5%;
+
+}
+
+.relative{
+  position: relative;
+}
+
+.hide div h5{
+  width: 20%;
+  display: inline-block;
+  float: left;
+}
+
+#current-event-id{
+  display: none;
+}
+
+.fieldset-button{
+  background-color: #002071;
+}
+
+.fieldset-button>i, .initial>i{
+  font-size: 2.5em;
+}
+
+#create-reminder-form legend{
+  color: #ffffff;
+  padding: 5px 10%;
+  font-weight : normal;
+  box-shadow  : 1px 3px 6px #263238;
+  border-radius: 1.5px;
+  font-family  : Roboto, GillSans, Calibri, Trebuchet, sans-serif;
+}
+
+.initial>i{
+  padding-top: 5%;
+  padding-left: 5%;
+}
+
+.modal-headline-wrapper{
+  width: 100%;
+  float: left;
+  background-color: #00c853;
+}
+
+.modal-headline{
+  width: 90%;
+  color: #ffffff;
+  background-color: #00c853;
+  display: inline-block;
+  float: right;
+}
+
+.modal-icon{
+  width: 10%;
+  color: #ffffff;
+  background-color: #00c853;
+  display: inline-block;
+  float: left;
+
+}
+
+#fakeies{
+  border: 2px solid cornsilk;
+}
+
+#crit-elem-edit{
+  margin-top: 5%;
+}

@@ -7,11 +7,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
   	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
   	<link rel="stylesheet" href="styles/main.css"/>
+
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js">
+
+    </script>
+
     <script src="scripts/app.js"></script>
     <script src="sps_snippets.js"></script>
     <script src="scripts/DOM.js"></script>
@@ -19,6 +24,7 @@
     <script src="scripts/util.js"></script>
     <script src="scripts/Staff.js"></script>
     <title>Select PMAP Reviewee</title>
+
     <style type="text/css">
   		body {
       background-color: lightgrey;
@@ -52,14 +58,15 @@
          <a href="index.html" id="ofba" class="brand-logo">OFBA | Talent Portal</a>
          <!-- <img src="assets/images/ofba.png"> -->
          <ul id="nav-mobile" class="right hide-on-med-and-down">
-           <li><a href="sass.html">Staff List</a></li>
-           <li><a href="index.html">Talent Portal</a></li>
-           <li><a href="collapsible.html">Messages</a></li>
+           <li><a href="pmapSelectReviewee.html">My Team</a></li>
+           <li><a href="staffSum.html">My PMAP</a></li>
+           <li><a href="admin.html">Admin</a></li>
          </ul>
        </div>
      </nav>
+
      <div class="container">
-       <div class="row topmar">
+       <div class="card row topmar">
          <div class="col s12" id="my-team">
            <h4>My Team</h4>
            <h5>Start/Edit a PMAP</h5>
@@ -70,10 +77,12 @@
    							<th>Last Name</th>
                 <th>First Name</th>
    							<th>Employee ID</th>
+                <th>Employee/Supervisor Flag</th>
                 <th>Go to PMAP</th>
    						</tr>
    					</thead>
-   					<tbody></tbody>
+     					<tbody>
+              </tbody>
    				</table>
           <ul id="employee-list">
             <li>
@@ -85,15 +94,16 @@
         </div>
       </div>
     </div>
-      <br>
-      <script>
-        $(  'document'  ).ready(  function(){
 
+      <script type="text/javascript">
+        $(  'document'  ).ready(  function(){
+          console.log("jquery begin");
           $().SPServices({
             operation: "GetList",
             listName: "Employees",
             webURL: "https://teams.deloitte.com/sites/FDAJDD/Sandbox/",
             completefunc: function(xData, Status) {
+              console.log("data Response")
               console.log(xData.responseText);
               $(xData.responseXML).find("Fields > Field").each(function() {
                 var $node = $(this);
@@ -105,5 +115,6 @@
           APP.spsQuery.getReviewees();
         });
       </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PMAP</title>
+
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
+	<script src="scripts/spsQuery.js"></script>
+	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
+      <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style type="text/css">
+    body {
+    background-color: lightgrey;
+    }
+    .card {
+      padding:20px;
+    }
+    .brand-logo {
+      padding: 20px;
+    }
+    #ofba {
+      padding-left: 20px;
+    }
+    label {
+    cursor: default;
+    color:black;
+  }
+    a {
+      color:black;
+    }
+
+    #scorecard {
+      color:white;
+    }
+
+    #empNameNav {
+      text-align: center;
+      color: white;
+      background-color: #002071 ;
+    }
+
+  </style>
+</head>
+<body>
+
+ <nav>
+    <div class="nav-wrapper  blue darken-4" >
+      <a href="index.html" id="ofba" class="brand-logo">OFBA | Talent Portal</a>
+      <!-- <img src="assets/images/ofba.png"> -->
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Staff List</a></li>
+        <li><a href="index.html">Talent Portal</a></li>
+        <li><a href="collapsible.html">Messages</a></li>
+      </ul>
+    </div>
+  </nav>
+   <br>
+
+   <!-- ************************* Side Navigation ******************************* -->
+   <div class="row">
+    <div class="col s12 m3">
+         <ul class="collapsible" data-collapsible="accordion">
+
+          <li>
+            <div class="collapsible-header">
+              <a href="staffSum.html" >
+                <div id="colap">
+                  <i class="material-icons">subject</i>
+                  Resources
+                </div>
+              </a>
+            </div>
+            <div class="collapsible-body grey lighten-3">
+            <span>Find best practices and job aides on how best to complete your PMAP.</span>
+            </div>
+          </li>
+
+          <li>
+              <div class="collapsible-header">
+                <a href="staffAccomplish.html">
+                   <div id="colap">
+                    <i class="material-icons">add_box</i>
+                    Add Accomplishments
+                    </div>
+                </a>
+              </div>
+              <div class="collapsible-body grey lighten-3">
+                <span>Track your accomplishments throughout the year</span>
+            </div>
+          </li>
+
+          <li>
+              <div class="collapsible-header">
+                <a href="staffMidYear.html">
+                   <div id="colap">
+                    <i class="material-icons">person</i>
+                    Mid Year Review Signoff
+                    </div>
+                </a>
+              </div>
+              <div class="collapsible-body grey lighten-3">
+                <span>Sign and Complete your mid-year review</span>
+            </div>
+          </li>
+
+          <li>
+              <div class="collapsible-header active">
+                <a href="staffRating.html" >
+                  <div id="colap">
+                    <i class="material-icons">rate_review</i>
+                    Rating
+                  </div>
+                </a>
+              </div>
+           <div class="collapsible-body grey lighten-3">
+                <span>See your PMAP rating</span>
+              </div>
+          </li>
+
+          <li>
+            <div class="collapsible-header">
+              <a href="staffSign.html">
+                <div id="colap">
+                  <i class="material-icons">mode_edit</i>
+                  Signoff on PMAP
+                </div>
+              </a>
+            </div>
+              <div class="collapsible-body grey lighten-3">
+              <span>Sign off on your complete PMAP</span>
+              </div>
+          </li>
+        </ul>
+    </div>
+<!-- **********************************Side Nav END************************************** -->
+
+
+
+    <form class="col s12 m8">
+     <div class="card white">
+
+      <h4>Conversion of Elements to Summary Ratings</h4>
+        <div class="divider"></div>
+<div class="divider"></div>
+        <u><h5>Description</h5></u>
+          <p>After rating and assigning a score to each critical element, the total points are divided by the number of Critical Elements to arrive at an average score (up to two decimal places). This score will be converted to a summary rating based on the following point values:</p>
+        <ul>
+          <li>Level 5: Achieved outstanding Results (AO)</li>
+          <li>Level 4: Achieved More than Expected Results (AM)</li>
+          <li>Level 3: Achieved Expected Results (AE)</li>
+          <li>Level 2: Partially Achieved Expected Results (PA)</li>
+          <li>Level 1: Achieved Unsatisfactory Results (UR)</li>
+        </ul>
+<div class="divider"></div>
+        <div id="scorecard" class="card blue darken-4">
+
+              <div class="card-header blue darken-4">
+                    <h4>PMAP Rating</h4>
+              </div>
+
+              <div class="card-content-bg white-text">
+                  <div class="card-content">
+                      <div class="row">
+                          <div class="col s12 m4 l4 center-align">
+                                  <h4>17</h4>
+                                  <p class="small center-align">Total Point Value</p>
+                          </div>
+                          <div class="col s12 m4 l4 center-align">
+                                  <h4>5</h4>
+                                  <p class="small center-align">Divided by number of critical elements</p>
+                          </div>
+                              <div class="col s12 m4 l4 center-align">
+                                  <h4>4.2</h4>
+                                  <p class="small center-align">Average Score</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+
+
+    <!-- ********************************** Pulsing Button W/Modal  ********************************** -->
+      <!-- <a class=" wave-effect waves-light btn btn-floating btn-large blue darken-2 pulse" href="#modal1"><i class="material-icons">star</i></a>
+
+        <div id="modal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
+          <div class="modal-content">
+            <h4>Level Explanation</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Close</a>
+          </div>
+        </div> -->
+<!-- *******************************Pulsing Button W/Modal  END ****************************** -->
+
+
+<br>
+<br>
+        <a href="staffSign.html" type="button" id="save-continue" class="waves-effect waves-light btn blue darken-4 offset-s4">Save &amp; Continue</a>
+      </div>
+    </form>
+
+
+  <script type="text/javascript">
+
+     $(document).ready(function(){
+    $('.collapsible').collapsible();
+
+    var currentReviewee = APP.spsQuery.parseCurrentReviewee(),
+         target = document.querySelector(  '#reviewee-name'  );
+         
+    target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
+
+    APP.util.attachNextURLs(  currentReviewee  );
+
+    document.querySelector(  '#save-continue'  ).addEventListener(  'click', function(  e  ){
+      APP.util.nextURL(  currentReviewee, './pmapNarrative.html'  );
+    }, false  );
+  });
+
+  </script>
+</body>
+</html>

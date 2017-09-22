@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>PMAP</title>
+	<title>Rating Calculation</title>
 
 
-  	<link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
-  	
+  	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
+	<script src="scripts/spsQuery.js"></script>
+	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 	<style type="text/css">
 		body {
-    background-color: lightgrey;
+    background-color: #c7c7c7;
 		}
     .card {
       padding:20px;
+      background-color: #ffffff;
     }
     .brand-logo {
       padding: 20px;
@@ -33,9 +41,11 @@
     a {
       color:black;
     }
-  #textarea { 
-    height: 150px; 
-  }
+
+     #textarea {
+     height: 150px;
+     }
+
       #empNameNav {
       text-align: center;
       color: white;
@@ -44,16 +54,52 @@
 
     #empInput {
       height: 220px;
-      background-color: lightgrey;
+      background-color: #fafafa;
+      padding-right: 20px;
     }
 
     #feedback {
+      height: 150px;
+    }
+
+    #feedbackCard {
+      height: 220px;
+      background-color: #fafafa;
+    }
+
+    #midyr {
       height: 220px;
     }
 
-	</style>
-</head>
+    #critTitle {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    #midyrTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #empInputTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #managerInputTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #radios {
+      padding-top: 15px;
+    }
+
+	 </style>
+  </head>
+
 <body>
+
  <nav>
     <div class="nav-wrapper  blue darken-4" >
       <a href="index.html" id="ofba" class="brand-logo">OFBA | Talent Portal</a>
@@ -65,7 +111,7 @@
       </ul>
     </div>
   </nav>
-   <br>     
+   <br>
 
    <!-- ************************* Side Navigation ******************************* -->
  <div class="row">
@@ -73,13 +119,13 @@
              <ul class="collapsible" data-collapsible="accordion">
 
                <li>
-                <div class="collapsible-header" id="empNameNav">
-                  <a href="pmapIntroduction.html" >
-                    <div>
-                      <font color="white"><strong>Reviewee: John Smith</strong></font> 
-                    </div>
-                  </a>
-                </div>
+                  <div class="collapsible-header" id="empNameNav">
+                    <a href="pmapIntroduction.html" >
+                      <div>
+                        <font color="white"><strong id="reviewee-name"></strong></font>
+                      </div>
+                    </a>
+                  </div>
                 </li>
 
               <li>
@@ -126,9 +172,21 @@
                   </div> -->
               </li>
 
+              <li>
+                  <div class="collapsible-header">
+                    <a href="pmapMidYear.html">
+                       <div id="colap">
+                        <i class="material-icons">person</i>
+                        Mid Year Review
+                        </div>
+                    </a>
+                  </div>
+              </li>
+
+
 
               <li>
-                  <div class="collapsible-header active"> 
+                  <div class="collapsible-header active">
                     <a href="pmapRating.html" >
                       <div id="colap">
                         <i class="material-icons">rate_review</i>
@@ -142,7 +200,7 @@
               </li>
 
               <li>
-                  <div class="collapsible-header"> 
+                  <div class="collapsible-header">
                     <a href="pmapConversion.html" >
                       <div id="colap">
                         <i class="material-icons">linear_scale</i>
@@ -214,38 +272,40 @@
         </div>
 <!-- **********************************Side Nav END************************************** -->
 
+<!-- *************************Begin Requirements -->
+
   <form class="col s12 m8">
      <div class="card white">
      <h4>Requirements</h4>
      <div class="divider"></div>
        <form action="#">
           <p>
-            <input type="checkbox" id="test1" />
+            <input type="checkbox" id="test1">
             <label for="test1">Provides responsive service to internal / external customers that support customer and program requirements</label>
           </p>
           <p>
-            <input type="checkbox" id="test2" />
+            <input type="checkbox" id="test2">
             <label for="test2">Participates with supervisor to establish individual performance plans and provides self-assessment if neces</label>
           </p>
           <p>
-            <input type="checkbox" id="test3" />
+            <input type="checkbox" id="test3">
             <label for="test3">Identifies and communicates individual developmental needs consisstent with the agency mussion; assist coworkers by mentoring, advising, or guiding them in..</label>
           </p>
           <p>
-            <input type="checkbox" id="test4" />
+            <input type="checkbox" id="test4">
             <label for="test4">Actively identifies, communicates, and implements quality improvements that ensure attainment of workforce goals.</label>
           </p>
           <p>
-            <p>Other Inputs:</p>
-            <input type="checkbox" id="test5" />
+            <h5>Other Inputs:</h5>
+            <input type="checkbox" id="test5">
             <label for="test5">Treats other with respect; fosters a cooperative environemnt where differences</label>
           </p>
           <p>
-            <input type="checkbox" id="test6" />
+            <input type="checkbox" id="test6">
             <label for="test6">Demonstrates integrity and adheres to Government-wide and HHS Standards</label>
           </p>
            <p>
-            <input type="checkbox" id="test7" />
+            <input type="checkbox" id="test7">
             <label for="test7">Supports the elements of the Office Director's performance contract</label>
           </p>
         </form>
@@ -254,369 +314,232 @@
     </form>
 
 
+<!-- ************************************* End Requirements  -->
 
 
-    <div class="col s12 m8">
-     <div class="card white">
-        <u><h5>Title 1</h5></u>
-        <div>
+<!-- ****************************************Begin Crit element cards -->
+
+    <div class="col s12 m8"> <!-- All cards in this div -->
+
+     <div class="card col s12 m12 grey lighten-4">  <!-- Begin Crit Element Card -->
+
+      <div class='card col s12 m12 l12'>
+        <h5 id="critTitle">Crit Element Title 1</h5>
+        <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
+        </p>
+      </div>
 
-      <div class="col s12 m12">
-      <div class="col s12 m6">
-        <div class="card white" id="empInput">
+
+      <div class='card col s12 m6 l6' id="midyr">
+        <h5 id="midyrTitle">
+          <i class="material-icons">event_note</i>
+          Mid Year Check-in notes
+        </h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+
+      <div class="card col s12 m6 l6" id="empInput">
+       <h5 id="empInputTitle">
+        <i class="material-icons">note</i>
+        Employee Input
+       </h5>
           <p>
            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
-        </div>
       </div>
 
-      <div class="col s12 m6">
-        <div class="card white">
-         <textarea id="feedback">
-        </textarea>
+        <div class="card col s12 m12 l12" id="feedbackCard">
+          <h5 id="managerInputTitle">
+          <i class="material-icons">create</i>
+          Manager Input
+          </h5>
+             <textarea id="feedback">
+            </textarea>
         </div>
-      </div>
-      </div>
-    
-        <div class="cols2">
-          <p>
-            <input name="group1" type="radio" id="crit11" />
-            <label for="crit11">5 (AO)</label>
-          </p> 
+
+        <div class="card col s12 m12 l12" id="ratingRadio">
+          <h5 class="left" id="managerInputTitle">
+          <i class="material-icons">location_searching</i>
+          Rating
+          </h5>
+            <div class="center">
+              <div class="col s12 m2 l2" id="radios">
+                <input name="group1" type="radio" id="crit11"/>
+                <label for="crit11">5 (AO)</label>
+              </div>
+              <div class="col s12 m2 l2" id="radios">
+                <input name="group1" type="radio" id="crit12"/>
+                <label for="crit12">4 (AM)</label>
+              </div>
+              <div class="col s12 m2 l2" id="radios">
+                <input name="group1" type="radio" id="crit13"/>
+                <label for="crit13">3 (AE)</label>
+              </div>
+              <div class="col s12 m2 l2" id="radios">
+                <input name="group1" type="radio" id="crit14"/>
+                <label for="crit14">2 (PA)</label>
+              </div>
+              <div class="col s12 m2 l2" id="radios">
+                <input name="group1" type="radio" id="crit15"/>
+                <label for="crit15">1 (UR)</label>
+              </div>
+              <div class="col s12 m1 l1">
+                <a class="wave-effect waves-light btn tooltipped btn-floating btn-large blue darken-2" href="#modal1" data-position="top" data-delay="50" data-tooltip="Ratings Defined">
+                  <i class="material-icons">add</i>
+                </a>
+              </div>
+            </div>
         </div>
-        
-         <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="crit12" />
-            <label for="crit12">4 (AM)</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group1" type="radio" id="crit13" />
-            <label for="crit13">3 (AE)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="crit14" />
-            <label for="crit14">2 (PA)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group1" type="radio" id="crit15" />
-            <label for="crit15">1 (UR)</label>
-          </p>
-          </div>  
-             <!-- <br> -->
-   <!--      <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#">Save</a> -->
-      </div>    
+      </div> <!-- END Crit Element CARD -->
 
 
-
-
-        <div class="card white">
-        <u><h5>Title 2</h5></u>
-          <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-                <div class="cols2">
-          <p>
-            <input name="group2" type="radio" id="crit31" />
-            <label for="crit31">Level 5: Achieved outstanding Results (AO)</label>
-          </p> 
-        </div>
-         <div class="cols2">         
-          <p>
-            <input name="group2" type="radio" id="crit32" />
-            <label for="crit32">Level 4: Achieved More than Expected Results (AM)</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group2" type="radio" id="crit33" />
-            <label for="crit33">Level 3: Achieved Expected Results (AE)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group2" type="radio" id="crit34" />
-            <label for="crit34">Level 2: Partially Achieved Expected Results</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group2" type="radio" id="crit35" />
-            <label for="crit35">Level 1: Achieved Unsatisfactory Results (UR)</label>
-          </p>
-          </div>  
-             <!-- <br> -->
-   <!--      <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#">Save</a> -->
-      </div>    
-  
-           <div class="card white">
-        <u><h5>Title 3</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <div class="cols2">
-          <p>
-            <input name="group3" type="radio" id="crit21" />
-            <label for="crit21">Level 5: Achieved outstanding Results (AO)</label>
-          </p> 
-        </div>
-         <div class="cols2">         
-          <p>
-            <input name="group3" type="radio" id="crit22" />
-            <label for="crit22">Level 4: Achieved More than Expected Results (AM)</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group3" type="radio" id="crit23" />
-            <label for="crit23">Level 3: Achieved Expected Results (AE)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group3" type="radio" id="crit24" />
-            <label for="crit24">Level 2: Partially Achieved Expected Results</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group3" type="radio" id="crit25" />
-            <label for="crit25">Level 1: Achieved Unsatisfactory Results (UR)</label>
-          </p>
-          </div>  
-             <!-- <br> -->
-   <!--      <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#">Save</a> -->
-      </div>    
-
-
-
-           <div class="card white">
-        <u><h5>Title 4</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-             <div class="cols2">
-          <p>
-            <input name="group4" type="radio" id="crit41" />
-            <label for="crit41">Level 5: Achieved outstanding Results (AO)</label>
-          </p> 
-        </div>
-         <div class="cols2">         
-          <p>
-            <input name="group4" type="radio" id="crit42" />
-            <label for="crit42">Level 4: Achieved More than Expected Results (AM)</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group4" type="radio" id="crit43" />
-            <label for="crit43">Level 3: Achieved Expected Results (AE)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group4" type="radio" id="crit44" />
-            <label for="crit44">Level 2: Partially Achieved Expected Results</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group4" type="radio" id="crit45" />
-            <label for="crit45">Level 1: Achieved Unsatisfactory Results (UR)</label>
-          </p>
-          </div>  
-             <!-- <br> -->
-   <!--      <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#">Save</a> -->
-      </div>    
-
-           <div class="card white">
-        <u><h5>Title 5</h5></u>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <div class="cols2">
-          <p>
-            <input name="group5" type="radio" id="crit51" />
-            <label for="crit51">Level 5: Achieved outstanding Results (AO)</label>
-          </p> 
-        </div>
-         <div class="cols2">         
-          <p>
-            <input name="group5" type="radio" id="crit52" />
-            <label for="crit52">Level 4: Achieved More than Expected Results (AM)</label>
-          </p>
-          </div>
-           <div class="cols2">        
-           <p>
-            <input name="group5" type="radio" id="crit53" />
-            <label for="crit53">Level 3: Achieved Expected Results (AE)</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group5" type="radio" id="crit54" />
-            <label for="crit54">Level 2: Partially Achieved Expected Results</label>
-          </p> 
-          </div>
-           <div class="cols2">         
-          <p>
-            <input name="group5" type="radio" id="crit55" />
-            <label for="crit55">Level 1: Achieved Unsatisfactory Results (UR)</label>
-          </p>
-          </div>  
-             <!-- <br> -->
-   <!--      <a class="waves-effect waves-light btn blue darken-4 offset-s4" href="#">Save</a> -->
-      </div>    
+    <div class="col s12 m8">
+      <button id="save-continue" class="waves-effect waves-light btn blue darken-4 offset-s4">
+        Save &amp; Continue
+      </button>
     </div>
 
-<div class="col s12 m8">
-<a href="pmapConversion.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
 </div>
 
-<!-- ***************************************MODAL****************************************************************************
- -->
-<div id="critmodal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
-    <div class="modal-content">
 
-      <div class="input-field col s12 m6">
-       <select>
-            <option value="" disabled selected>Choose Occupation Series</option>
-            <option value="1">Accountant</option>
-            <option value="2">Budget Analyst</option>
-            <option value="3">Acquisitions</option>
-        </select>
-          <label>Occupation Series</label>
-      </div>
-    
-    <div class="input-field col s12 m6">
-       <select>
-          <option value="" disabled selected>Choose GS</option>
-          <option value="1">GS-15</option>
-          <option value="2">GS-14</option>
-          <option value="3">GS-13</option>
-        </select>
-          <label>GS Level</label>
-      </div>
+    <!-- ********************************** Modal Text  ********************************** -->
+  <div id="modal1" class="modal" style="z-index: 1003;
+  display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
+          <div class="modal-content">
+            <h4>Levels Explanation</h4>
+            <div class="divider"></div>
+            <h5>Level 5: Achieved Outstanding Results (AO)</h5>
+              <p>Consistently superior; significantly exceeds Level 4 (AM) performance requirements.   Despite major challenges such as changing priorities, insufficient resources, unanticipated resource shortages, or externally driven parameters, employee leadership is a model of excellence.   Contributions impact well beyond the employee's level of responsibility.   They demonstrate exceptional initiative in achieving results critical to Agency success and strategic goals.  Products and skills create significant changes in their area of responsibility and authority.   Indicators of performance at this level include outcomes that consistently exceed the AM level standards for critical elements described in the annual performance plan. Examples include:</p>
+              <UL>
+                <li>
+                • Innovations,  improvements,  and contributions to management,  administrative, technical, or other functional areas that have influence outside the work unit;</li>
+                <li>
+                • Increases office and/or individual productivity;</li>
+                <li>
+                • Improves customer, stakeholder,  and/or employee  satisfaction, resulting in positive evaluations,  accolades, and recognition; methodology is modeled outside the organization;</li>
+                <li>
+                • Easily adapts when responding  to changing  priorities, unanticipated  resource shortages,  or other obstacles;</li>
+                <li>
+                • Initiates significant collaborations,  alliances,  and coalitions;</li>
+                <li>
+                • Leads workgroups or teams, such as those that design or influence improvements  in program policies,  processes,  or other key activities;</li>
+                <li>
+                • Anticipates the need for, and identifies, professional  developmental activities that prepare staff and/or oneself to meet future workforce challenges; and/or</li>
+                <li>
+                • Consistently demonstrates the highest level of ethics, integrity and accountability in achieving specific HHS, OPDIV/STAFFDIV, or program goals; makes recommendations that clarify and influence improvements in ethics activities.</li>
+              </UL>
 
-      <div class="input-field col s12">
-        <select>
-          <optgroup label="Professional Competencies">
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </optgroup>
-          <optgroup label="Technical Competencies">
-            <option value="3">Option 3</option>
-            <option value="4">Option 4</option>
-          </optgroup>
-        </select>
-        <label>Competencies</label>
-      </div>
+              <h5>Level 4: Achieved More than Expected Results (AM)</h5>
 
+                <p>Consistently exceeds expectations of Level 3 (AE) performance requirements.   The employee continually demonstrates successful collaborations within the work environment, overcoming significant organizational challenges such as coordination with external stakeholders or resource shortfalls.   Employee works productively and strategically with others in non-routine matters, some of which may be complex and sensitive.  The employee consistently demonstrates the highest level of integrity and accountability in achieving HHS program and management goals.  Employee contributions have impact beyond their immediate level of responsibility.   The employee meets all critical elements, as described in the annual performance plan.  Examples include:</p>
 
- 
-      <div class="input-field col s6">
-        <input value="Communication" id="critElement1" type="text" >
-        <label class="active" for="first_name2">Critical Element</label>
-      </div>
-      <!-- <label for="textarea">Critical Element Summary</label> -->
-      <textarea id="textarea">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </textarea>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Cancel</a>
-      <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Save</a>
-        <a href="#addCritModal"" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Create New Critical Element</a>
-    </div>
-  </div>
-<!-- ***************************************MODAL END******************************************************************************* -->
+              <UL>
+                <li>
+                • Effectively  plans, is well-organized, and completes work assignments that reflect requirements;</li>
+                <li>
+                • Decisions and actions demonstrate organizational awareness. This includes knowledge of mission, function,  policies, technological systems, and culture;</li>
+                <li>
+                • Independently follows-up  on actions and improvements that impact the immediate work unit; establishes  and maintains strong relationships with employees and/or clients; understands their priorities; balances their interests with organizational demands and requirements;  effectively communicates  necessary  actions to them and employee/customer satisfaction is conveyed;  and/or</li>
+                <li>
+                • When serving on teams and workgroups, contributes substantively and completely according to standards identified in the plan.</li>
+              </UL>
 
+              <h5>Level 3: Achieved Expected Results (AE)</h5>
 
+                <p>Consistently meets performance requirements. Work is solid and dependable; customers are satisfied with program results.  The employee successfully resolves operational challenges without higher-level intervention.   The employee consistently demonstrates integrity and accountability in achieving HHS program and management goals.  Employee conducts follow-up actions based on performance information available to him/her.   Employee seizes opportunities to improve business results and include employee and customer perspectives.   Examples include:</p>
 
+              <UL>
+                  <li>
+                •   Acquires new skills and knowledge to meet assignment requirements;</li>
+                <li>
+                •   Demonstrates ethics, integrity and accountability to achieve HHS and agency goals; and</li>
+                <li>
+                •   Resolves operational challenges and problems without assistance from higher-level staff.</li>
+              </UL>
 
+              <h5>Level 2: Partially Achieved Expected Results (PA)</h5>
 
-<!-- ***************************************MODAL 2222****************************************************************************
- -->
-<div id="addCritModal" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
-    <div class="modal-content">
+                <p>Marginally acceptable; needs improvement; inconsistently meets Level 3 (AE) performance requirements.  The employee has difficulties in meeting expectations.  Actions taken by the employee are sometimes inappropriate or marginally effective. Organizational goals and objectives are met only as a result of close supervision.   This is the minimum level of acceptable performance for retention on the job.  Improvement is necessary.  Examples include:</p>
 
-      <div class="input-field col s12 m6">
-       <select>
-            <option value="" disabled selected>Choose Occupation Series</option>
-            <option value="1">Accountant</option>
-            <option value="2">Budget Analyst</option>
-            <option value="3">Acquisitions</option>
-        </select>
-          <label>Occupation Series</label>
-      </div>
-    
-    <div class="input-field col s12 m6">
-       <select>
-          <option value="" disabled selected>Choose GS</option>
-          <option value="1">GS-15</option>
-          <option value="2">GS-14</option>
-          <option value="3">GS-13</option>
-        </select>
-          <label>GS Level</label>
-      </div>
+              <UL>
+                <li>
+                • Sometimes meets assigned  deadlines;</li>
+                <li>
+                • Work assignments occasionally  require major revisions  or often require minor revisions;</li>
+                <li>
+                • Inconsistently applies technical knowledge to work assignments;</li>
+                <li>
+                • Employee  shows a lack of adherence to required procedures,  instructions,  and/or formats on work assignments;</li>
+                <li>
+                • Occasionally employee is reluctant to adapt to changes in priorities, procedures or program direction which may contribute to the negative impact on program performance, productivity, morale, organizational effectiveness and/or customer satisfaction. Needs improvement.</li>
+              </UL>
 
-      <div class="input-field col s6">
-        <input  id="critElement1" type="text" >
-        <label class="active" for="first_name2">Critical Element Title</label>
-      </div>
+              <h5>Level 1: Achieved Unsatisfactory Results (UR)</h5>
 
-      <!-- <label for="textarea">Add Critical Element</label> -->
-      <textarea id="textarea">
-        </textarea>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Cancel</a>
-      <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Save</a>
-    </div>
-  </div>
-<!-- ***************************************MODAL 222 END******************************************************************************* -->
+                <p>Undeniably unacceptable performance; consistently does not meet Level 3 (AE) performance requirements. Repeat observations of performance indicate negative consequences in key outcomes (e.g., quality, timeliness, results, customer satisfaction, etc.) as described in the annual performance plan.  The employee fails to meet expectations.   Immediate improvement is essential for job retention.  Examples include:</p>
+
+              <UL>
+                <li>
+                • Consistently fails to meet assigned  deadlines;</li>
+                <li>
+                • Work assignments often require major revisions;</li>
+                <li>
+                • Fails to apply adequate technical  knowledge to completion  of work assignments;</li>
+                <li>
+                • Frequently fails to adhere to required procedures,  instructions  and/or formats in completing work assignments; and/or</li>
+                <li>
+                • Frequently fails to adapt to changes in priorities, procedures or program direction. </li>
+              </UL>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close btn waves-effect waves-red blue darken-2">Close</a>
+          </div>
+        </div>
 
 
 
 
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<!-- ************************************ END HTML ****************************** -->
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
-  
+
   <script type="text/javascript">
-    
-     $(document).ready(function(){
+
+ $(document).ready(function(){
+
     $('.collapsible').collapsible();
      $('.modal').modal({
         dismissible: false, // Modal can NOT be dismissed by clicking outside of the modal
      });
-  });
+
+		 var currentReviewee = APP.spsQuery.parseCurrentReviewee();
+
+		 //APP.util.redirectOnNullReviewee(  currentReviewee  );
+
+		 var target = document.querySelector(  '#reviewee-name'  );
+		 			target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
 
 
-// Select drop down controls 
-  $(document).ready(function() {
+
+					APP.util.attachNextURLs(  currentReviewee  );
+
+					document.querySelector(  '#save-continue'  ).addEventListener(  'click', function(){
+		 			 APP.util.nextURL(  currentReviewee, './pmapConversion.html'  );
+		 		 }, false  );
+
+    $('#midyr, #empInput').css({'width':'auto','height':'auto','display':'table'}) //dynamically change card sizes to fit text
+
+    // Select drop down controls
     $('select').material_select();
-  });
-  $('select').material_select('destroy');
 
-  // Automatically fill text box in modal
-   $(document).ready(function() {
+    // Automatically fill text box in modal
     Materialize.updateTextFields();
-  });
-        
-// Automatically resize modal text box based on text size
-  $('#textarea1').val('New Text');
-  $('#textarea1').trigger('autoresize');
 
+  });
 
 
   </script>

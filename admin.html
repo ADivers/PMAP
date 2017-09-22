@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PMAP</title>
+
+    <link rel="stylesheet" type=a "text/css" href="assets/css/style.css">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style type="text/css">
+        body {
+            background-color: lightgrey;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .brand-logo {
+            padding: 20px;
+        }
+
+        #ofba {
+            padding-left: 20px;
+        }
+
+        label {
+            cursor: default;
+            color: black;
+        }
+
+        a {
+            color: black;
+        }
+
+        #info {
+            padding-top: 50px;
+        }
+
+        .ct-series-a .ct-bar,
+        .ct-series-a .ct-line,
+        .ct-series-a .ct-point,
+        .ct-series-a .ct-slice-donut {
+            stroke: #0d47a1;
+        }
+
+        .ct-series-b .ct-bar,
+        .ct-series-b .ct-line,
+        .ct-series-b .ct-point,
+        .ct-series-b .ct-slice-donut {
+            stroke: #BBBBBB;
+        }
+
+        .ct-label {
+            /* font-size: 15px; */
+            color: whitesmoke;
+        }
+
+        #hamburger {
+            float: right;
+        }
+
+
+
+/* ************************TABLE CSS */
+div.material-table {
+  padding: 0;
+}
+
+div.material-table .hiddensearch {
+  padding: 0 14px 0 24px;
+  border-bottom: solid 1px #DDDDDD;
+  display: none;
+}
+
+div.material-table .hiddensearch input {
+  margin: 0;
+  border: transparent 0 !important;
+  height: 48px;
+  color: rgba(0, 0, 0, .84);
+}
+
+div.material-table .hiddensearch input:active {
+  border: transparent 0 !important;
+}
+
+div.material-table table {
+  table-layout: fixed;
+}
+
+div.material-table .table-header {
+  height: 64px;
+  padding-left: 24px;
+  padding-right: 14px;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: flex;
+  -webkit-display: flex;
+  border-bottom: solid 1px #DDDDDD;
+}
+
+div.material-table .table-header .actions {
+  display: -webkit-flex;
+  margin-left: auto;
+}
+
+div.material-table .table-header .btn-flat {
+    min-width: 36px;
+    padding: 0 8px;
+}
+
+div.material-table .table-header input {
+  margin: 0;
+  height: auto;
+}
+
+div.material-table .table-header i {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 24px;
+}
+
+div.material-table .table-footer {
+  height: 56px;
+  padding-left: 24px;
+  padding-right: 14px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  align-items: center;
+  font-size: 12px !important;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+div.material-table .table-footer .dataTables_length {
+  display: -webkit-flex;
+  display: flex;
+}
+
+div.material-table .table-footer label {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row
+  /* works with row or column */
+  
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+div.material-table .table-footer .select-wrapper {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row
+  /* works with row or column */
+  
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+div.material-table .table-footer .dataTables_info,
+div.material-table .table-footer .dataTables_length {
+  margin-right: 32px;
+}
+
+div.material-table .table-footer .material-pagination {
+  display: flex;
+  -webkit-display: flex;
+  margin: 0;
+}
+
+div.material-table .table-footer .material-pagination li:first-child {
+  margin-right: 24px;
+}
+
+div.material-table .table-footer .material-pagination li a {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+div.material-table .table-footer .select-wrapper input.select-dropdown {
+  margin: 0;
+  border-bottom: none;
+  height: auto;
+  line-height: normal;
+  font-size: 12px;
+  width: 40px;
+  text-align: right;
+}
+
+div.material-table .table-footer select {
+  background-color: transparent;
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  margin-left: 20px;
+}
+
+div.material-table .table-title {
+  font-size: 20px;
+  color: #000;
+}
+
+div.material-table table tr td {
+  padding: 0 0 0 56px;
+  height: 48px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.87);
+  border-bottom: solid 1px #DDDDDD;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+div.material-table table tr td a {
+  color: inherit;
+}
+
+div.material-table table tr td a i {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+div.material-table table tr {
+  font-size: 12px;
+}
+
+div.material-table table th {
+  font-size: 12px;
+  font-weight: 500;
+  color: #757575;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0;
+  height: 56px;
+  padding-left: 56px;
+  vertical-align: middle;
+  outline: none !important;
+}
+
+div.material-table table th.sorting_asc,
+div.material-table table th.sorting_desc {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+div.material-table table th.sorting:after,
+div.material-table table th.sorting_asc:after,
+div.material-table table th.sorting_desc:after {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  content: "arrow_back";
+  -webkit-transform: rotate(90deg);
+  display: none;
+  vertical-align: middle;
+}
+
+div.material-table table th.sorting:hover:after,
+div.material-table table th.sorting_asc:after,
+div.material-table table th.sorting_desc:after {
+  display: inline-block;
+}
+
+div.material-table table th.sorting_desc:after {
+  content: "arrow_forward";
+}
+
+div.material-table table tbody tr:hover {
+  background-color: #EEE;
+}
+
+div.material-table table th:first-child,
+div.material-table table td:first-child {
+  padding: 0 0 0 24px;
+}
+
+div.material-table table th:last-child,
+div.material-table table td:last-child {
+  padding: 0 14px 0 0;
+}
+
+
+#ofba {
+  padding-top: 20px;
+  /* padding-left: 70px; */
+  padding-bottom: 10px;
+}
+
+#nav-mobile {
+  width: 200px;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+
+   <!-- ************************* Side Navigation ******************************* -->
+    <header id="sidenav">
+        <div class="container"><a href="index.html" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a></div>
+        <ul id="nav-mobile" class="side-nav fixed" style="overflow: auto; transform: translateX(0%);">
+          <div id="ofba">
+              <a href="index.html"><img  src="assets/images/OFBA Graphic_vf.png" alt="profile image" style="width:150px;height:150px;"  class="circle z-depth-2"></a>
+          </div>
+          <div class="divider"></div>
+          <li class="bold"><a href="admin\createReminders.html" class="waves-effect waves-teal">Email Users</a></li>
+          <li class="bold"><a href="adminAddEmp.html" class="waves-effect waves-teal">Add User</a></li>
+          <!-- <li class="bold"><a href="getting-started.html" class="waves-effect waves-teal">Add Admin</a></li> -->
+          <li class="bold"><a href="getting-started.html" class="waves-effect waves-teal">Add Critical Elements</a></li>
+          <li class="bold"><a href="adminReports.html" class="waves-effect waves-teal">Reports</a></li>
+          <!-- <li class="bold"><a href="showcase.html" class="waves-effect waves-teal">Showcase</a></li>
+          <li class="bold active"><a href="themes.html" class="waves-effect waves-teal">Themes</a></li> -->
+       </ul>
+  </header>
+
+<!-- **********************************Side Nav END************************************** -->
+
+<!-- <div class="container"> -->
+    <div class="row">
+      <div class="col s12 m12 l12 offset-s2 offset-m2 offset-l1">
+  
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div id="donut" class="col s12 m4 l4">
+                    <div class="ct-chart ct-perfect-fourth" id="startChart"></div>
+                    <h5 class="center-align">PMAP Started</h5>
+                </div>
+                <div id="donut" class="col s12 m4 l4">
+                    <div class="ct-chart ct-perfect-fourth" id="midYearChart"></div>
+                    <h5 class="center-align">Mid Year Check-in</h5>
+                </div>
+                <div id="donut" class="col s12 m4 l4">
+                    <div class="ct-chart ct-perfect-fourth" id="completeChart"></div>
+                    <h5 class="center-align">PMAP Complete</h5>
+                </div>
+                <!-- <div class="ct-chart ct-perfect-fourth"></div> -->
+            </div>
+        </div>
+
+        <div class="card">
+                <div class="row">
+                        <div id="admin" class="col s12">
+                          <div class="card material-table">
+                            <div class="table-header">
+                              <span class="table-title">OFBA Employees</span>
+                              <div class="actions">
+                                <a href="#add_users" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">person_add</i></a>
+                                <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+                              </div>
+                            </div>
+                            <table id="datatable">
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Occupation</th>
+                                  <th>Office</th>
+                                  <th>Division</th>
+                                  <th>Status</th>
+                                  <th>Edit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Tiger Nixon</td>
+                                  <td>System Architect</td>
+                                  <td>Edinburgh</td>
+                                  <td>61</td>
+                                  <td>Mid-Year Complete</td>
+                                  <td> <a class="waves-effect waves-light btn">Edit</a>
+                                </tr>
+                                <tr>
+                                  <td>Garrett Winters</td>
+                                  <td>Accountant</td>
+                                  <td>Tokyo</td>
+                                  <td>63</td>
+                                  <td>2011/07/25</td>
+                                  <td><a class="waves-effect waves-light btn">Edit</a></td>
+                                </tr>
+                                <tr>
+                                  <td>Ashton Cox</td>
+                                  <td>Junior Technical Author</td>
+                                  <td>San Francisco</td>
+                                  <td>66</td>
+                                  <td>2009/01/12</td>
+                                  <td><a class="waves-effect waves-light btn">Edit</a></td>
+                                </tr>
+                                <tr>
+                                  <td>Cedric Kelly</td>
+                                  <td>Senior Javascript Developer</td>
+                                  <td>Edinburgh</td>
+                                  <td>22</td>
+                                  <td>2012/03/29</td>
+                                  <td><a class="waves-effect waves-light btn">Edit</a></td>
+                                </tr>
+                                <tr>
+                                  <td>Airi Satou</td>
+                                  <td>Accountant</td>
+                                  <td>Tokyo</td>
+                                  <td>33</td>
+                                  <td>2008/11/28</td>
+                                  <td><a class="waves-effect waves-light btn">Edit</a></td>
+                                </tr>
+                                <tr>
+                                  <td>Brielle Williamson</td>
+                                  <td>Integration Specialist</td>
+                                  <td>New York</td>
+                                  <td>61</td>
+                                  <td>2012/12/02</td>
+                                  <td>$372,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Herrod Chandler</td>
+                                  <td>Sales Assistant</td>
+                                  <td>San Francisco</td>
+                                  <td>59</td>
+                                  <td>2012/08/06</td>
+                                  <td>$137,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Rhona Davidson</td>
+                                  <td>Integration Specialist</td>
+                                  <td>Tokyo</td>
+                                  <td>55</td>
+                                  <td>2010/10/14</td>
+                                  <td>$327,900</td>
+                                </tr>
+                                <tr>
+                                  <td>Colleen Hurst</td>
+                                  <td>Javascript Developer</td>
+                                  <td>San Francisco</td>
+                                  <td>39</td>
+                                  <td>2009/09/15</td>
+                                  <td>$205,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Sonya Frost</td>
+                                  <td>Software Engineer</td>
+                                  <td>Edinburgh</td>
+                                  <td>23</td>
+                                  <td>2008/12/13</td>
+                                  <td>$103,600</td>
+                                </tr>
+                                <tr>
+                                  <td>Jena Gaines</td>
+                                  <td>Office Manager</td>
+                                  <td>London</td>
+                                  <td>30</td>
+                                  <td>2008/12/19</td>
+                                  <td>$90,560</td>
+                                </tr>
+                                <tr>
+                                  <td>Quinn Flynn</td>
+                                  <td>Support Lead</td>
+                                  <td>Edinburgh</td>
+                                  <td>22</td>
+                                  <td>2013/03/03</td>
+                                  <td>$342,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Charde Marshall</td>
+                                  <td>Regional Director</td>
+                                  <td>San Francisco</td>
+                                  <td>36</td>
+                                  <td>2008/10/16</td>
+                                  <td>$470,600</td>
+                                </tr>
+                                <tr>
+                                  <td>Haley Kennedy</td>
+                                  <td>Senior Marketing Designer</td>
+                                  <td>London</td>
+                                  <td>43</td>
+                                  <td>2012/12/18</td>
+                                  <td>$313,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Tatyana Fitzpatrick</td>
+                                  <td>Regional Director</td>
+                                  <td>London</td>
+                                  <td>19</td>
+                                  <td>2010/03/17</td>
+                                  <td>$385,750</td>
+                                </tr>
+                                <tr>
+                                  <td>Michael Silva</td>
+                                  <td>Marketing Designer</td>
+                                  <td>London</td>
+                                  <td>66</td>
+                                  <td>2012/11/27</td>
+                                  <td>$198,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Paul Byrd</td>
+                                  <td>Chief Financial Officer (CFO)</td>
+                                  <td>New York</td>
+                                  <td>64</td>
+                                  <td>2010/06/09</td>
+                                  <td>$725,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Gloria Little</td>
+                                  <td>Systems Administrator</td>
+                                  <td>New York</td>
+                                  <td>59</td>
+                                  <td>2009/04/10</td>
+                                  <td>$237,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Bradley Greer</td>
+                                  <td>Software Engineer</td>
+                                  <td>London</td>
+                                  <td>41</td>
+                                  <td>2012/10/13</td>
+                                  <td>$132,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Dai Rios</td>
+                                  <td>Personnel Lead</td>
+                                  <td>Edinburgh</td>
+                                  <td>35</td>
+                                  <td>2012/09/26</td>
+                                  <td>$217,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Jenette Caldwell</td>
+                                  <td>Development Lead</td>
+                                  <td>New York</td>
+                                  <td>30</td>
+                                  <td>2011/09/03</td>
+                                  <td>$345,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Yuri Berry</td>
+                                  <td>Chief Marketing Officer (CMO)</td>
+                                  <td>New York</td>
+                                  <td>40</td>
+                                  <td>2009/06/25</td>
+                                  <td>$675,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Caesar Vance</td>
+                                  <td>Pre-Sales Support</td>
+                                  <td>New York</td>
+                                  <td>21</td>
+                                  <td>2011/12/12</td>
+                                  <td>$106,450</td>
+                                </tr>
+                                <tr>
+                                  <td>Doris Wilder</td>
+                                  <td>Sales Assistant</td>
+                                  <td>Sidney</td>
+                                  <td>23</td>
+                                  <td>2010/09/20</td>
+                                  <td>$85,600</td>
+                                </tr>
+                                <tr>
+                                  <td>Angelica Ramos</td>
+                                  <td>Chief Executive Officer (CEO)</td>
+                                  <td>London</td>
+                                  <td>47</td>
+                                  <td>2009/10/09</td>
+                                  <td>$1,200,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Gavin Joyce</td>
+                                  <td>Developer</td>
+                                  <td>Edinburgh</td>
+                                  <td>42</td>
+                                  <td>2010/12/22</td>
+                                  <td>$92,575</td>
+                                </tr>
+                                <tr>
+                                  <td>Jennifer Chang</td>
+                                  <td>Regional Director</td>
+                                  <td>Singapore</td>
+                                  <td>28</td>
+                                  <td>2010/11/14</td>
+                                  <td>$357,650</td>
+                                </tr>
+                                <tr>
+                                  <td>Brenden Wagner</td>
+                                  <td>Software Engineer</td>
+                                  <td>San Francisco</td>
+                                  <td>28</td>
+                                  <td>2011/06/07</td>
+                                  <td>$206,850</td>
+                                </tr>
+                                <tr>
+                                  <td>Fiona Green</td>
+                                  <td>Chief Operating Officer (COO)</td>
+                                  <td>San Francisco</td>
+                                  <td>48</td>
+                                  <td>2010/03/11</td>
+                                  <td>$850,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Shou Itou</td>
+                                  <td>Regional Marketing</td>
+                                  <td>Tokyo</td>
+                                  <td>20</td>
+                                  <td>2011/08/14</td>
+                                  <td>$163,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Michelle House</td>
+                                  <td>Integration Specialist</td>
+                                  <td>Sidney</td>
+                                  <td>37</td>
+                                  <td>2011/06/02</td>
+                                  <td>$95,400</td>
+                                </tr>
+                                <tr>
+                                  <td>Suki Burks</td>
+                                  <td>Developer</td>
+                                  <td>London</td>
+                                  <td>53</td>
+                                  <td>2009/10/22</td>
+                                  <td>$114,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Prescott Bartlett</td>
+                                  <td>Technical Author</td>
+                                  <td>London</td>
+                                  <td>27</td>
+                                  <td>2011/05/07</td>
+                                  <td>$145,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Gavin Cortez</td>
+                                  <td>Team Leader</td>
+                                  <td>San Francisco</td>
+                                  <td>22</td>
+                                  <td>2008/10/26</td>
+                                  <td>$235,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Martena Mccray</td>
+                                  <td>Post-Sales support</td>
+                                  <td>Edinburgh</td>
+                                  <td>46</td>
+                                  <td>2011/03/09</td>
+                                  <td>$324,050</td>
+                                </tr>
+                                <tr>
+                                  <td>Unity Butler</td>
+                                  <td>Marketing Designer</td>
+                                  <td>San Francisco</td>
+                                  <td>47</td>
+                                  <td>2009/12/09</td>
+                                  <td>$85,675</td>
+                                </tr>
+                                <tr>
+                                  <td>Howard Hatfield</td>
+                                  <td>Office Manager</td>
+                                  <td>San Francisco</td>
+                                  <td>51</td>
+                                  <td>2008/12/16</td>
+                                  <td>$164,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Hope Fuentes</td>
+                                  <td>Secretary</td>
+                                  <td>San Francisco</td>
+                                  <td>41</td>
+                                  <td>2010/02/12</td>
+                                  <td>$109,850</td>
+                                </tr>
+                                <tr>
+                                  <td>Vivian Harrell</td>
+                                  <td>Financial Controller</td>
+                                  <td>San Francisco</td>
+                                  <td>62</td>
+                                  <td>2009/02/14</td>
+                                  <td>$452,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Timothy Mooney</td>
+                                  <td>Office Manager</td>
+                                  <td>London</td>
+                                  <td>37</td>
+                                  <td>2008/12/11</td>
+                                  <td>$136,200</td>
+                                </tr>
+                                <tr>
+                                  <td>Jackson Bradshaw</td>
+                                  <td>Director</td>
+                                  <td>New York</td>
+                                  <td>65</td>
+                                  <td>2008/09/26</td>
+                                  <td>$645,750</td>
+                                </tr>
+                                <tr>
+                                  <td>Olivia Liang</td>
+                                  <td>Support Engineer</td>
+                                  <td>Singapore</td>
+                                  <td>64</td>
+                                  <td>2011/02/03</td>
+                                  <td>$234,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Bruno Nash</td>
+                                  <td>Software Engineer</td>
+                                  <td>London</td>
+                                  <td>38</td>
+                                  <td>2011/05/03</td>
+                                  <td>$163,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Sakura Yamamoto</td>
+                                  <td>Support Engineer</td>
+                                  <td>Tokyo</td>
+                                  <td>37</td>
+                                  <td>2009/08/19</td>
+                                  <td>$139,575</td>
+                                </tr>
+                                <tr>
+                                  <td>Thor Walton</td>
+                                  <td>Developer</td>
+                                  <td>New York</td>
+                                  <td>61</td>
+                                  <td>2013/08/11</td>
+                                  <td>$98,540</td>
+                                </tr>
+                                <tr>
+                                  <td>Finn Camacho</td>
+                                  <td>Support Engineer</td>
+                                  <td>San Francisco</td>
+                                  <td>47</td>
+                                  <td>2009/07/07</td>
+                                  <td>$87,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Serge Baldwin</td>
+                                  <td>Data Coordinator</td>
+                                  <td>Singapore</td>
+                                  <td>64</td>
+                                  <td>2012/04/09</td>
+                                  <td>$138,575</td>
+                                </tr>
+                                <tr>
+                                  <td>Zenaida Frank</td>
+                                  <td>Software Engineer</td>
+                                  <td>New York</td>
+                                  <td>63</td>
+                                  <td>2010/01/04</td>
+                                  <td>$125,250</td>
+                                </tr>
+                                <tr>
+                                  <td>Zorita Serrano</td>
+                                  <td>Software Engineer</td>
+                                  <td>San Francisco</td>
+                                  <td>56</td>
+                                  <td>2012/06/01</td>
+                                  <td>$115,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Jennifer Acosta</td>
+                                  <td>Junior Javascript Developer</td>
+                                  <td>Edinburgh</td>
+                                  <td>43</td>
+                                  <td>2013/02/01</td>
+                                  <td>$75,650</td>
+                                </tr>
+                                <tr>
+                                  <td>Cara Stevens</td>
+                                  <td>Sales Assistant</td>
+                                  <td>New York</td>
+                                  <td>46</td>
+                                  <td>2011/12/06</td>
+                                  <td>$145,600</td>
+                                </tr>
+                                <tr>
+                                  <td>Hermione Butler</td>
+                                  <td>Regional Director</td>
+                                  <td>London</td>
+                                  <td>47</td>
+                                  <td>2011/03/21</td>
+                                  <td>$356,250</td>
+                                </tr>
+                                <tr>
+                                  <td>Lael Greer</td>
+                                  <td>Systems Administrator</td>
+                                  <td>London</td>
+                                  <td>21</td>
+                                  <td>2009/02/27</td>
+                                  <td>$103,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Jonas Alexander</td>
+                                  <td>Developer</td>
+                                  <td>San Francisco</td>
+                                  <td>30</td>
+                                  <td>2010/07/14</td>
+                                  <td>$86,500</td>
+                                </tr>
+                                <tr>
+                                  <td>Shad Decker</td>
+                                  <td>Regional Director</td>
+                                  <td>Edinburgh</td>
+                                  <td>51</td>
+                                  <td>2008/11/13</td>
+                                  <td>$183,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Michael Bruce</td>
+                                  <td>Javascript Developer</td>
+                                  <td>Singapore</td>
+                                  <td>29</td>
+                                  <td>2011/06/27</td>
+                                  <td>$183,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Donna Snider</td>
+                                  <td>Customer Support</td>
+                                  <td>New York</td>
+                                  <td>27</td>
+                                  <td>2011/01/25</td>
+                                  <td>$112,000</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+        </div>
+
+
+    <!-- </div> -->
+      </div>
+    </div>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
+
+        <script>
+ // ********************************CHARTS****************************************
+            var chart = new Chartist.Pie('#startChart', {
+                labels: ['Started', 'Not Started'],
+                series: [20, 10]
+            }, {
+                donut: true,
+                showLabel: true
+            });
+
+            chart.on('draw', function (data) {
+                if (data.type === 'slice') {
+                    // Get the total path length in order to use for dash array animation
+                    var pathLength = data.element._node.getTotalLength();
+
+                    // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                    data.element.attr({
+                        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                    });
+
+                    // Create animation definition while also assigning an ID to the animation for later sync usage
+                    var animationDefinition = {
+                        'stroke-dashoffset': {
+                            id: 'anim' + data.index,
+                            dur: 1000,
+                            from: -pathLength + 'px',
+                            to: '0px',
+                            easing: Chartist.Svg.Easing.easeOutQuint,
+                            // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                            fill: 'freeze'
+                        }
+                    };
+
+                    // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                    if (data.index !== 0) {
+                        animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                    }
+
+                    // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                    data.element.attr({
+                        'stroke-dashoffset': -pathLength + 'px'
+                    });
+
+                    // We can't use guided mode as the animations need to rely on setting begin manually
+                    // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                    data.element.animate(animationDefinition, false);
+                }
+            });
+
+            // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+            chart.on('created', function () {
+                if (window.__anim21278907124) {
+                    clearTimeout(window.__anim21278907124);
+                    window.__anim21278907124 = null;
+                }
+                window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+            });
+
+
+            // *******************************************************************************************************
+
+            var chart = new Chartist.Pie('#midYearChart', {
+                labels: ['Mid Year Check-in Done', 'Not Done'],
+                series: [100, 10]
+            }, {
+                donut: true,
+                showLabel: true
+            });
+
+            chart.on('draw', function (data) {
+                if (data.type === 'slice') {
+                    // Get the total path length in order to use for dash array animation
+                    var pathLength = data.element._node.getTotalLength();
+
+                    // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                    data.element.attr({
+                        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                    });
+
+                    // Create animation definition while also assigning an ID to the animation for later sync usage
+                    var animationDefinition = {
+                        'stroke-dashoffset': {
+                            id: 'anim' + data.index,
+                            dur: 1000,
+                            from: -pathLength + 'px',
+                            to: '0px',
+                            easing: Chartist.Svg.Easing.easeOutQuint,
+                            // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                            fill: 'freeze'
+                        }
+                    };
+
+                    // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                    if (data.index !== 0) {
+                        animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                    }
+
+                    // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                    data.element.attr({
+                        'stroke-dashoffset': -pathLength + 'px'
+                    });
+
+                    // We can't use guided mode as the animations need to rely on setting begin manually
+                    // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                    data.element.animate(animationDefinition, false);
+                }
+            });
+
+            // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+            chart.on('created', function () {
+                if (window.__anim21278907124) {
+                    clearTimeout(window.__anim21278907124);
+                    window.__anim21278907124 = null;
+                }
+                window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+            });
+            // **********************************************************************************************
+
+            var chart = new Chartist.Pie('#completeChart', {
+                labels: ['Complete', 'Not Complete'],
+                series: [25, 1]
+            }, {
+                donut: true,
+                showLabel: true
+            });
+
+            chart.on('draw', function (data) {
+                if (data.type === 'slice') {
+                    // Get the total path length in order to use for dash array animation
+                    var pathLength = data.element._node.getTotalLength();
+
+                    // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                    data.element.attr({
+                        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                    });
+
+                    // Create animation definition while also assigning an ID to the animation for later sync usage
+                    var animationDefinition = {
+                        'stroke-dashoffset': {
+                            id: 'anim' + data.index,
+                            dur: 1000,
+                            from: -pathLength + 'px',
+                            to: '0px',
+                            easing: Chartist.Svg.Easing.easeOutQuint,
+                            // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                            fill: 'freeze'
+                        }
+                    };
+
+                    // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                    if (data.index !== 0) {
+                        animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                    }
+
+                    // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                    data.element.attr({
+                        'stroke-dashoffset': -pathLength + 'px'
+                    });
+
+                    // We can't use guided mode as the animations need to rely on setting begin manually
+                    // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                    data.element.animate(animationDefinition, false);
+                }
+            });
+
+            // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+            chart.on('created', function () {
+                if (window.__anim21278907124) {
+                    clearTimeout(window.__anim21278907124);
+                    window.__anim21278907124 = null;
+                }
+                window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+            });
+            // set as myChart as variable then ust myChart.update()
+        </script>
+
+
+        <script>
+            (function(window, document, undefined) {
+                var factory = function($, DataTable) {
+                    "use strict";
+
+                    $('.search-toggle').click(function() {
+                    if ($('.hiddensearch').css('display') == 'none')
+                        $('.hiddensearch').slideDown();
+                    else
+                        $('.hiddensearch').slideUp();
+                    });
+
+                    /* Set the defaults for DataTables initialisation */
+                    $.extend(true, DataTable.defaults, {
+                    dom: "<'hiddensearch'f'>" +
+                        "tr" +
+                        "<'table-footer'lip'>",
+                    renderer: 'material'
+                    });
+
+                    /* Default class modification */
+                    $.extend(DataTable.ext.classes, {
+                    sWrapper: "dataTables_wrapper",
+                    sFilterInput: "form-control input-sm",
+                    sLengthSelect: "form-control input-sm"
+                    });
+
+                    /* Bootstrap paging button renderer */
+                    DataTable.ext.renderer.pageButton.material = function(settings, host, idx, buttons, page, pages) {
+                    var api = new DataTable.Api(settings);
+                    var classes = settings.oClasses;
+                    var lang = settings.oLanguage.oPaginate;
+                    var btnDisplay, btnClass, counter = 0;
+
+                    var attach = function(container, buttons) {
+                        var i, ien, node, button;
+                        var clickHandler = function(e) {
+                        e.preventDefault();
+                        if (!$(e.currentTarget).hasClass('disabled')) {
+                            api.page(e.data.action).draw(false);
+                        }
+                        };
+
+                        for (i = 0, ien = buttons.length; i < ien; i++) {
+                        button = buttons[i];
+
+                        if ($.isArray(button)) {
+                            attach(container, button);
+                        } else {
+                            btnDisplay = '';
+                            btnClass = '';
+
+                            switch (button) {
+
+                            case 'first':
+                                btnDisplay = lang.sFirst;
+                                btnClass = button + (page > 0 ?
+                                '' : ' disabled');
+                                break;
+
+                            case 'previous':
+                                btnDisplay = '<i class="material-icons">chevron_left</i>';
+                                btnClass = button + (page > 0 ?
+                                '' : ' disabled');
+                                break;
+
+                            case 'next':
+                                btnDisplay = '<i class="material-icons">chevron_right</i>';
+                                btnClass = button + (page < pages - 1 ?
+                                '' : ' disabled');
+                                break;
+
+                            case 'last':
+                                btnDisplay = lang.sLast;
+                                btnClass = button + (page < pages - 1 ?
+                                '' : ' disabled');
+                                break;
+
+                            }
+
+                            if (btnDisplay) {
+                            node = $('<li>', {
+                                'class': classes.sPageButton + ' ' + btnClass,
+                                'id': idx === 0 && typeof button === 'string' ?
+                                    settings.sTableId + '_' + button : null
+                                })
+                                .append($('<a>', {
+                                    'href': '#',
+                                    'aria-controls': settings.sTableId,
+                                    'data-dt-idx': counter,
+                                    'tabindex': settings.iTabIndex
+                                })
+                                .html(btnDisplay)
+                                )
+                                .appendTo(container);
+
+                            settings.oApi._fnBindAction(
+                                node, {
+                                action: button
+                                }, clickHandler
+                            );
+
+                            counter++;
+                            }
+                        }
+                        }
+                    };
+
+                    // IE9 throws an 'unknown error' if document.activeElement is used
+                    // inside an iframe or frame. 
+                    var activeEl;
+
+                    try {
+                        // Because this approach is destroying and recreating the paging
+                        // elements, focus is lost on the select button which is bad for
+                        // accessibility. So we want to restore focus once the draw has
+                        // completed
+                        activeEl = $(document.activeElement).data('dt-idx');
+                    } catch (e) {}
+
+                    attach(
+                        $(host).empty().html('<ul class="material-pagination"/>').children('ul'),
+                        buttons
+                    );
+
+                    if (activeEl) {
+                        $(host).find('[data-dt-idx=' + activeEl + ']').focus();
+                    }
+                    };
+
+                    /*
+                    * TableTools Bootstrap compatibility
+                    * Required TableTools 2.1+
+                    */
+                    if (DataTable.TableTools) {
+                    // Set the classes that TableTools uses to something suitable for Bootstrap
+                    $.extend(true, DataTable.TableTools.classes, {
+                        "container": "DTTT btn-group",
+                        "buttons": {
+                        "normal": "btn btn-default",
+                        "disabled": "disabled"
+                        },
+                        "collection": {
+                        "container": "DTTT_dropdown dropdown-menu",
+                        "buttons": {
+                            "normal": "",
+                            "disabled": "disabled"
+                        }
+                        },
+                        "print": {
+                        "info": "DTTT_print_info"
+                        },
+                        "select": {
+                        "row": "active"
+                        }
+                    });
+
+                    // Have the collection use a material compatible drop down
+                    $.extend(true, DataTable.TableTools.DEFAULTS.oTags, {
+                        "collection": {
+                        "container": "ul",
+                        "button": "li",
+                        "liner": "a"
+                        }
+                    });
+                    }
+
+                }; // /factory
+
+                // Define as an AMD module if possible
+                if (typeof define === 'function' && define.amd) {
+                    define(['jquery', 'datatables'], factory);
+                } else if (typeof exports === 'object') {
+                    // Node/CommonJS
+                    factory(require('jquery'), require('datatables'));
+                } else if (jQuery) {
+                    // Otherwise simply initialise as normal, stopping multiple evaluation
+                    factory(jQuery, jQuery.fn.dataTable);
+                }
+
+                })(window, document);
+
+                $(document).ready(function() {
+                $('#datatable').dataTable({
+                    "oLanguage": {
+                    "sStripClasses": "",
+                    "sSearch": "",
+                    "sSearchPlaceholder": "Enter Keywords Here",
+                    "sInfo": "_START_ -_END_ of _TOTAL_",
+                    "sLengthMenu": '<span>Rows per page:</span><select class="browser-default">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        '</select></div>'
+                    },
+                    bAutoWidth: false
+                });
+                });
+        </script>
+
+
+</body>
+
+</html>

@@ -4,61 +4,91 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     bsync = require('browser-sync').create(),
     reload = bsync.reload,
-    jsdoc = require(  'gulp-jsdoc3'  );
+    jsdoc = require(  'gulp-jsdoc3'  ),
+    jasmine = require(  'gulp-jasmine'  );
 
-gulp.task('styles', function () {
-    return gulp.src('styles/*.css')
-        .pipe(concat('all.css'))
-        .pipe(gulp.dest('dist'));
+
+//Create tasks for js, css, html, and unit-test
+gulp.task(  'js', function(){
+  return(  gulp.src(  './scripts/*.js'  )
+            .pipe(  jshint()  )
+            .pipe(  jshint.reporter(  'default'  )  )
+            .pipe(  uglify()  )
+            .pipe(  concat(  'all.js'  )  )
+            .pipe(  gulp.dest(  './dist'  )  )
+  );
 });
 
-gulp.task('scripts', function () {
-    return gulp.src('scripts/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-       // .pipe(concat('all.js'))
-        //.pipe(uglify())
-        .pipe(gulp.dest('dist'));
+
+gulp.task(  'css', function(){
+  return(  gulp.src(  './styles/*.css'  )
+            .pipe(  concat(  'all.css'  )  )
+            .pipe( gulp.dest(  './dist'  )  )
+  );
 });
 
-gulp.task('serve', ['styles', 'scripts'], function (done) {
-    bsync.reload();
-    done();
+gulp.task(  'html', function(){
+  bsync.reload();
 });
 
-gulp.task(  'doc', function(  cb  ){
-    gulp.src(  [  'README.md', 'scripts/*.js'  ], {read: false}  )
-    .pipe(  jsdoc(  cb  )  );
+gulp.task(  'unit-test', function(){
+  return(  gulp.src(  './specs/*.js'  )
+            .pipe(  jasmine(
+              {
+                verbose   :   true
+              }
+            )
+          )
+  );
 });
 
-var css_watcher = gulp.watch(['styles/*.css'], ['styles', 'serve']);
-css_watcher.on('change', function (event) {
-    console.log('CSS File' + event.path + ' was ' + event.type + ', running tasks...');
+
+//Create reload tasks for js, css, html
+//done() ensures that tasks are complete before reloading browser
+  //syntax:
+  //gulp.task(  taskName [, deps] [,fn]  );
+  //taskName: String. Name of the task
+  //deps: Array. An array of tasks to be executed before your task will run.
+  //fn: Function. Function that performs the task's work.
+gulp.task(  'js-reload', [  'js'  ], function(  done  ){
+  bsync.reload();
+  done();
 });
 
-var scripts_watcher = gulp.watch(['scripts/*.js'], ['scripts', 'serve']);
-scripts_watcher.on('change', function (event) {
-    console.log('Script file ' + event.path + ' was ' + event.type + ', running tasks...');
+gulp.task(  'css-reload', [  'css'  ], function(  done  ){
+  bsync.reload();
+  done();
 });
 
-var html_watcher = gulp.watch(['*.html'], ['serve']);
-html_watcher.on('change', function (event) {
-    console.log('HTML file' + event.path + ' was ' + event.type + ', running tasks...');
+//Create default task; run 'js', 'css', 'html', 'unit-test'
+//on load
+gulp.task(  'default', [  'js', 'css', 'html', 'unit-test'  ], function(){
+
+  bsync.init(
+    {
+      server: {
+        baseDir : './',
+        index   : 'index.html'
+      }
+    }
+  )
 });
 
-// var doc_watcher = gulp.watch(  ['scripts/*.js'], ['doc']  );
-// doc_watcher.on(  'change', function(  event  ){
-//   console.log(  'Script file ' + event.path + ' was ' + event.type + ', updating documentation...'  );
-// });
+//Create watchers
+var jsWatcher = gulp.watch(  './scripts/*.js', [  'js', 'js-reload'  ]  );
+jsWatcher.on(  'change', function(  event  ){
+  console.log(  'File ' + event.path + ' was ' + event.type  +
+  ', running tasks "js" and "js-reload..."'  );
+});
 
-gulp.task('default', ['styles', 'scripts', 'serve'], function () {
-    bsync.init(
-        {
-            server: {
-                baseDir: './',
-                // index: 'table_test.html'
-                index: 'pmapSelectReviewee.html'
-            }
-        }
-    );
+var cssWatcher = gulp.watch(  './styles/*.css', [  'css', 'css-reload'  ]  );
+cssWatcher.on(  'change', function(  event  ){
+  console.log(  'File ' + event.path + ' was ' + event.type +
+  ', running tasks "css" and "css-reload"...'  );
+});
+
+var specWatcher = gulp.watch(  './specs/*.js', [  'unit-test'  ]  );
+specWatcher.on(  'change', function(  event  ){
+  console.log(  'File ' + event.path + ' was ' + event.type +
+', running task "unit-test"...'  );
 });

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rating Calculation</title>
+
+
+  	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
+	<script src="scripts/spsQuery.js"></script>
+	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
+      <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<style type="text/css">
+		body {
+    background-color: #c7c7c7;
+		}
+    .card {
+      padding:20px;
+      background-color: #ffffff;
+    }
+    .brand-logo {
+      padding: 20px;
+    }
+    #ofba {
+      padding-left: 20px;
+    }
+    label {
+    cursor: default;
+    color:black;
+  }
+    a {
+      color:black;
+    }
+
+     #textarea {
+     height: 150px;
+     }
+
+      #empNameNav {
+      text-align: center;
+      color: white;
+      background-color: #002071 ;
+    }
+
+    #empInput {
+      height: 220px;
+      background-color: #fafafa;
+      padding-right: 20px;
+    }
+
+    #feedback {
+      height: 150px;
+    }
+
+    #feedbackCard {
+      height: 220px;
+      background-color: #fafafa;
+    }
+
+    #midyr {
+      height: 220px;
+    }
+
+    #critTitle {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    #midyrTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #empInputTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #managerInputTitle {
+      font-size: 120%;
+      font-weight: 700;
+    }
+
+    #radios {
+      padding-top: 15px;
+    }
+
+	 </style>
+  </head>
+
+<body>
+
+ <nav>
+    <div class="nav-wrapper  blue darken-4" >
+      <a href="index.html" id="ofba" class="brand-logo">OFBA | Talent Portal</a>
+      <!-- <img src="assets/images/ofba.png"> -->
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Staff List</a></li>
+        <li><a href="index.html">Talent Portal</a></li>
+        <li><a href="collapsible.html">Messages</a></li>
+      </ul>
+    </div>
+  </nav>
+   <br>
+
+ <!-- ************************* Side Navigation ******************************* -->
+ <div class="row">
+  <div class="col s12 m3">
+       <ul class="collapsible" data-collapsible="accordion">
+
+        <li>
+          <div class="collapsible-header active">
+            <a href="staffSum.html" >
+              <div id="colap">
+                <i class="material-icons">subject</i>
+                Resources
+              </div>
+            </a>
+          </div>
+          <div class="collapsible-body grey lighten-3">
+          <span>Find best practices and job aides on how best to complete your PMAP.</span>
+          </div>
+        </li>
+
+        <li>
+            <div class="collapsible-header">
+              <a href="staffAccomplish.html">
+                 <div id="colap">
+                  <i class="material-icons">add_box</i>
+                  Add Accomplishments
+                  </div>
+              </a>
+            </div>
+            <div class="collapsible-body grey lighten-3">
+              <span>Track your accomplishments throughout the year</span>
+          </div>
+        </li>
+
+        <li>
+            <div class="collapsible-header">
+              <a href="staffMidYear.html">
+                 <div id="colap">
+                  <i class="material-icons">person</i>
+                  Mid Year Review Signoff
+                  </div>
+              </a>
+            </div>
+            <div class="collapsible-body grey lighten-3">
+              <span>Sign and Complete your mid-year review</span>
+          </div>
+        </li>
+
+        <li>
+            <div class="collapsible-header">
+              <a href="staffRating.html" >
+                <div id="colap">
+                  <i class="material-icons">rate_review</i>
+                  Rating
+                </div>
+              </a>
+            </div>
+         <div class="collapsible-body grey lighten-3">
+              <span>See your PMAP rating</span>
+            </div>
+        </li>
+
+        <li>
+          <div class="collapsible-header">
+            <a href="staffSign.html">
+              <div id="colap">
+                <i class="material-icons">mode_edit</i>
+                Signoff on PMAP
+              </div>
+            </a>
+          </div>
+            <div class="collapsible-body grey lighten-3">
+            <span>Sign off on your complete PMAP</span>
+            </div>
+        </li>
+      </ul>
+  </div>
+<!-- **********************************Side Nav END************************************** -->
+
+
+
+
+
+<!-- ****************************************Begin Crit element cards -->
+
+
+
+<form class="col s12 m8">
+        <div class="card white">
+   
+         <h4>PMAP Introduction</h4>
+         <div class="divider"></div>
+        <strong><p>Please review the below prior to completing this PMAP Document</p></strong>
+   <br>
+           <u><h5>Performance Plan</h5></u>
+             <p>All elements of the perofrmance plan are critical and must support the HHS Strategic Plan</p>
+             <p>All employees will be rated on the Administrative Requirements criticial element (PartII.A of the plan. The Supervisor, along with the Individual Performance Outcomes section (Part II.B of the plan).</p>
+             <p>The performance plan should be signed and dated by the supervisor and the employee in part I.A prior to implementation</p>
+   <br>
+         <u><h5>Progress Review</h5></u>
+           <p>At approximately the midpoint in the appraisal cycle, supervisors will conduct at least one progress review. WHile only one progress review is required, additional review are encouraged to maximize employee feedback. If performance on any element is less than Achieved Expected Results, the supervisor must provide written socumentation. The supervisor and the emplyee shold sign and dat part I.B after a progress review is conducted. IF the employee refuses to sign, the supervisor should annotate the form. "Employee declined ato sign. Progress review conducted on DATE"</p>
+         <br>
+         <u><h5>Ratings Explained</h5></u>
+           <p>Level5: Achieved outstanding Results <br>
+           Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+         <p>
+         For reference the below button will appear on the following screens for reference of level descriptions
+         </p>
+
+         <a href="staffAccomplish.html" type="button" id="continue" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
+         
+
+
+
+<!-- ************************************ END HTML ****************************** -->
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
+  <script type="text/javascript">
+
+ $(document).ready(function(){
+
+    $('.collapsible').collapsible();
+     $('.modal').modal({
+        dismissible: false, // Modal can NOT be dismissed by clicking outside of the modal
+     });
+
+		 var currentReviewee = APP.spsQuery.parseCurrentReviewee();
+
+		 //APP.util.redirectOnNullReviewee(  currentReviewee  );
+
+		 var target = document.querySelector(  '#reviewee-name'  );
+		 			target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
+
+
+
+					APP.util.attachNextURLs(  currentReviewee  );
+
+					document.querySelector(  '#save-continue'  ).addEventListener(  'click', function(){
+		 			 APP.util.nextURL(  currentReviewee, './pmapConversion.html'  );
+		 		 }, false  );
+
+    $('#midyr, #empInput').css({'width':'auto','height':'auto','display':'table'}) //dynamically change card sizes to fit text
+
+    // Select drop down controls
+    $('select').material_select();
+
+    // Automatically fill text box in modal
+    Materialize.updateTextFields();
+
+  });
+
+
+  </script>
+
+
+</body>
+</html>

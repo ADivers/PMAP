@@ -435,6 +435,9 @@ APP = (  function(){
 				 pair,
 				 //SET FORM 'data-record-id' ATTRIBUTE TO EQUAL 'data-record-id'
 				 //ATTRIBUTE OF CLICKED 'edit' FLYOUT BUTTON
+				 /**TODO 08/16/2017 11:27EST
+				 *Refactor to use makeValuepairs function (below)
+				 */
 				 id = $(  '#edit-form'  ).data(  'recordId'  );
 				for( var x = 0; x < $formInputs.length; x+= 1){
 						 pair = [];
@@ -469,12 +472,26 @@ APP = (  function(){
 				i,
 				max = listFieldValsArr.length;
 
-		for(  i = 0; i < max; i+= 1  ){
-			var valPair = [];
-			valPair.push(  listFieldValsArr[  i  ]  );
-			valPair.push(  formValsArr[  i  ]  );
-			valuePairs.push(  valPair  );
+		// if(  Object.prototype.toString.call(  formValsArr  ) === '[object Array]' ){
+			for(  i = 0; i < max; i+= 1  ){
+				var valPair = [];
+				if(  Object.prototype.toString.call(  formValsArr[  i  ]  )  === '[object Object]'  ){
+					for(  var prop in formValsArr[  i  ]  ){
+						valPair.push(  listFieldValsArr[  i  ]  );
+						//console.log(  "Valpair prop name: " + valPair[  0  ]  );
+						valPair.push(  formValsArr[  i  ][  prop  ]  );
+						//console.log(  "Valpair prop value: " +  formValsArr[  i  ][  prop  ] );
+						valuePairs.push(  valPair  );
+					}
+				}
+				else{
+					valPair.push(  listFieldValsArr[  i  ]  );
+					valPair.push(  formValsArr[  i  ]  );
+					valuePairs.push(  valPair  );
+				}
 		}
+		console.log(  'From makeValuepairs: ' );
+		console.dir(  valuePairs  );
 		return valuePairs;
 	}
 /******************END FUNCTION MAKE VALUEPAIRS*********************************/

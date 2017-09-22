@@ -2,11 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>PMAP</title>
+	<title>Introduction</title>
 
 
   	<link rel="stylesheet" type=a"text/css" href="assets/css/style.css">
-
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
@@ -14,8 +17,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
 	<script src="scripts/app.js"></script>
+	<script src="scripts/DOM.js"></script>
 	<script src="scripts/spsQuery.js"></script>
 	<script src="scripts/Staff.js"></script>
+	<script src="scripts/util.js"></script>
       <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -71,7 +76,7 @@
                 <div class="collapsible-header" id="empNameNav">
                   <a href="pmapIntroduction.html" >
                     <div>
-                      <font color="white"><strong>Reviewee: John Smith</strong></font>
+                      <font color="white"><strong id="reviewee-name"></strong></font>
                     </div>
                   </a>
                 </div>
@@ -117,6 +122,16 @@
                   <!-- <div class="collapsible-body grey lighten-3">
                   <span>A) Administrative</span><BR><span>B) Individual</span>
                   </div> -->
+              </li>
+              <li>
+                  <div class="collapsible-header">
+                    <a href="pmapMidYear.html">
+                       <div id="colap">
+                        <i class="material-icons">person</i>
+                        Mid Year Review
+                        </div>
+                    </a>
+                  </div>
               </li>
 
               <li>
@@ -224,7 +239,7 @@
 
         <div id="modal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 4%;">
           <div class="modal-content">
-            <h4>Levels Explanation</h4>f
+            <h4>Levels Explanation</h4>
             <div class="divider"></div>
             <h5>Level 5: Achieved Outstanding Results (AO)</h5>
               <p>Consistently superior; significantly exceeds Level 4 (AM) performance requirements.   Despite major challenges such as changing priorities, insufficient resources, unanticipated resource shortages, or externally driven parameters, employee leadership is a model of excellence.   Contributions impact well beyond the employee's level of responsibility.   They demonstrate exceptional initiative in achieving results critical to Agency success and strategic goals.  Products and skills create significant changes in their area of responsibility and authority.   Indicators of performance at this level include outcomes that consistently exceed the AM level standards for critical elements described in the annual performance plan. Examples include:</p>
@@ -322,49 +337,41 @@
 <br>
 <br>
         <!-- <a class="waves-effect waves-light btn blue darken-4 offset-s4">Save</a> -->
-        <a href="pmapEmployeeInfo.html" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</a>
+        <button type="button" id="continue" class="waves-effect waves-light btn blue darken-4 offset-s4">Continue</button>
 
 
 
       </div>
     </form>
 
-
-
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 
 
   <script type="text/javascript">
 
-     $(document).ready(function(){
-    $('.collapsible').collapsible('open', 2);
-    $('.modal').modal();
+    $(document).ready(function(){
+			var $anchors = $(  'a'  ).has(  'div[id="colap"]'  ).add(  '#to-employee-info'  ),
+					target = document.querySelector(  '#reviewee-name'  ),
+					currentReviewee = APP.spsQuery.parseCurrentReviewee();
 
-		console.log(  '####################################');
-		var queryStr = window.location.search,
-				paramsArr = [];
-		queryStr = queryStr.substr(  1, queryStr.length  );
-		queryStr = queryStr.split(  '&'  );
-		//console.log(  queryStr  );
-		var paramObj = {id: '', firstName: '', lastName: ''};
-		for(  var i = 0; i < queryStr.length; i+= 1  ){
-					param = queryStr[  i  ].split(  '='  );
-					console.log(  param  );
-					if(  paramObj.hasOwnProperty(  param[  0  ]  )  ){
-						paramObj[  param[  0  ]  ] = param[  1  ]
-					}
+			target.innerText = 'Reviewee: ' + currentReviewee.firstName + ' ' + currentReviewee.lastName;
+			
+			APP.util.attachNextURLs(  currentReviewee  );
 
-		}
-		console.log( paramObj  );
-		console.log(  queryStr  );
+			$(  '#continue'  ).on(  'click', function(  event  ){
+				if(  currentReviewee  ){
+					APP.util.nextURL(  currentReviewee, './pmapEmployeeInfo.html'  );
+				}
+				else{
+					window.location.assign(  './pmapEmployeeInfo.html'  );
+				}
+			}  );
 
-		APP.spsQuery.getReviewee(  paramObj  );
-  });
+
+			$('.collapsible').collapsible('open', 2);
+	    $('.modal').modal();
+	});
 
   </script>
-
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
 </body>
 </html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.SPServices/2014.02/jquery.SPServices-2014.02.js"></script>
+  	<script src="../scripts/app.js"></script>
+  	<script src="../scripts/DOM.js"></script>
+  	<script src="../scripts/spsQuery.js"></script>
+  	<script src="../scripts/Staff.js"></script>
+  	<script src="../scripts/util.js"></script>
+    <script src="../scripts/dateFormatter.js"></script>
+    <script src="../scripts/domUI.js"></script>
+    <!-- <script src="../scripts/myscript.js"></script> -->
+    <title>PMAP Reminders</title>
+
+    <style type="text/css">
+      body {
+      background-color: lightgrey;
+      }
+      .card {
+        padding:20px;
+      }
+      .brand-logo {
+        padding: 20px;
+      }
+      #ofba {
+        padding-left: 20px;
+      }
+      label {
+      cursor: default;
+      color:black;
+    }
+      a {
+        color:black;
+      }
+
+      #empNameNav {
+        text-align: center;
+        color: white;
+        background-color: #002071 ;
+      }
+
+      #ofba {
+      padding-top: 20px;
+      /* padding-left: 70px; */
+      padding-bottom: 10px;
+    }
+
+      #nav-mobile {
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+      <header id="sidenav">
+          <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a></div>
+          <ul id="nav-mobile" class="side-nav fixed" style="overflow: auto; transform: translateX(0%);">
+            <div id="ofba">
+                <a href="../index.html"><img  src="../assets/images/OFBA Graphic_vf.png" alt="profile image" style="width:150px;height:150px;"  class="circle z-depth-2"></a>
+            </div>
+            <div class="divider"></div>
+            <li class="bold"><a href="" class="waves-effect waves-teal">Email Users</a></li>
+            <li class="bold"><a href="../adminAddEmp.html" class="waves-effect waves-teal">Add User</a></li>
+            <!-- <li class="bold"><a href="getting-started.html" class="waves-effect waves-teal">Add Admin</a></li> -->
+            <li class="bold"><a href="../adminAddCrit.html" class="waves-effect waves-teal">Add Critical Elements</a></li>
+            <li class="bold"><a href="../adminReports.html" class="waves-effect waves-teal">Reports</a></li>
+            <!-- <li class="bold"><a href="showcase.html" class="waves-effect waves-teal">Showcase</a></li>
+            <li class="bold active"><a href="themes.html" class="waves-effect waves-teal">Themes</a></li> -->
+         </ul>
+    </header>
+     <br>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col s12 nobkgrnd">
+        <h4>Create a Reminder for PMAP Events</h4>
+      </div>
+      <div class="col s12">
+
+        <form id="create-reminder-form">
+          <fieldset  class="card">
+            <legend><i class="material-icons">add_alarm</i>SET REMINDER FOR EVENTS OF TYPE:&nbsp;</legend>
+            <p>
+              <input type="radio" id="yr-end" name="event-type" value="PMAPYrEndSign">
+              <label for="yr-end">Prior-Year PMAPs Awaiting Signature</label>
+            </p>
+            <p>
+              <input type="radio" id="mid-yr" name="event-type" value="MidYrReviewMsg">
+              <label for="mid-yr">Mid-Year PMAP Review Meetings</label>
+            </p>
+            <p>
+              <!--`value` attr = SP list name to query-->
+              <input type="radio" id="new-template" name="event-type" value="NewTemplatePMAPMsg">
+              <label for="new-template">New PMAP Templates Available</label>
+            </p>
+            <p>
+              <input type="radio" id="review-accept" name="event-type" value="PMAPReviewAcceptMsg">
+              <label for="review-accept">Review &amp; Accept New Performance Year PMAPs</label>
+            </p>
+          </fieldset>
+
+          <div class="hide relative">
+            <fieldset class="card">
+              <h5>My Saved PMAP Events:</h5>
+              <button id="new-event" class="waves-effect waves-light btn">Create New PMAP Event</button>
+              <table id="my-pmap-events">
+                <thead>
+                  <tr>
+                    <th>Event ID</th>
+                    <th>Event Type</th>
+                    <th>Last Modified On:</th>
+                    <th>Event Deadline</th>
+                    <th>Edit this Event</th>
+                    <th>Delete this Event</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+
+              <!-- <a href="#reminder-recipients">Scroll to Reminder Recipients</a> -->
+            </fieldset>
+          </div>
+
+          <div class="hide">
+
+              <div>
+                <h5></h5>
+                <div id="current-event-id"></div>
+                <fieldset id="reminder-recipients" class="card section scrollspy">
+                  <legend><i class="material-icons">group_add</i>SET THIS REMINDER FOR:&nbsp;</legend>
+                  <p>
+                    <!--TODO: Change "name" attributes of all checkboxes to equal the SAME VALUE-->
+                    <input type="checkbox" class="filled-in" id="all-employees" name="to" value="All-Employees" checked="checked">
+                    <label for="all-employees">All Employees</label>
+                  </p>
+                  <p>
+                    <input type="checkbox" class="filled-in" id="mgrs-supervisors" name="to" value="Managers-Supervisors">
+                    <label for="mgrs-supervisors">Managers &amp; Supervisors</label>
+                  </p>
+                  <p>
+                    <input type="checkbox" class="filled-in" id="staff" name="to" value="Staff">
+                    <label for="staff">Non-Supervisory Staff</label>
+                  </p>
+                  <input type="checkbox" class="filled-in" id="admins" name="to" value="Administrators">
+                  <label for="admins">Administrators</label>
+                </fieldset>
+
+                <fieldset id="deadlines" class="hide card">
+                  <legend>CURRENT DEADLINE FOR THIS EVENT:&nbsp;</legend>
+                  <div class="input-field">
+                    <input type="text" id="current-deadline" name="current-deadline" disabled placeholder="Current Deadline Here">
+                    <label for="current-deadline">Current Deadline</label>
+                  </div>
+                  <button id="edit-deadline-btn" class="waves-effect waves-light btn">Edit Deadline</button>
+                  <!-- <button class="waves-effect waves-light btn">Keep Current Deadline</button> -->
+                  <div id="new-deadline" class="hide">
+                    <div class="input-field">
+                      <input type="text" id="deadline-picker" name="deadline-picker" class="datepicker">
+                      <label for="deadline-picker">Event Deadline</label>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!----------------------------------------------------------------------------------->
+                <fieldset class="card">
+                  <legend><i class="material-icons">event_available</i>SET REMINDER DATE:&nbsp;</legend>
+                  <!-- <button type="button" data-target="modal-reminder-date" class="modal-trigger btn-floating btn-large waves-effect waves-light fieldset-button"><i class="large material-icons">help</i></button>
+                  <div id="modal-reminder-date" class="modal">
+                    <div class="modal-content">
+                      <h4>Set a Reminder Date for this Event</h4>
+                      <p>Click inside the input field below to select the date on which
+                        you wish to have the auto-reminder sent for this event.
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="#modal-reminder-date" class="modal-action modal-close waves-effect waves-light btn-flat">OK</a>
+                    </div>
+                  </div> -->
+                  <div class="input-field">
+                    <input type="text" id="msg-date" name="msg-date" class="datepicker" required/>
+                    <label for="msg-date">I want this reminder to be sent on:</label>
+                  </div>
+                </fieldset>
+                <!---------------------------------------------------------------------------------->
+                <fieldset class="card">
+                  <legend><i class="material-icons">edit</i>EDIT REMINDER TEXT:&nbsp;</legend>
+                  <div class="input-field">
+                    <textarea id="reminder-text" name="reminder-text" class="materialize-textarea" maxlength="1000" wrap="hard"></textarea>
+                    <label for="reminder-text">Reminder Message Text</label>
+                  </div>
+                </fieldset>
+
+                <button type="button" id="set-reminder" class="waves-effect waves-light btn">Set Reminder</button>
+                <button type="button" id="clear-reminder" class="waves-effect waves-light btn">Cancel</button>
+              </div>
+
+            </div>
+        </form>
+        <div id="success-msg" class="modal">
+          <div class="modal-content">
+            <div class="modal-headline-wrapper">
+              <div class="modal-icon">
+                <span class="initial"><i class="material-icons">check_circle</i></span>
+              </div>
+              <div class="modal-headline">
+                <h5>Success!</h5>
+              </div>
+            </div>
+            <!-- <h5><span class="initial"><i class="material-icons">check_circle</i></span>Success!</h5>-->
+            <p>Your Event Reminder record was saved successfully.</p>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-action waves-effect btn-flat modal-close">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="query-results"></div>
+    <script>
+    /************************BEGIN document.ready()******************************/
+    $(  'document'  ).ready(  function(){
+      var redirectURL = '/admin/createReminders.html',
+          $table = $(  'table'  ),
+          $tablebody = $table.find(  'tbody'  ),
+          camlQuery = APP.spsQuery.getEventsCamlQ(),
+          objMap = APP.spsQuery.getEventsObjMap(),
+          configObject = {
+            camlQuery         :     camlQuery,
+            $table            :     $table,
+            $tablebody        :     $tablebody,
+            editButtonsArr    :     null,
+            listname          :     null,
+            objMapping        :     objMap
+          },
+          reset = document.querySelector(  '#clear-reminder'  ),
+          listName,
+          data = { 'listName' : false  };
+
+      //$(  '#set-reminder'  ).data(  {  batchCmd : 'Update'}  ); -->JQuery's 'data' method DOES NOT WORK(?)
+      $(  '#set-reminder'  ).attr(  'data-batchCmd', 'Update'  );
+      // console.log(  '***********************SET REMINDER BUTTON**************************'  );
+      // console.log(  $(  '#set-reminder'  )  ); ok
+
+      //Set button color = #5471d2
+      $(  '#set-reminder, #clear-reminder, #edit-deadline-btn, #new-event'  ).css(  {  'background-color' : '#002171'  }  );
+
+      //Fix the problem with `#reminder-text` textarea label overprinting message text
+      $(  '#reminder-text'  ).css(  {  'margin-top':  '3%'  }  );
+
+      $(  '.modal-footer>button'  ).on(  'click', function(  event ){
+        APP.dom.ui.redirectTo(  redirectURL  );
+      });
+
+      //Initialize 'succes message' modal
+      $(  '.modal'  ).modal(
+        {
+          dismissible   :   false
+        }
+      );
+
+      //Initialize scrolling
+      $(  '.scrollspy'  ).scrollSpy();
+
+        /**Set listName on change of '#event-type'**/
+        $(  'input[name="event-type"]'  ).on(  'change', function(  event  ){
+          listName = $(  this  ).val();
+          console.log(  "listName: " + listName  );
+          data.listName = listName;
+        });
+
+        //Checkbox selection logic
+        APP.dom.checkboxSelectionLogic();
+
+
+        /******************BEGIN 'new event' CLICK HANDLER LOGIC*****************/
+        $(  '#new-event'  ).on(  'click', function(  event  ){
+          $(  '#current-deadline, #reminder-text'  ).text(  ''  );
+          $(  '#current-deadline'  ).attr(  'placeholder', ''  );
+          console.log(  event.target  );
+          APP.dom.disableEditCtrls();
+          $(  '#set-reminder'  ).attr(  'data-batchCmd',  'New'  );
+        });
+
+        /*****************END 'new event' CLICK HANDLER LOGIC*******************/
+
+        APP.dom.showDeadlines(  configObject  );
+
+        $(  '.relative>fieldset>button'  ).on(  'click', null, { title: "+New PMAP Details:"},
+          function( event){
+              $(  '.hide'  ).toggleClass(  'hide'  ).attr(  'display', 'block'  );
+              return false;
+          } );
+
+        $(  '#deadlines button'  ).on(  'click', function(  event  ){
+          $(  '#new-deadline'  ).removeClass(  'hide'  ).attr(  'display', 'block'  );
+          return false;
+        }  );
+
+        //Reload page on 'reset' click
+        reset.addEventListener(  'click', function(  event  ){
+          window.location.reload();
+        });
+
+      /***************SUBMIT EVENT CREATE/UPDATE QUERY*************/
+        $(  '#set-reminder'  ).on(  'click', null, data, function(  event  ){
+          APP.dom.ui.buildEventQuery(  data  );
+          // return false;
+        });
+      /************END SUBMIT EVENT CREATE/UPDATE QUERY***********/
+
+/***************************END document.ready()******************************/
+});
+
+
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15, // Creates a dropdown of 15 years to control year,
+      today: 'Today',
+      clear: 'Clear',
+      close: 'Ok',
+      closeOnSelect: false // Close upon selecting a date,
+    });
+    </script>
+  </body>
